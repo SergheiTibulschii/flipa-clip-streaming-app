@@ -1,0 +1,30 @@
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.dialog-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.dialog-content {
+  position: relative;
+  z-index: 1;
+  @apply m-auto flex-1 bg-dark rounded-8;
+  max-width: 510px;
+}
+
+.dialog-head {
+  @apply p-2.5;
+}
+
+.dialog-body {
+  @apply p-14;
+}

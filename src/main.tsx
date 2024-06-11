@@ -1,10 +1,38 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import ReactDOM from 'react-dom/client';
+import './index.scss';
+import { EnterLeaveObserverProvider } from './context/enterLeaveObserverContext.tsx';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { ErrorPage } from './components/pages/error-page.tsx';
+import { VideoDetailsPage } from './components/pages/video-details-page.tsx';
+import { CreatorDetialsPage } from './components/pages/creator-detials-page.tsx';
+import { BecomeCreatorPage } from './components/pages/become-creator-page.tsx';
+import { HomePage } from './components/pages/home-page';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <HomePage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/video/:videoId',
+    element: <VideoDetailsPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/creator/:creatorId',
+    element: <CreatorDetialsPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/become-creator',
+    element: <BecomeCreatorPage />,
+    errorElement: <ErrorPage />,
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+  <EnterLeaveObserverProvider>
+    <RouterProvider router={router} />
+  </EnterLeaveObserverProvider>
+);

@@ -1,0 +1,13 @@
+.text {
+  &--h4 {
+    @apply font-primary font-bold text-white;
+    font-size: 34px;
+    line-height: 1.2;
+  }
+
+  &--body1 {
+    @apply font-primary font-medium text-white;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
