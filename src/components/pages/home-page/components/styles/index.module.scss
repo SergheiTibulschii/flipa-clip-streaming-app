@@ -1,0 +1,39 @@
+.home-banner {
+  @apply md:aspect-video xsm:aspect-square aspect-xs relative;
+
+  &__background {
+    @apply absolute inset-0 z-0 rounded-8 overflow-hidden;
+
+    &-overlay {
+      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.75) 100%);
+      position: absolute;
+      inset: 0;
+    }
+  }
+
+  &__content {
+    @apply flex justify-end flex-col h-full px-3 py-4 relative z-10;
+  }
+
+  &__avatar {
+    &-image {
+      @apply w-6 h-6 rounded-full bg-gray-primary;
+
+      img {
+        @apply w-full h-full object-cover;
+      }
+    }
+
+    &-creator {
+      @apply text-sm leading-6 font-medium;
+    }
+  }
+
+  &__controls {
+    @apply flex gap-2 items-center mt-5;
+  }
+
+  &__stat {
+    @apply text-sm leading-6;
+  }
+}

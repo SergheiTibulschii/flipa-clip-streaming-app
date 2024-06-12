@@ -1,0 +1,5 @@
+.header {
+  &__content {
+    @apply flex items-center justify-between mt-6;
+  }
+}

@@ -3,7 +3,7 @@ import './styles/button.scss';
 import clsx from 'clsx';
 
 export type ButtonBaseProps = PropsWithChildren<{
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'text';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'text' | 'ghost';
   className?: string;
   onClick?: () => void;
 }>;
@@ -20,6 +20,7 @@ export const ButtonBase = ({
     'btn--secondary': variant === 'secondary',
     'btn--tertiary': variant === 'tertiary',
     'btn--text': variant === 'text',
+    'btn--ghost': variant === 'ghost',
   });
 
   return (

@@ -1,22 +1,26 @@
 .btn {
   min-height: 48px;
   min-width: 100px;
-  @apply font-primary font-bold whitespace-nowrap hover:brightness-105 text-sm;
+  @apply font-primary font-bold whitespace-nowrap hover:brightness-105 text-sm text-white;
 
   &:not(&--icon) {
     @apply px-4 rounded-8;
   }
 
   &--primary {
-    @apply bg-gradient-to-r from-pink to-violet text-white;
+    @apply bg-gradient-to-r from-pink to-violet;
   }
 
   &--secondary {
-    @apply bg-gray-primary text-white;
+    @apply bg-gray-primary;
   }
 
   &--tertiary {
-    @apply bg-transparent text-white border-1 border-pink-100;
+    @apply bg-transparent border-1 border-pink-100;
+  }
+
+  &-ghost {
+    @apply bg-transparent;
   }
 
   &--icon {
