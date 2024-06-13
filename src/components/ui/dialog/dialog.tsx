@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { DialogProvider } from './dialog-context.tsx';
 import './styles/dialog.scss';
 import { IconButton } from '../button/icon-button.tsx';
-import { CloseIcon } from '../icons.ts';
+import { CloseIcon } from '../../icons.ts';
 
 export type CustomDialogProps = Pick<DialogProps, 'isOpened' | 'onDismiss'>;
 

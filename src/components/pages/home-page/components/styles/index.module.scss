@@ -1,13 +1,13 @@
 .home-banner {
-  @apply md:aspect-video xsm:aspect-square aspect-xs relative;
+  @apply lg:aspect-video sm:aspect-square aspect-xs relative;
 
   &__background {
     @apply absolute inset-0 z-0 rounded-8 overflow-hidden;
 
-    &-overlay {
+    &:after {
+      @apply absolute inset-0;
+      content: '';
       background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.75) 100%);
-      position: absolute;
-      inset: 0;
     }
   }
 
@@ -25,7 +25,7 @@
     }
 
     &-creator {
-      @apply text-sm leading-6 font-medium;
+      @apply text-sm leading-1.5 font-medium;
     }
   }
 
@@ -34,6 +34,6 @@
   }
 
   &__stat {
-    @apply text-sm leading-6;
+    @apply text-sm leading-1.5;
   }
 }

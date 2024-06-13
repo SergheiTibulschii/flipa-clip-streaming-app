@@ -1,8 +1,12 @@
 import { MainLayout } from '../../layout';
 import { HomeBanner } from './components';
-import { Container } from '../../layout/container.tsx';
+import { Container } from '../../layout/container';
 import HeroBannerImg from '../../../assets/hero-banner.png';
+import ThumbnailImg from '../../../assets/thumbnail.jpeg';
 import AvatarImg from '../../../assets/avatar.png';
+import { StandardCarousel } from '../../elements/standard-carousel';
+import { Card } from '../../elements/card/card.tsx';
+import { Creators } from '../../elements/creators';
 
 const bannerData = {
   title: 'Bucket List vs KirtiChow',
@@ -30,6 +34,35 @@ export const HomePage = () => {
             views={bannerData.views}
             creator={bannerData.creator}
           />
+        </div>
+        <div className="mt-8">
+          <StandardCarousel title="New">
+            {Array.from({ length: 10 }).map((_, index) => (
+              <Card
+                key={index}
+                title={`Card ${index + 1}`}
+                likes={index * 1000}
+                views={index * 2000}
+                coverImageSrc={ThumbnailImg}
+              />
+            ))}
+          </StandardCarousel>
+        </div>
+        <div className="mt-8">
+          <StandardCarousel title="Pixel Movies">
+            {Array.from({ length: 10 }).map((_, index) => (
+              <Card
+                key={index}
+                title={`Card ${index + 1}`}
+                likes={index * 1000}
+                views={index * 2000}
+                coverImageSrc={ThumbnailImg}
+              />
+            ))}
+          </StandardCarousel>
+        </div>
+        <div className="mt-8">
+          <Creators />
         </div>
       </Container>
     </MainLayout>

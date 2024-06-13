@@ -7,6 +7,7 @@ import { VideoDetailsPage } from './components/pages/video-details-page.tsx';
 import { CreatorDetialsPage } from './components/pages/creator-detials-page.tsx';
 import { BecomeCreatorPage } from './components/pages/become-creator-page.tsx';
 import { HomePage } from './components/pages/home-page';
+import { Bootstrap } from './components/bootstrap.tsx';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <EnterLeaveObserverProvider>
+    <Bootstrap />
     <RouterProvider router={router} />
   </EnterLeaveObserverProvider>
 );

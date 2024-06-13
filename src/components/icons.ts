@@ -7,3 +7,5 @@ export { default as ProjectsIcon } from '../assets/svg/projects.svg?react';
 export { default as SearchIcon } from '../assets/svg/search.svg?react';
 export { default as ShareIcon } from '../assets/svg/share.svg?react';
 export { default as LogoIcon } from '../assets/svg/logo.svg?react';
+export { default as BecomeCreatorBgSvg } from '../assets/svg/become-creator-bg.svg?react';
+export { default as BecomeCreatorGirlSvg } from '../assets/svg/become-creator-girl.svg?react';

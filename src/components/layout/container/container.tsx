@@ -1,9 +1,8 @@
 import { PropsWithChildren } from 'react';
-import clsx from 'clsx';
+import styles from './styles/index.module.scss';
 
 type ContainerProps = PropsWithChildren<unknown>;
 
 export const Container = ({ children }: ContainerProps) => {
-  const cln = clsx('container', 'm-auto max-w-screen-md px-4 md:px-8');
-  return <div className={cln}>{children}</div>;
+  return <div className={styles.container}>{children}</div>;
 };

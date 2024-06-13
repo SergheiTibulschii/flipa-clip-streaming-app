@@ -1,7 +1,5 @@
 .btn {
-  min-height: 48px;
-  min-width: 100px;
-  @apply font-primary font-bold whitespace-nowrap hover:brightness-105 text-sm text-white;
+  @apply min-w-[100px] sm:min-w-[108px] min-h-12 font-primary font-bold whitespace-nowrap hover:brightness-105 text-sm text-white;
 
   &:not(&--icon) {
     @apply px-4 rounded-8;

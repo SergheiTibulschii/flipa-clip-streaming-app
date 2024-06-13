@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { env } from '../../env.ts';
+import { env } from '../../lib/env.ts';
 
 const axiosClient = axios.create({
   baseURL: env.VITE_API_BASE_V1,

@@ -1,3 +1,5 @@
+import { screens } from './src/lib/screens';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -8,6 +10,7 @@ export default {
       violet: '#8349FF',
       white: '#fff',
       'gray-primary': '#262626',
+      'gray-secondary': '#616161',
       dark: '#121517',
       transparent: 'transparent',
     },
@@ -26,9 +29,15 @@ export default {
       8: '2rem',
     },
     screens: {
-      sm: '375px',
-      xsm: '414px',
-      md: '744px',
+      xsm: `${screens.xsm}px`,
+      sm: `${screens.sm}px`,
+      md: `${screens.md}px`,
+      lg: `${screens.lg}px`,
+    },
+    lineHeight: {
+      1: '1',
+      '1.25': '1.25',
+      '1.5': '1.5',
     },
     extend: {
       borderWidth: {

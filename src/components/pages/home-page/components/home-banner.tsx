@@ -32,7 +32,6 @@ export const HomeBanner = ({
           src={backgroundImageSrc}
           alt="Hero Banner"
         />
-        <div className={styles['home-banner__background-overlay']}></div>
       </div>
       <div className={styles['home-banner__content']}>
         <div className="flex items-center gap-2 mb-2">
@@ -47,24 +46,24 @@ export const HomeBanner = ({
           {title}
         </Typography>
         <Typography
-          className="max-md:line-clamp-2 md:truncate max-w-[80%] mt-1"
+          className="max-lg:line-clamp-2 lg:truncate max-w-[80%] mt-1"
           variant="body1"
         >
           {description}
         </Typography>
         <div className={styles['home-banner__controls']}>
-          <div className="flex gap-1 xsm:gap-2">
+          <div className="flex gap-1 sm:gap-2">
             <Button>{text.play}</Button>
             <Button variant="tertiary">{text.moreInfo}</Button>
           </div>
-          <div className="ml-auto flex flex-wrap justify-end items-center gap-2 text-left truncate">
+          <div className="ml-auto flex flex-wrap justify-end items-center gap-2 text-left">
             <span className={styles['home-banner__stat']} title={text.likes}>
               ❤️ {abbreviateNumber(likes)}{' '}
-              <span className="max-sm:hidden">{text.likes}</span>
+              <span className="max-xsm:hidden">{text.likes}</span>
             </span>
             <span className={styles['home-banner__stat']} title={text.views}>
               🔥 {abbreviateNumber(views)}{' '}
-              <span className="max-sm:hidden">{text.views}</span>
+              <span className="max-xsm:hidden">{text.views}</span>
             </span>
           </div>
         </div>

@@ -5,10 +5,10 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root {
+html, body {
   @apply h-full;
 }
 
 body {
-  @apply text-white max-w-[744px] m-auto font-primary;
+  @apply text-white font-primary;
 }

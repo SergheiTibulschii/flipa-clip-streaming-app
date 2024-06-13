@@ -1,5 +1,1 @@
-type BecomeCreatorProps = {};
-
-export const BecomeCreator = ({}: BecomeCreatorProps) => {
-  return <div>BecomeCreator</div>;
-};
+export * from './become-creator.tsx';

@@ -16,7 +16,11 @@ export const MainLayout = ({
     <div className="flex flex-col h-full bg-dark">
       {displayHeader && <Header />}
       <main className="flex-1">{children}</main>
-      {displayBecomeCreator && <BecomeCreator />}
+      {displayBecomeCreator && (
+        <div className="mt-10">
+          <BecomeCreator />
+        </div>
+      )}
     </div>
   );
 };

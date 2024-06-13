@@ -1,0 +1,41 @@
+@import "../../../../styles/variables";
+
+.creators {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 150px));
+    gap: 36px;
+  }
+
+  &__flex {
+    --gap: 12px;
+    margin-left: calc(var(--gap) * -1);
+    margin-top: calc(var(--gap) * -1);
+    @apply flex;
+
+    & > div {
+      @apply shrink-0;
+      margin-left: var(--gap);
+      margin-top: var(--gap);
+      flex-basis: calc(33% - var(--gap));
+    }
+
+    @media (min-width: $screen-sm) {
+      --gap: 32px;
+    }
+
+    @media (min-width: $screen-md) {
+      --gap: 36px;
+
+      & > div {
+        flex-basis: calc(25% - var(--gap));
+      }
+    }
+
+    @media (min-width: $screen-lg) {
+      & > div {
+        flex-basis: calc(20% - var(--gap));
+      }
+    }
+  }
+}
