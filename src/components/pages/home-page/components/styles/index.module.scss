@@ -1,5 +1,5 @@
 .home-banner {
-  @apply lg:aspect-video sm:aspect-square aspect-xs relative;
+  @apply relative h-[383px];
 
   &__background {
     @apply absolute inset-0 z-0 rounded-8 overflow-hidden;

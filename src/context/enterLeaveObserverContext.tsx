@@ -1,22 +1,35 @@
 import type { MutableRefObject, PropsWithChildren } from 'react';
-import { createContext, memo, useCallback, useContext, useEffect, useMemo } from 'react';
+import {
+  createContext,
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+} from 'react';
 
 export type IntersectionObserverContextType = {
   getIntersectionObserver: () => IntersectionObserver;
 };
 
-export type VideoIntersectionObserverProviderType = PropsWithChildren<IntersectionObserverInit>;
+export type VideoIntersectionObserverProviderType =
+  PropsWithChildren<IntersectionObserverInit>;
 
-export const IntersectionObserverContext = createContext<IntersectionObserverContextType>(
-  {} as IntersectionObserverContextType,
-);
+export const IntersectionObserverContext =
+  createContext<IntersectionObserverContextType>(
+    {} as IntersectionObserverContextType
+  );
 
 const listenerCallbacks = new WeakMap();
 const enteredElementsMap = new WeakMap();
 let intersectionObserver: IntersectionObserver;
 
 const EnterLeaveObserverProvider = memo(
-  ({ rootMargin = '0px', threshold = 0.15, children }: VideoIntersectionObserverProviderType) => {
+  ({
+    rootMargin = '0px',
+    threshold = 0.15,
+    children,
+  }: VideoIntersectionObserverProviderType) => {
     // eslint-disable-next-line arrow-body-style
     useEffect(() => {
       return () => {
@@ -30,20 +43,24 @@ const EnterLeaveObserverProvider = memo(
       entries.forEach((entry) => {
         if (listenerCallbacks.has(entry.target)) {
           const entered = enteredElementsMap.get(entry.target);
-          const { onEnter, onLeave, once } = listenerCallbacks.get(entry.target);
+          const { onEnter, onLeave, once } = listenerCallbacks.get(
+            entry.target
+          );
 
           if (entry.isIntersecting) {
             onEnter();
 
             if (!entered) {
-                if (once) {
-                    once();
-                }
+              if (once) {
+                once();
+              }
 
-                enteredElementsMap.set(entry.target, true);
+              enteredElementsMap.set(entry.target, true);
             }
           } else if (entered) {
-            onLeave();
+            if (onLeave) {
+              onLeave();
+            }
           }
         }
       });
@@ -63,16 +80,24 @@ const EnterLeaveObserverProvider = memo(
       () => ({
         getIntersectionObserver,
       }),
-      [getIntersectionObserver],
+      [getIntersectionObserver]
     );
 
-    return <IntersectionObserverContext.Provider value={contextValue}>{children}</IntersectionObserverContext.Provider>;
-  },
+    return (
+      <IntersectionObserverContext.Provider value={contextValue}>
+        {children}
+      </IntersectionObserverContext.Provider>
+    );
+  }
 );
 
 export const useEnterLeaveObserver = (
   ref: MutableRefObject<HTMLElement | null>,
-  callbacks: { onEnter: VoidFunction; onLeave: VoidFunction; once?: VoidFunction },
+  callbacks: {
+    onEnter: VoidFunction;
+    onLeave?: VoidFunction;
+    once?: VoidFunction;
+  }
 ) => {
   const { getIntersectionObserver } = useContext(IntersectionObserverContext);
 

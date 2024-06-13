@@ -1,4 +1,6 @@
 import ReactDOM from 'react-dom/client';
+import 'swiper/css';
+import 'swiper/css/navigation';
 import './index.scss';
 import { EnterLeaveObserverProvider } from './context/enterLeaveObserverContext.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';

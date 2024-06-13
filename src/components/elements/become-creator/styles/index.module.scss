@@ -2,7 +2,7 @@
   @apply relative flex justify-center;
 
   &__background {
-    @apply aspect-[375/436] sm:aspect-[415/436] md:aspect-[744/485] flex justify-center relative w-full overflow-hidden;
+    @apply aspect-[3/4] sm:aspect-[415/440] md:aspect-square lg:aspect-[744/485] flex justify-center relative w-full overflow-hidden;
 
     &:after {
       @apply absolute inset-0;
@@ -36,6 +36,6 @@
   }
 
   &__content {
-    @apply absolute bottom-[15%] flex flex-col items-center text-center;
+    @apply absolute bottom-[15%] px-2 flex flex-col items-center text-center;
   }
 }

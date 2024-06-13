@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { Children, cloneElement, PropsWithChildren, ReactElement } from 'react';
 import { Carousel } from '../../ui/carousel';
 import { screens } from '../../../lib/screens.ts';
 import styles from './styles/index.module.scss';
@@ -15,25 +15,30 @@ export const StandardCarousel = ({
     <div>
       {title && <div className="font-bold leading-1.5 mb-6">{title}</div>}
       <Carousel
-        key={Math.random()}
         className={styles.carousel}
         breakpoints={{
           0: {
-            slidesPerView: 2.1,
             spaceBetween: 16,
           },
           [screens.xsm]: {
-            slidesPerView: 2.5,
             spaceBetween: 16,
           },
           [screens.md]: {
-            slidesPerView: 4.5,
             spaceBetween: 16,
           },
         }}
+        slidesPerView="auto"
         resizeObserver
       >
-        {children}
+        {Children.map(children, (child) =>
+          cloneElement(
+            child as ReactElement,
+            {
+              className: 'w-[144px] aspect-[144/214]',
+            },
+            null
+          )
+        )}
       </Carousel>
     </div>
   );

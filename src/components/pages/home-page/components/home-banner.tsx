@@ -28,6 +28,7 @@ export const HomeBanner = ({
     <div className={styles['home-banner']}>
       <div className={styles['home-banner__background']}>
         <img
+          fetchPriority="high"
           className="w-full h-full object-cover"
           src={backgroundImageSrc}
           alt="Hero Banner"

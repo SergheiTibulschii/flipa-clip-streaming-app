@@ -13,7 +13,7 @@ export const CreatorsItem = ({
   views = 0,
 }: CreatorsItemProps) => {
   return (
-    <div>
+    <div className="transition-opacity duration-300">
       <div className="aspect-square rounded-full bg-gray-secondary">
         <img
           className="w-full h-full object-cover rounded-full"

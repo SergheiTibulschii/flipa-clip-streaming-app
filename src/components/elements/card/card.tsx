@@ -7,6 +7,7 @@ type CardProps = {
   likes?: number;
   views?: number;
   coverImageSrc?: string;
+  className?: string;
 };
 
 export const Card = ({
@@ -14,9 +15,10 @@ export const Card = ({
   views = 0,
   likes = 0,
   coverImageSrc,
+  className,
 }: CardProps) => {
   return (
-    <div>
+    <div className={className}>
       <div className={styles.card__cover}>
         <img
           className="w-full h-full object-cover"
