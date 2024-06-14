@@ -1,8 +1,8 @@
 .btn {
-  @apply min-w-[100px] sm:min-w-[108px] min-h-12 font-primary font-bold whitespace-nowrap hover:brightness-105 text-sm text-white;
+  @apply flex items-center justify-center gap-2 font-primary font-bold whitespace-nowrap hover:brightness-105 text-sm text-white;
 
-  &:not(&--icon) {
-    @apply px-4 rounded-8;
+  &:not(&--icon,&--text) {
+    @apply min-h-12 px-4 rounded-8 min-w-[100px] sm:min-w-[108px];
   }
 
   &--primary {
@@ -17,16 +17,16 @@
     @apply bg-transparent border-1 border-pink-100;
   }
 
+  &--text {
+    @apply w-auto h-auto inline-block p-0 text-pink;
+  }
+
   &-ghost {
     @apply bg-transparent;
   }
 
   &--icon {
-    min-width: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @apply min-h-12 min-w-12 rounded-full flex justify-center items-center;
   }
 }
 

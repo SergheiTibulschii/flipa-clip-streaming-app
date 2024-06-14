@@ -6,7 +6,7 @@ export default {
   theme: {
     colors: {
       'pink-100': '#CFD0D6',
-      pink: '#FF00B8',
+      pink: '#FF5079',
       violet: '#8349FF',
       white: '#fff',
       'gray-primary': '#262626',
@@ -33,6 +33,7 @@ export default {
       sm: `${screens.sm}px`,
       md: `${screens.md}px`,
       lg: `${screens.lg}px`,
+      xl: `${screens.xl}px`,
     },
     lineHeight: {
       1: '1',

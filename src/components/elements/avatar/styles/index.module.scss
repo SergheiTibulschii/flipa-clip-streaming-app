@@ -1,0 +1,15 @@
+.avatar {
+  @apply flex items-center gap-2;
+
+  &__image {
+    @apply w-6 h-6 rounded-full bg-gray-primary;
+
+    img {
+      @apply image;
+    }
+  }
+
+  &__creator {
+    @apply text-sm leading-1.5 font-medium;
+  }
+}

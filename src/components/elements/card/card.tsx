@@ -20,11 +20,7 @@ export const Card = ({
   return (
     <div className={className}>
       <div className={styles.card__cover}>
-        <img
-          className="w-full h-full object-cover"
-          src={coverImageSrc}
-          alt=""
-        />
+        <img className="image" src={coverImageSrc} alt="" />
       </div>
       <div className="px-2">
         <div className={`${styles.card__title} mt-2 line-clamp-2`}>{title}</div>

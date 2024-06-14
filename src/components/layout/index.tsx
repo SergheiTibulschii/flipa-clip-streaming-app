@@ -13,7 +13,7 @@ export const MainLayout = ({
   children,
 }: MainLayoutProps) => {
   return (
-    <div className="flex flex-col h-full bg-dark">
+    <div className="flex flex-col w-full bg-dark">
       {displayHeader && <Header />}
       <main className="flex-1">{children}</main>
       {displayBecomeCreator && (

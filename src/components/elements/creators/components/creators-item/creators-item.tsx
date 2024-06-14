@@ -15,11 +15,7 @@ export const CreatorsItem = ({
   return (
     <div className="transition-opacity duration-300">
       <div className="aspect-square rounded-full bg-gray-secondary">
-        <img
-          className="w-full h-full object-cover rounded-full"
-          src={thumbnail}
-          alt=""
-        />
+        <img className="image rounded-full" src={thumbnail} alt="" />
       </div>
       <div className="px-2 text-center mt-2">
         <div className="text-sm leading-1.5 font-medium mt-2 line-clamp-2">

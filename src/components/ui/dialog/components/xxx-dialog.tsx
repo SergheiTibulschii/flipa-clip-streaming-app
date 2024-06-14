@@ -4,10 +4,7 @@ import { Typography } from '../../typography';
 
 const Background = () => (
   <div className="absolute inset-0 bg-dark">
-    <img
-      className="w-full h-full max-w-[900px] m-auto object-cover"
-      src={CreatorImg}
-    />
+    <img className="image max-w-[900px] m-auto" src={CreatorImg} />
   </div>
 );
 

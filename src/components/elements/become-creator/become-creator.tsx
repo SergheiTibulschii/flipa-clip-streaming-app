@@ -9,7 +9,7 @@ export const BecomeCreator = () => {
     <div className={styles['become-creator']}>
       <div className={styles['become-creator__background']}>
         <div className="relative aspect-[744/485] w-full min-h-[455px]">
-          <BecomeCreatorSvg className="absolute min-w-[744px] min-h-[485px] bottom-0 z-0 ml-5 -translate-x-1/2 left-1/2 lg:w-full lg:h-full" />
+          <BecomeCreatorSvg className="absolute min-w-[744px] min-h-[485px] bottom-0 z-0 ml-5 -translate-x-1/2 left-1/2 xl:w-full xl:h-full" />
         </div>
       </div>
       <div className={styles['become-creator__content']}>

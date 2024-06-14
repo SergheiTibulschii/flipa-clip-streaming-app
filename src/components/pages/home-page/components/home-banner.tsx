@@ -2,7 +2,8 @@ import styles from './styles/index.module.scss';
 import { Typography } from '../../../ui/typography';
 import { Button } from '../../../ui/button';
 import { text } from '../../../../lib/text.ts';
-import { abbreviateNumber } from '../../../../lib/utils/number.ts';
+import { Avatar } from '../../../elements/avatar';
+import { VideoStats } from '../../../elements/video-stats.tsx';
 
 type HomeBannerProps = {
   title: string;
@@ -29,20 +30,17 @@ export const HomeBanner = ({
       <div className={styles['home-banner__background']}>
         <img
           fetchPriority="high"
-          className="w-full h-full object-cover"
+          className="image"
           src={backgroundImageSrc}
           alt="Hero Banner"
         />
       </div>
       <div className={styles['home-banner__content']}>
-        <div className="flex items-center gap-2 mb-2">
-          <div className={styles['home-banner__avatar-image']}>
-            <img src={creator.avatar} alt={`${creator.name}'s avatar`} />
-          </div>
-          <div className={styles['home-banner__avatar-creator']}>
-            {creator.name}
-          </div>
-        </div>
+        <Avatar
+          className="mb-2"
+          name={creator.name}
+          thumbnail={creator.avatar}
+        />
         <Typography className="max-w-[80%]" variant="h4">
           {title}
         </Typography>
@@ -57,16 +55,7 @@ export const HomeBanner = ({
             <Button>{text.play}</Button>
             <Button variant="tertiary">{text.moreInfo}</Button>
           </div>
-          <div className="ml-auto flex flex-wrap justify-end items-center gap-2 text-left">
-            <span className={styles['home-banner__stat']} title={text.likes}>
-              ❤️ {abbreviateNumber(likes)}{' '}
-              <span className="max-xsm:hidden">{text.likes}</span>
-            </span>
-            <span className={styles['home-banner__stat']} title={text.views}>
-              🔥 {abbreviateNumber(views)}{' '}
-              <span className="max-xsm:hidden">{text.views}</span>
-            </span>
-          </div>
+          <VideoStats className="ml-auto" views={views} likes={likes} />
         </div>
       </div>
     </div>

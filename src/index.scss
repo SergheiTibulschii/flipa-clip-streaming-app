@@ -5,12 +5,26 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .image {
+    @apply w-full h-full object-cover;
+  }
+
+  .bleed {
+    margin: 0 calc(-50vw + 50% + var(--scrollbar-width, 0px) / 2);
+  }
+}
+
 html, body {
   @apply h-full;
 }
 
 body {
   @apply text-white font-primary;
+}
+
+#root {
+  @apply min-h-full flex;
 }
 
 
