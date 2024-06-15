@@ -1,10 +1,10 @@
 export const pageRoutes = {
   home: '/',
   video: {
-    details: (id: string) => `/video/${id}`,
+    details: (id: number | string) => `/video/${id}`,
   },
   creator: {
-    details: (id: string) => `/creator/${id}`,
+    details: (id: number | string) => `/creator/${id}`,
     become: '/become-creator',
   },
 };

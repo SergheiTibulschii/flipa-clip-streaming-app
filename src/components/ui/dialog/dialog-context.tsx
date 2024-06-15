@@ -2,7 +2,7 @@ import { createContext, PropsWithChildren, useContext, useMemo } from 'react';
 
 type DialogContextValueType = {
   isOpened?: boolean;
-  onDissmiss: () => void;
+  onDissmiss?: () => void;
 };
 
 const DialogContext = createContext<DialogContextValueType>(

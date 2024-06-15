@@ -7,29 +7,52 @@ import ThumbnailImg from '../../../assets/thumbnail.jpeg';
 import { VideoDetails } from './components/video-details';
 import AvatarImg from '../../../assets/avatar.png';
 import PosterImg from '../../../assets/video-details-banner.jpg';
+import {
+  allVideos,
+  youMayAlsoLikeVideos,
+} from '../../../data/carousel-data.ts';
+import { useParams } from 'react-router-dom';
+import { Typography } from '../../ui/typography';
+import { text } from '../../../lib/text.ts';
 
 export const VideoDetailsPage = () => {
-  // const { videoId } = useParams();
+  const { videoId } = useParams();
+  const video = allVideos.find(({ id }) => id === videoId)!;
+
+  if (!video) {
+    return (
+      <MainLayout>
+        <Container>
+          <Typography className="mt-10" variant="h4">
+            {text.videoDoesNotExist}
+          </Typography>
+        </Container>
+      </MainLayout>
+    );
+  }
+
   return (
     <MainLayout displayHeader={false}>
       <Container>
-        <Poster poster={PosterImg} likes={43_000} views={89_200} />
+        <Poster poster={PosterImg} likes={video.likes} views={video.views} />
         <VideoDetails
           creator={{
-            name: 'TheGrossip',
+            id: video.creator.id,
+            name: video.creator.name,
             thumbnail: AvatarImg,
           }}
-          title="Bucket List vs KirtiChow"
-          description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+          title={video.title}
+          description={video.description}
         />
         <div className="mt-8">
           <StandardCarousel title="You may also like">
-            {Array.from({ length: 10 }).map((_, index) => (
+            {youMayAlsoLikeVideos.map(({ likes, id, views, title }) => (
               <Card
-                key={index}
-                title={`Card ${index + 1}`}
-                likes={index * 1000}
-                views={index * 2000}
+                id={id}
+                key={id}
+                title={title}
+                likes={likes}
+                views={views}
                 coverImageSrc={ThumbnailImg}
               />
             ))}

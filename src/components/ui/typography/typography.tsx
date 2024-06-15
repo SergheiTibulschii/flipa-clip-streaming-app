@@ -5,12 +5,14 @@ import clsx from 'clsx';
 type TypographyProps = PropsWithChildren<{
   variant: 'h4' | 'body1';
   className?: string;
+  title?: string;
 }>;
 
 export const Typography = ({
   variant,
   className,
   children,
+  title,
 }: TypographyProps) => {
   const tagMap = {
     h4: 'h4',
@@ -21,5 +23,5 @@ export const Typography = ({
     'text--body1': variant === 'body1',
   });
 
-  return createElement(tagMap[variant], { className: cns }, children);
+  return createElement(tagMap[variant], { className: cns, title }, children);
 };

@@ -4,6 +4,7 @@ import { CaretLeftIcon, HeartIcon, ShareIcon } from '../../../../icons.ts';
 import { Button } from '../../../../ui/button';
 import { text } from '../../../../../lib/text.ts';
 import { VideoStats } from '../../../../elements/video-stats.tsx';
+import { useGoBack } from '../../../../../lib/hooks/useNavigationGuard.ts';
 
 type PosterProps = {
   poster: string;
@@ -12,6 +13,7 @@ type PosterProps = {
 };
 
 export const Poster = ({ poster, views, likes }: PosterProps) => {
+  const goBack = useGoBack();
   return (
     <div className={styles.poster}>
       <div className={styles.poster__background}>
@@ -26,7 +28,7 @@ export const Poster = ({ poster, views, likes }: PosterProps) => {
       </div>
       <div className={styles.poster__content}>
         <div className="mb-auto">
-          <IconButton variant="secondary">
+          <IconButton onClick={goBack} variant="secondary">
             <CaretLeftIcon />
           </IconButton>
         </div>

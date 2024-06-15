@@ -1,18 +1,21 @@
-import { PropsWithChildren } from 'react';
+import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import './styles/button.scss';
 import clsx from 'clsx';
 
 export type ButtonBaseProps = PropsWithChildren<{
   variant?: 'primary' | 'secondary' | 'tertiary' | 'text' | 'ghost';
   className?: string;
+  type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
+  wide?: boolean;
   onClick?: () => void;
 }>;
 
 export const ButtonBase = ({
   children,
   variant = 'primary',
+  wide,
   onClick,
-  /*button type*/
+  type = 'button',
   className,
 }: ButtonBaseProps) => {
   const cls = clsx('btn', className, {
@@ -21,10 +24,11 @@ export const ButtonBase = ({
     'btn--tertiary': variant === 'tertiary',
     'btn--text': variant === 'text',
     'btn--ghost': variant === 'ghost',
+    'w-full': wide,
   });
 
   return (
-    <button onClick={onClick} className={cls}>
+    <button type={type} onClick={onClick} className={cls}>
       {children}
     </button>
   );

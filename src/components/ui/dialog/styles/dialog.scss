@@ -9,16 +9,11 @@
 }
 
 .dialog-background {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+  @apply absolute inset-0 z-0 max-md:hidden;
 }
 
 .dialog-content {
-  position: relative;
-  z-index: 1;
-  @apply m-auto flex-1 bg-dark rounded-8;
-  max-width: 510px;
+  @apply flex flex-col justify-center flex-1 bg-dark rounded-8 md:max-w-[510px] z-10 relative md:max-h-[640px] h-full;
 }
 
 .dialog-head {

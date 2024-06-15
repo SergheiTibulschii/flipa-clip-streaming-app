@@ -9,6 +9,7 @@ type VideoDetailsProps = {
   title: string;
   description: string;
   creator: {
+    id: number | string;
     name?: string;
     thumbnail?: string;
   };
@@ -22,12 +23,13 @@ export const VideoDetails = ({
   return (
     <div className="py-6">
       <Avatar
+        id={creator.id}
         className="mb-2"
         name={creator.name}
         thumbnail={creator.thumbnail}
       />
       <Typography
-        className="lg:max-w-[80%] break-all line-clamp-3"
+        className="lg:max-w-[80%] break-all line-clamp-3 capitalize"
         variant="h4"
       >
         {title}

@@ -1,6 +1,4 @@
-type CreatorsItemSkeletonProps = {};
-
-export const CreatorsItemSkeleton = ({}: CreatorsItemSkeletonProps) => {
+export const CreatorsItemSkeleton = () => {
   return (
     <div className="opacity-25">
       <div className="aspect-square rounded-full bg-gray-secondary animate-pulse"></div>

@@ -14,10 +14,18 @@ export const Button = ({
   iconBefore,
   iconAfter,
   className,
+  type,
+  wide,
   onClick,
 }: ButtonProps) => {
   return (
-    <ButtonBase variant={variant} onClick={onClick} className={className}>
+    <ButtonBase
+      wide={wide}
+      type={type}
+      variant={variant}
+      onClick={onClick}
+      className={className}
+    >
       {iconBefore}
       {children}
       {iconAfter}

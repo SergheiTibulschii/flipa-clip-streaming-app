@@ -9,7 +9,7 @@ export type CustomDialogProps = Pick<DialogProps, 'isOpened' | 'onDismiss'>;
 
 export type DialogProps = PropsWithChildren<{
   isOpened?: boolean;
-  onDismiss: () => void;
+  onDismiss?: () => void;
   overlayBackground?: ReactElement;
   overlayClassName?: string;
   contentClassName?: string;
@@ -39,15 +39,13 @@ export const Dialog = ({
           className={modalContentClasses}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="dialog-head">
-            <IconButton
-              className="ml-auto"
-              variant="secondary"
-              onClick={onDismiss}
-            >
-              <CloseIcon />
-            </IconButton>
-          </div>
+          <IconButton
+            className="absolute top-4 right-4 md:top-[10px] md:right-[10px]"
+            variant="secondary"
+            onClick={onDismiss}
+          >
+            <CloseIcon />
+          </IconButton>
           <div className="dialog-body">{children}</div>
         </div>
       </div>

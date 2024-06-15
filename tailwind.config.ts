@@ -13,6 +13,7 @@ export default {
       'gray-secondary': '#616161',
       dark: '#121517',
       transparent: 'transparent',
+      black: '#000',
     },
     fontFamily: {
       primary: ['Poppins', 'sans-serif'],

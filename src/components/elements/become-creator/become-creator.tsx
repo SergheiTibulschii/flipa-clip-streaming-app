@@ -3,13 +3,16 @@ import { BecomeCreatorSvg } from '../../icons.ts';
 import { Typography } from '../../ui/typography';
 import { text } from '../../../lib/text.ts';
 import { Button } from '../../ui/button';
+import { useNavigate } from 'react-router-dom';
+import { pageRoutes } from '../../../lib/page-routes.ts';
 
 export const BecomeCreator = () => {
+  const navigate = useNavigate();
   return (
     <div className={styles['become-creator']}>
       <div className={styles['become-creator__background']}>
-        <div className="relative aspect-[744/485] w-full min-h-[455px]">
-          <BecomeCreatorSvg className="absolute min-w-[744px] min-h-[485px] bottom-0 z-0 ml-5 -translate-x-1/2 left-1/2 xl:w-full xl:h-full" />
+        <div className="relative flex justify-center">
+          <BecomeCreatorSvg className="absolute w-[744px] h-[415px] bottom-0 z-0 ml-5" />
         </div>
       </div>
       <div className={styles['become-creator__content']}>
@@ -17,7 +20,14 @@ export const BecomeCreator = () => {
         <Typography className="max-w-[80%] md:max-w-[396px]" variant="body1">
           {text.becomeCreatorMessage}
         </Typography>
-        <Button className="mt-5">{text.explore}</Button>
+        <Button
+          className="mt-5"
+          onClick={() => {
+            navigate(pageRoutes.creator.become);
+          }}
+        >
+          {text.explore}
+        </Button>
       </div>
     </div>
   );

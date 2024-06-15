@@ -11,7 +11,6 @@ export const Toggler = ({ className, children }: TogglerProps) => {
   useEnterLeaveObserver(ref, {
     onEnter: () => {
       if (ref.current) {
-        console.log('??');
         ref.current.style.opacity = '1';
       }
     },

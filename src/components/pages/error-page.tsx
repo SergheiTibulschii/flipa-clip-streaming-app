@@ -1,18 +1,16 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { useRouteError } from 'react-router-dom';
+import { MainLayout } from '../layout';
+import { Typography } from '../ui/typography';
+import { Container } from '../layout/container';
+import { text } from '../../lib/text.ts';
 
 export const ErrorPage = () => {
-  const error = useRouteError();
-  console.error(error);
-
   return (
-    <div id="error-page">
-      <h1>Oops!</h1>
-      <p>Sorry, an unexpected error has occurred.</p>
-      <p>
-        {/*@ts-expect-error*/}
-        <i>{error.statusText || error.message}</i>
-      </p>
-    </div>
+    <MainLayout>
+      <Container>
+        <Typography className="mt-10" variant="h4">
+          {text.pageDoesNotExist}
+        </Typography>
+      </Container>
+    </MainLayout>
   );
 };

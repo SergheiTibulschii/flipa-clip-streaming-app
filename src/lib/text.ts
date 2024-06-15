@@ -13,4 +13,14 @@ export const text = {
   downloadProject: 'Download Project',
   creatorsSite: 'Creators Site',
   favoriteBrushes: 'Favorite Brushes',
+  sendRequest: 'Send a request',
+  createYourOwnAnimations:
+    'Create your own animations thanks to incredible animation tool - FlipaClip Animation Studio',
+  name: 'Name',
+  email: 'Email',
+  link: 'Link',
+  thankYou: 'Thank you',
+  pageDoesNotExist: 'The page you are looking for does not exist.',
+  videoDoesNotExist: 'The video you are looking for does not exist.',
+  creatorDoesNotExist: 'The creator you are looking for does not exist.',
 };

@@ -12,8 +12,9 @@ type HomeBannerProps = {
   likes?: number;
   views?: number;
   creator: {
+    id: string | number;
     name: string;
-    avatar?: string;
+    thumbnail?: string;
   };
 };
 
@@ -37,16 +38,18 @@ export const HomeBanner = ({
       </div>
       <div className={styles['home-banner__content']}>
         <Avatar
+          id={creator.id}
           className="mb-2"
           name={creator.name}
-          thumbnail={creator.avatar}
+          thumbnail={creator.thumbnail}
         />
-        <Typography className="max-w-[80%]" variant="h4">
+        <Typography className="max-w-[80%] capitalize" variant="h4">
           {title}
         </Typography>
         <Typography
           className="max-lg:line-clamp-2 lg:truncate max-w-[80%] mt-1"
           variant="body1"
+          title={description}
         >
           {description}
         </Typography>
