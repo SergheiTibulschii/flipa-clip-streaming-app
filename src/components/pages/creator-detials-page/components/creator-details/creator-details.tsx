@@ -24,10 +24,7 @@ export const CreatorDetails = ({
           alt=""
         />
       </div>
-      <Typography
-        className="mt-10 lg:max-w-[80%] break-all line-clamp-3"
-        variant="h4"
-      >
+      <Typography className="mt-10 lg:max-w-[80%] line-clamp-3" variant="h4">
         {creator.name}
       </Typography>
       <ExpandableText className="mt-2 lg:max-w-[75%]" text={description} />

@@ -12,6 +12,7 @@ import {
   HomePage,
 } from './components/pages';
 import { Bootstrap } from './components/bootstrap.tsx';
+import { VimeoProvider } from './context/vimeo-context/vimeo-context.tsx';
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,8 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <EnterLeaveObserverProvider>
     <Bootstrap />
-    <RouterProvider router={router} />
+    <VimeoProvider>
+      <RouterProvider router={router} />
+    </VimeoProvider>
   </EnterLeaveObserverProvider>
 );

@@ -29,7 +29,7 @@ export const VideoDetails = ({
         thumbnail={creator.thumbnail}
       />
       <Typography
-        className="lg:max-w-[80%] break-all line-clamp-3 capitalize"
+        className="lg:max-w-[80%] line-clamp-3 capitalize"
         variant="h4"
       >
         {title}

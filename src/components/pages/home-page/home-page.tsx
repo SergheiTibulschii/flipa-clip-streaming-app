@@ -20,6 +20,7 @@ export const HomePage = () => {
       <Container>
         <div className="mt-4">
           <HomeBanner
+            videoId={topRated.id}
             title={topRated.title}
             backgroundImageSrc={HeroBannerImg}
             description={topRated.description}

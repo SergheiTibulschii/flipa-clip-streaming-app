@@ -4,6 +4,9 @@ import { Button } from '../../../ui/button';
 import { text } from '../../../../lib/text.ts';
 import { Avatar } from '../../../elements/avatar';
 import { VideoStats } from '../../../elements/video-stats.tsx';
+import { useNavigate } from 'react-router-dom';
+import { pageRoutes } from '../../../../lib/page-routes.ts';
+import { useVimeoPlayer } from '../../../../context/vimeo-context/hooks.ts';
 
 type HomeBannerProps = {
   title: string;
@@ -11,6 +14,7 @@ type HomeBannerProps = {
   backgroundImageSrc?: string;
   likes?: number;
   views?: number;
+  videoId: number | string;
   creator: {
     id: string | number;
     name: string;
@@ -21,11 +25,15 @@ type HomeBannerProps = {
 export const HomeBanner = ({
   backgroundImageSrc,
   description,
+  videoId,
   title,
   creator,
   views = 0,
   likes = 0,
 }: HomeBannerProps) => {
+  const navigate = useNavigate();
+  const { play } = useVimeoPlayer();
+
   return (
     <div className={styles['home-banner']}>
       <div className={styles['home-banner__background']}>
@@ -39,7 +47,7 @@ export const HomeBanner = ({
       <div className={styles['home-banner__content']}>
         <Avatar
           id={creator.id}
-          className="mb-2"
+          className="mb-2 self-start"
           name={creator.name}
           thumbnail={creator.thumbnail}
         />
@@ -55,8 +63,21 @@ export const HomeBanner = ({
         </Typography>
         <div className={styles['home-banner__controls']}>
           <div className="flex gap-1 sm:gap-2">
-            <Button>{text.play}</Button>
-            <Button variant="tertiary">{text.moreInfo}</Button>
+            <Button
+              onClick={async () => {
+                play(56282283);
+              }}
+            >
+              {text.play}
+            </Button>
+            <Button
+              variant="tertiary"
+              onClick={() => {
+                navigate(pageRoutes.video.details(videoId));
+              }}
+            >
+              {text.moreInfo}
+            </Button>
           </div>
           <VideoStats className="ml-auto" views={views} likes={likes} />
         </div>

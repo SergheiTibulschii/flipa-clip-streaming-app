@@ -16,7 +16,7 @@ export const ExpandableText = ({
   className,
 }: ExpandableTextProps) => {
   const shouldExpand = text.length > maxLength;
-  const [isExpanded, setIsExpanded] = useState(!shouldExpand);
+  const [isExpanded, setIsExpanded] = useState(false);
   const cns = clsx({
     'max-lg:line-clamp-3 lg:truncate lg:max-w-[80%]': !isExpanded,
   });
