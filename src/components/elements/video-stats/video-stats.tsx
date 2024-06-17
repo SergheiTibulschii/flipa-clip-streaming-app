@@ -13,10 +13,8 @@ export const VideoStats = ({
   views = 0,
   className,
 }: VideoStatsProps) => {
-  const cns = clsx(
-    className,
-    'flex flex-wrap justify-end items-center gap-2 text-left'
-  );
+  const cns = clsx(className);
+
   return (
     <div className={cns}>
       <span className="text-sm leading-1.5" title={text.likes}>
