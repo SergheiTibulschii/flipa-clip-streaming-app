@@ -22,10 +22,18 @@ export const CreatorsItem = ({
       className="transition-opacity duration-300"
     >
       <div className="aspect-square rounded-full bg-gray-secondary">
-        <img className="image rounded-full" src={thumbnail} alt="" />
+        <img
+          className="image rounded-full"
+          src={thumbnail}
+          alt={`${name}'s avatar`}
+          loading="lazy"
+        />
       </div>
       <div className="px-2 text-center mt-2">
-        <div className="text-sm leading-1.5 font-medium mt-2 line-clamp-2">
+        <div
+          title={name}
+          className="text-sm leading-1.5 font-medium mt-2 truncate"
+        >
           {name}
         </div>
         <div className="mt-1 text-[9px] text-gray-secondary font-bold">

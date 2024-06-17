@@ -11,12 +11,14 @@ import Player from '@vimeo/player';
 import { CloseIcon, ShareIcon } from '../../components/icons.ts';
 import { IconButton } from '../../components/ui/button/icon-button.tsx';
 import { createPortal } from 'react-dom';
+import { Loader } from '../../components/ui/loader.tsx';
 
 type VimeoEmbeddingProps = { id: number; onClose: () => void };
 const VimeoEmbedding = ({ id, onClose }: VimeoEmbeddingProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const ref = useRef<HTMLIFrameElement | null>(null);
   const [videoTitle, setVideoTitle] = useState<string>();
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   const handleClose = useCallback(() => {
     onClose();
@@ -34,6 +36,9 @@ const VimeoEmbedding = ({ id, onClose }: VimeoEmbeddingProps) => {
       document.addEventListener('keydown', handleKeyDown);
 
       const newPlayer = new Player(ref.current);
+      newPlayer.on('loaded', () => {
+        setIsVideoLoaded(true);
+      });
       newPlayer.on('enterpictureinpicture', () => {
         if (containerRef.current) {
           containerRef.current.style.visibility = 'hidden';
@@ -52,7 +57,6 @@ const VimeoEmbedding = ({ id, onClose }: VimeoEmbeddingProps) => {
       });
 
       return () => {
-        console.log('clean up');
         newPlayer.destroy();
         document.removeEventListener('keydown', handleKeyDown);
       };
@@ -60,8 +64,11 @@ const VimeoEmbedding = ({ id, onClose }: VimeoEmbeddingProps) => {
   }, [handleClose]);
 
   return createPortal(
-    <div ref={containerRef} className="fixed inset-0 z-50 flex flex-col">
-      <div className="bg-dark text-white flex gap-8 items-center justify-between px-5 py-3">
+    <div
+      ref={containerRef}
+      className="fixed inset-0 z-50 flex flex-col bg-black "
+    >
+      <div className="text-white flex gap-8 items-center justify-between px-5 py-3">
         <div className="font-bold leading-1.5 truncate" title={videoTitle}>
           {videoTitle}
         </div>
@@ -74,12 +81,19 @@ const VimeoEmbedding = ({ id, onClose }: VimeoEmbeddingProps) => {
           </IconButton>
         </div>
       </div>
-      <iframe
-        ref={ref}
-        className="relative flex-1"
-        src={`https://player.vimeo.com/video/${id}?playsinline=1&transparent=0&byline=0&portrait=0&title=0`}
-        allowFullScreen
-      ></iframe>
+      <div className="flex-1 realtive">
+        {!isVideoLoaded && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Loader />
+          </div>
+        )}
+        <iframe
+          ref={ref}
+          className="h-full w-full"
+          src={`https://player.vimeo.com/video/${id}?playsinline=1&transparent=0&byline=0&portrait=0&title=0`}
+          allowFullScreen
+        ></iframe>
+      </div>
     </div>,
     document.body
   );

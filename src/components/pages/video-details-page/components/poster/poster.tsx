@@ -3,16 +3,19 @@ import { IconButton } from '../../../../ui/button/icon-button.tsx';
 import { CaretLeftIcon, HeartIcon, ShareIcon } from '../../../../icons.ts';
 import { Button } from '../../../../ui/button';
 import { text } from '../../../../../lib/text.ts';
-import { VideoStats } from '../../../../elements/video-stats.tsx';
+import { VideoStats } from '../../../../elements/video-stats/video-stats.tsx';
 import { useGoBack } from '../../../../../lib/hooks/useNavigationGuard.ts';
+import { useVimeoPlayer } from '../../../../../context/vimeo-context/hooks.ts';
 
 type PosterProps = {
+  vimeoId: number;
   poster: string;
   likes?: number;
   views?: number;
 };
 
-export const Poster = ({ poster, views, likes }: PosterProps) => {
+export const Poster = ({ vimeoId, poster, views, likes }: PosterProps) => {
+  const { play } = useVimeoPlayer();
   const goBack = useGoBack();
   return (
     <div className={styles.poster}>
@@ -34,7 +37,9 @@ export const Poster = ({ poster, views, likes }: PosterProps) => {
         </div>
         <div className="mt-auto flex gap-2">
           <div className="flex gap-2">
-            <Button>{text.play}</Button>
+            {vimeoId && (
+              <Button onClick={() => play(vimeoId)}>{text.play}</Button>
+            )}
             <IconButton variant="secondary">
               <HeartIcon />
             </IconButton>

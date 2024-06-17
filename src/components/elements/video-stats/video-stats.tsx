@@ -1,6 +1,7 @@
-import { text } from '../../lib/text.ts';
-import { abbreviateNumber } from '../../lib/utils/number.ts';
+import { text } from '../../../lib/text.ts';
+import { abbreviateNumber } from '../../../lib/utils/number.ts';
 import clsx from 'clsx';
+import styles from './styles/index.module.scss';
 
 type VideoStatsProps = {
   likes?: number;
@@ -13,7 +14,7 @@ export const VideoStats = ({
   views = 0,
   className,
 }: VideoStatsProps) => {
-  const cns = clsx(className);
+  const cns = clsx(styles.stats, className);
 
   return (
     <div className={cns}>

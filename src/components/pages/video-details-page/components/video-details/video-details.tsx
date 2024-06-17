@@ -28,13 +28,10 @@ export const VideoDetails = ({
         name={creator.name}
         thumbnail={creator.thumbnail}
       />
-      <Typography
-        className="lg:max-w-[80%] line-clamp-3 capitalize"
-        variant="h4"
-      >
+      <Typography className="line-clamp-2 capitalize" variant="h4">
         {title}
       </Typography>
-      <ExpandableText className="mt-1 lg:max-w-[75%]" text={description} />
+      <ExpandableText className="mt-1" text={description} />
       <Button
         className="mt-5"
         variant="secondary"

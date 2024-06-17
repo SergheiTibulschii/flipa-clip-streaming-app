@@ -17,7 +17,11 @@ export const Avatar = ({ id, thumbnail, name, className }: AvatarProps) => {
       <div className={styles['avatar__image']}>
         <img src={thumbnail} alt={`${name}'s avatar`} />
       </div>
-      {name && <div className={styles['avatar__creator']}>{name}</div>}
+      {name && (
+        <div className={styles['avatar__creator']} title={name}>
+          {name}
+        </div>
+      )}
     </Link>
   );
 };

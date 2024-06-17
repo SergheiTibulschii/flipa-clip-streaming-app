@@ -24,10 +24,10 @@ export const CreatorDetails = ({
           alt=""
         />
       </div>
-      <Typography className="mt-10 lg:max-w-[80%] line-clamp-3" variant="h4">
+      <Typography className="mt-10 line-clamp-2" variant="h4">
         {creator.name}
       </Typography>
-      <ExpandableText className="mt-2 lg:max-w-[75%]" text={description} />
+      <ExpandableText className="mt-2" text={description} />
       <div className="flex gap-2 mt-5">
         <Button variant="secondary">{text.creatorsSite}</Button>
         <Button variant="secondary">{text.favoriteBrushes}</Button>

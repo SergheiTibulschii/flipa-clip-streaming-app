@@ -2,7 +2,6 @@ import { MainLayout } from '../../layout';
 import { HomeBanner } from './components';
 import { Container } from '../../layout/container';
 import HeroBannerImg from '../../../assets/hero-banner.png';
-import ThumbnailImg from '../../../assets/thumbnail.jpeg';
 import { StandardCarousel } from '../../elements/standard-carousel';
 import { Card } from '../../elements/card/card.tsx';
 import { Creators } from '../../elements/creators';
@@ -21,6 +20,7 @@ export const HomePage = () => {
         <div className="mt-4">
           <HomeBanner
             videoId={topRated.id}
+            vimeoId={topRated.vimeoId}
             title={topRated.title}
             backgroundImageSrc={HeroBannerImg}
             description={topRated.description}
@@ -31,28 +31,28 @@ export const HomePage = () => {
         </div>
         <div className="mt-8">
           <StandardCarousel title="New">
-            {newVideos.map(({ title, views, likes, id }) => (
+            {newVideos.map(({ title, views, likes, id, thumbnail }) => (
               <Card
                 id={id}
                 key={id}
                 title={title}
                 likes={likes}
                 views={views}
-                coverImageSrc={ThumbnailImg}
+                coverImageSrc={thumbnail}
               />
             ))}
           </StandardCarousel>
         </div>
         <div className="mt-8">
           <StandardCarousel title="Pixel Movies">
-            {pixelVideos.map(({ id, title, views, likes }) => (
+            {pixelVideos.map(({ id, title, views, likes, thumbnail }) => (
               <Card
                 id={id}
                 key={id}
                 title={title}
                 likes={likes}
                 views={views}
-                coverImageSrc={ThumbnailImg}
+                coverImageSrc={thumbnail}
               />
             ))}
           </StandardCarousel>

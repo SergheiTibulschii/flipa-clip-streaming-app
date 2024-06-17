@@ -1,8 +1,8 @@
 .avatar {
-  @apply flex items-center gap-2;
+  @apply flex items-center gap-2 max-w-[80%]  md:max-w-[50%];
 
   &__image {
-    @apply w-6 h-6 rounded-full bg-gray-primary;
+    @apply w-6 h-6 rounded-full overflow-hidden bg-gray-primary flex-shrink-0;
 
     img {
       @apply image;
@@ -10,6 +10,6 @@
   }
 
   &__creator {
-    @apply text-sm leading-1.5 font-medium;
+    @apply text-sm leading-1.5 font-medium truncate;
   }
 }

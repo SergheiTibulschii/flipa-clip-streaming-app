@@ -33,7 +33,7 @@ export const Card = ({
       className={cns}
     >
       <div className={styles.card__cover}>
-        <img className="image" src={coverImageSrc} alt="" />
+        <img className="image" src={coverImageSrc} alt="" loading="lazy" />
       </div>
       <div className="px-2">
         <div className={`${styles.card__title} mt-2 line-clamp-2 capitalize`}>

@@ -38,7 +38,7 @@ export const BecomeCreatorDialog = ({}: BecomeCreatorDialogProps) => {
       {showThankYou ? (
         <div className="text-center">
           <Typography variant={'h4'}>{text.thankYou}</Typography>
-          <Typography className="mt-3" variant={'body1'}>
+          <Typography className="mt-3 max-w-[85%] m-auto" variant={'body1'}>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
             ever since the 1500s

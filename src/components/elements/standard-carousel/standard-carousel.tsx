@@ -27,6 +27,7 @@ export const StandardCarousel = ({
             spaceBetween: 16,
           },
         }}
+        lazyPreloadPrevNext={1}
         slidesPerView="auto"
         resizeObserver
       >

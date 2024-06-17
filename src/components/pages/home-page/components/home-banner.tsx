@@ -3,7 +3,7 @@ import { Typography } from '../../../ui/typography';
 import { Button } from '../../../ui/button';
 import { text } from '../../../../lib/text.ts';
 import { Avatar } from '../../../elements/avatar';
-import { VideoStats } from '../../../elements/video-stats.tsx';
+import { VideoStats } from '../../../elements/video-stats';
 import { useNavigate } from 'react-router-dom';
 import { pageRoutes } from '../../../../lib/page-routes.ts';
 import { useVimeoPlayer } from '../../../../context/vimeo-context/hooks.ts';
@@ -15,6 +15,7 @@ type HomeBannerProps = {
   likes?: number;
   views?: number;
   videoId: number | string;
+  vimeoId: number;
   creator: {
     id: string | number;
     name: string;
@@ -26,6 +27,7 @@ export const HomeBanner = ({
   backgroundImageSrc,
   description,
   videoId,
+  vimeoId,
   title,
   creator,
   views = 0,
@@ -51,11 +53,14 @@ export const HomeBanner = ({
           name={creator.name}
           thumbnail={creator.thumbnail}
         />
-        <Typography className="max-w-[80%] capitalize" variant="h4">
+        <Typography
+          className="line-clamp-2 max-w-[80%] capitalize"
+          variant="h4"
+        >
           {title}
         </Typography>
         <Typography
-          className="max-lg:line-clamp-2 lg:truncate max-w-[80%] mt-1"
+          className="line-clamp-2 lg:truncate max-w-[80%] mt-1"
           variant="body1"
           title={description}
         >
@@ -63,13 +68,7 @@ export const HomeBanner = ({
         </Typography>
         <div className={styles['home-banner__controls']}>
           <div className="flex gap-1 sm:gap-2">
-            <Button
-              onClick={async () => {
-                play(56282283);
-              }}
-            >
-              {text.play}
-            </Button>
+            <Button onClick={() => play(vimeoId)}>{text.play}</Button>
             <Button
               variant="tertiary"
               onClick={() => {

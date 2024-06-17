@@ -1,20 +1,11 @@
 import { screens } from './src/lib/screens';
+import { colors } from './src/lib/colors';
 
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    colors: {
-      'pink-100': '#CFD0D6',
-      pink: '#FF5079',
-      violet: '#8349FF',
-      white: '#fff',
-      'gray-primary': '#262626',
-      'gray-secondary': '#616161',
-      dark: '#121517',
-      transparent: 'transparent',
-      black: '#000',
-    },
+    colors,
     fontFamily: {
       primary: ['Poppins', 'sans-serif'],
     },
@@ -29,13 +20,9 @@ export default {
       7: '1.75rem',
       8: '2rem',
     },
-    screens: {
-      xsm: `${screens.xsm}px`,
-      sm: `${screens.sm}px`,
-      md: `${screens.md}px`,
-      lg: `${screens.lg}px`,
-      xl: `${screens.xl}px`,
-    },
+    screens: Object.fromEntries(
+      Object.entries(screens).map(([key, value]) => [key, `${value}px`])
+    ),
     lineHeight: {
       1: '1',
       '1.25': '1.25',
@@ -50,6 +37,9 @@ export default {
       },
       aspectRatio: {
         xs: '343/383',
+      },
+      animationDuration: {
+        1000: '1000ms',
       },
     },
   },
