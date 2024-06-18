@@ -60,7 +60,7 @@ export const HomeBanner = ({
           {title}
         </Typography>
         <Typography
-          className="line-clamp-2 lg:truncate max-w-[80%] mt-1"
+          className="line-clamp-2 max-w-[80%] mt-1"
           variant="body1"
           title={description}
         >
