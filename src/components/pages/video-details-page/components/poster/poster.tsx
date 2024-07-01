@@ -4,10 +4,9 @@ import { CaretLeftIcon, ShareIcon } from '../../../../icons.ts';
 import { VideoStats } from '../../../../elements/video-stats';
 import { useGoBack } from '../../../../../lib/hooks/useGoBack.ts';
 import { PlayBtn } from '../play-btn.tsx';
-import { useLoaderData } from 'react-router-dom';
-import { VideoDetailsLoaderType } from '../../../../../lib/types/video-details-types.ts';
 import { LikeBtn } from '../like-btn.tsx';
 import { useSupabaseVideo } from '../../../../../lib/hooks/useSupabaseVideo.ts';
+import { useVideoDetails } from '../../../../../context/video-details-context';
 
 type PosterProps = {
   videoId: string | number;
@@ -23,8 +22,7 @@ export const Poster = ({
   videoLink,
 }: PosterProps) => {
   const goBack = useGoBack();
-  const loaderData = useLoaderData() as VideoDetailsLoaderType;
-  // const { likesCount, viewsCount } = useVideoDetails();
+  const { isLiked } = useVideoDetails();
   const supabaseVideo = useSupabaseVideo(String(videoId));
 
   return (
@@ -49,8 +47,9 @@ export const Poster = ({
           <div className="flex gap-2">
             <PlayBtn videoId={videoId} videoLink={videoLink} />
             <LikeBtn
-              videoId={loaderData.video_id}
-              isLikedDefault={loaderData.isLiked}
+              key={videoId}
+              videoId={String(videoId)}
+              isLikedDefault={isLiked}
               authorId={String(authorId)}
             />
             <IconButton variant="secondary">

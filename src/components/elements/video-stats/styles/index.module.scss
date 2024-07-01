@@ -1,5 +1,5 @@
 .stats {
-  @apply grid gap-2;
+  @apply grid gap-2 items-center;
 
   @media (min-width: 500px) {
     grid-auto-flow: column;
