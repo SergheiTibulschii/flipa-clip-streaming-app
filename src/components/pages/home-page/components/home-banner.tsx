@@ -67,7 +67,6 @@ export const HomeBanner = ({
         <div className={styles['home-banner__controls']}>
           <div className="flex gap-1 sm:gap-2">
             <PlayBtn
-              authorId={creator.id}
               videoId={videoId}
               videoLink="https://player.vimeo.com/video/952448399?h=f66b6ba1cb"
             />

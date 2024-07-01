@@ -47,11 +47,7 @@ export const Poster = ({
         </div>
         <div className="mt-auto flex gap-2">
           <div className="flex gap-2">
-            <PlayBtn
-              authorId={authorId}
-              videoId={videoId}
-              videoLink={videoLink}
-            />
+            <PlayBtn videoId={videoId} videoLink={videoLink} />
             <LikeBtn
               videoId={loaderData.video_id}
               isLikedDefault={loaderData.isLiked}

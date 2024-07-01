@@ -10,7 +10,6 @@ import {
   CreatorDetialsPage,
   BecomeCreatorPage,
   HomePage,
-  VimeoVideoPlayerPage,
 } from './components/pages';
 import { Bootstrap } from './components/bootstrap.tsx';
 import { createClient } from '@supabase/supabase-js';
@@ -21,6 +20,7 @@ import { VideoDetailsLoaderType } from './lib/types/video-details-types.ts';
 import { AppStoreProvider } from './context/app-store-context';
 import { getUserVideoLike } from './lib/supabase/getUserVideoLike.ts';
 import { getVideoStats } from './lib/supabase/getVideoStats.ts';
+import { VimeoProvider } from './context/vimeo-context';
 
 export const supabase = createClient<Database>(
   env.VITE_SUPABASE_URL,
@@ -80,10 +80,6 @@ const router = createBrowserRouter([
     },
   },
   {
-    path: '/video/:videoId/play',
-    element: <VimeoVideoPlayerPage />,
-  },
-  {
     path: '/creator/:creatorId',
     element: <CreatorDetialsPage />,
   },
@@ -101,7 +97,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <AppStoreProvider>
     <EnterLeaveObserverProvider>
       <Bootstrap />
-      <RouterProvider router={router} />
+      <VimeoProvider>
+        <RouterProvider router={router} />
+      </VimeoProvider>
     </EnterLeaveObserverProvider>
   </AppStoreProvider>
 );

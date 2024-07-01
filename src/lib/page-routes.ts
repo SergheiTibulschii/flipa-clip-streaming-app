@@ -3,7 +3,7 @@ export const pageRoutes = {
   video: {
     details: (id: number | string) => `/video/${id}`,
     play: (id: number | string, videoUrl: string) =>
-      `/video/${id}/play?videoUrl=${videoUrl}`,
+      `/video/${id}?videoUrl=${videoUrl}`,
   },
   creator: {
     details: (id: number | string) => `/creator/${id}`,
