@@ -6,7 +6,8 @@ import { Avatar } from '../../../elements/avatar';
 import { VideoStats } from '../../../elements/video-stats';
 import { useNavigate } from 'react-router-dom';
 import { pageRoutes } from '../../../../lib/page-routes.ts';
-import { useVimeoPlayer } from '../../../../context/vimeo-context/hooks.ts';
+import { PlayBtn } from '../../video-details-page/components/play-btn.tsx';
+import { useSupabaseVideo } from '../../../../lib/hooks/useSupabaseVideo.ts';
 
 type HomeBannerProps = {
   title: string;
@@ -27,14 +28,11 @@ export const HomeBanner = ({
   backgroundImageSrc,
   description,
   videoId,
-  vimeoId,
   title,
   creator,
-  views = 0,
-  likes = 0,
 }: HomeBannerProps) => {
   const navigate = useNavigate();
-  const { play } = useVimeoPlayer();
+  const supabaseVideo = useSupabaseVideo(String(videoId));
 
   return (
     <div className={styles['home-banner']}>
@@ -68,7 +66,11 @@ export const HomeBanner = ({
         </Typography>
         <div className={styles['home-banner__controls']}>
           <div className="flex gap-1 sm:gap-2">
-            <Button onClick={() => play(vimeoId)}>{text.play}</Button>
+            <PlayBtn
+              authorId={creator.id}
+              videoId={videoId}
+              videoLink="https://player.vimeo.com/video/952448399?h=f66b6ba1cb"
+            />
             <Button
               variant="tertiary"
               onClick={() => {
@@ -78,7 +80,11 @@ export const HomeBanner = ({
               {text.moreInfo}
             </Button>
           </div>
-          <VideoStats className="ml-auto" views={views} likes={likes} />
+          <VideoStats
+            className="ml-auto"
+            views={supabaseVideo?.views_count ?? 0}
+            likes={supabaseVideo?.likes_count ?? 0}
+          />
         </div>
       </div>
     </div>

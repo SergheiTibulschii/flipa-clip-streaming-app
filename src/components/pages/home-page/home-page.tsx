@@ -24,36 +24,20 @@ export const HomePage = () => {
             title={topRated.title}
             backgroundImageSrc={HeroBannerImg}
             description={topRated.description}
-            likes={topRated.likes}
-            views={topRated.views}
             creator={topRated.creator}
           />
         </div>
         <div className="mt-8">
           <StandardCarousel title="New">
-            {newVideos.map(({ title, views, likes, id, thumbnail }) => (
-              <Card
-                id={id}
-                key={id}
-                title={title}
-                likes={likes}
-                views={views}
-                coverImageSrc={thumbnail}
-              />
+            {newVideos.map(({ title, id, thumbnail }) => (
+              <Card id={id} key={id} title={title} coverImageSrc={thumbnail} />
             ))}
           </StandardCarousel>
         </div>
         <div className="mt-8">
           <StandardCarousel title="Pixel Movies">
-            {pixelVideos.map(({ id, title, views, likes, thumbnail }) => (
-              <Card
-                id={id}
-                key={id}
-                title={title}
-                likes={likes}
-                views={views}
-                coverImageSrc={thumbnail}
-              />
+            {pixelVideos.map(({ id, title, thumbnail }) => (
+              <Card id={id} key={id} title={title} coverImageSrc={thumbnail} />
             ))}
           </StandardCarousel>
         </div>

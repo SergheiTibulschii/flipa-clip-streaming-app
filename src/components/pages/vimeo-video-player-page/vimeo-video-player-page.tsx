@@ -1,41 +1,41 @@
-import {
-  createContext,
-  PropsWithChildren,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Player from '@vimeo/player';
-import { CloseIcon, ShareIcon } from '../../components/icons.ts';
-import { IconButton } from '../../components/ui/button/icon-button.tsx';
-import { createPortal } from 'react-dom';
-import { Loader } from '../../components/ui/loader.tsx';
+import { IconButton } from '../../ui/button/icon-button.tsx';
+import { CloseIcon, ShareIcon } from '../../icons.ts';
+import { Loader } from '../../ui/loader.tsx';
+import { useGoBack } from '../../../lib/hooks/useGoBack.ts';
+import { useSearchParams } from 'react-router-dom';
 
-type VimeoEmbeddingProps = { id: number; onClose: () => void };
-const VimeoEmbedding = ({ id, onClose }: VimeoEmbeddingProps) => {
+const prepareLink = (url: string) => {
+  const videoLink = new URL(url);
+  videoLink.searchParams.set('playsinline', '1');
+  videoLink.searchParams.set('transparent', '0');
+  videoLink.searchParams.set('byline', '0');
+  videoLink.searchParams.set('portrait', '0');
+  videoLink.searchParams.set('title', '0');
+  return videoLink.toString();
+};
+
+export const VimeoVideoPlayerPage = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const ref = useRef<HTMLIFrameElement | null>(null);
   const [videoTitle, setVideoTitle] = useState<string>();
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const goBack = useGoBack();
+  const [params] = useSearchParams();
+  const videoLink = prepareLink(
+    decodeURIComponent(params.get('videoUrl') || '')
+  );
 
-  const handleClose = useCallback(() => {
-    onClose();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleClose = useCallback(goBack, [goBack]);
 
   useEffect(() => {
     if (ref.current) {
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
-          handleClose();
-        }
-      };
-
-      document.addEventListener('keydown', handleKeyDown);
-
       const newPlayer = new Player(ref.current);
+      newPlayer.ready().catch(() => {
+        setIsError(true);
+      });
       newPlayer.on('loaded', () => {
         setIsVideoLoaded(true);
       });
@@ -58,12 +58,11 @@ const VimeoEmbedding = ({ id, onClose }: VimeoEmbeddingProps) => {
 
       return () => {
         newPlayer.destroy();
-        document.removeEventListener('keydown', handleKeyDown);
       };
     }
   }, [handleClose]);
 
-  return createPortal(
+  return (
     <div
       ref={containerRef}
       className="fixed inset-0 z-50 flex flex-col bg-black "
@@ -82,7 +81,7 @@ const VimeoEmbedding = ({ id, onClose }: VimeoEmbeddingProps) => {
         </div>
       </div>
       <div className="flex-1 realtive">
-        {!isVideoLoaded && (
+        {!isVideoLoaded && !isError && (
           <div className="absolute inset-0 flex items-center justify-center">
             <Loader />
           </div>
@@ -90,45 +89,10 @@ const VimeoEmbedding = ({ id, onClose }: VimeoEmbeddingProps) => {
         <iframe
           ref={ref}
           className="h-full w-full"
-          src={`https://player.vimeo.com/video/${id}?playsinline=1&transparent=0&byline=0&portrait=0&title=0`}
+          src={videoLink}
           allowFullScreen
         ></iframe>
       </div>
-    </div>,
-    document.body
-  );
-};
-
-type VimeoContextType = {
-  play: (source: number) => void;
-};
-
-export const VimeoContext = createContext<VimeoContextType>(
-  {} as VimeoContextType
-);
-
-type VimeoProviderProps = PropsWithChildren<unknown>;
-
-export const VimeoProvider = ({ children }: VimeoProviderProps) => {
-  const [id, setId] = useState<number | null>(null);
-
-  const play = useCallback((id: number) => {
-    setId(id);
-  }, []);
-
-  const contextValue = useMemo(
-    () => ({
-      play,
-    }),
-    [play]
-  );
-
-  return (
-    <VimeoContext.Provider value={contextValue}>
-      <>
-        {children}
-        {id && <VimeoEmbedding id={id} onClose={() => setId(null)} />}
-      </>
-    </VimeoContext.Provider>
+    </div>
   );
 };

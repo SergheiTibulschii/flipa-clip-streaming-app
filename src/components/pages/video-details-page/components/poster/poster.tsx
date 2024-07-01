@@ -1,22 +1,32 @@
 import styles from './styles/index.module.scss';
 import { IconButton } from '../../../../ui/button/icon-button.tsx';
-import { CaretLeftIcon, HeartIcon, ShareIcon } from '../../../../icons.ts';
-import { Button } from '../../../../ui/button';
-import { text } from '../../../../../lib/text.ts';
-import { VideoStats } from '../../../../elements/video-stats/video-stats.tsx';
-import { useGoBack } from '../../../../../lib/hooks/useNavigationGuard.ts';
-import { useVimeoPlayer } from '../../../../../context/vimeo-context/hooks.ts';
+import { CaretLeftIcon, ShareIcon } from '../../../../icons.ts';
+import { VideoStats } from '../../../../elements/video-stats';
+import { useGoBack } from '../../../../../lib/hooks/useGoBack.ts';
+import { PlayBtn } from '../play-btn.tsx';
+import { useLoaderData } from 'react-router-dom';
+import { VideoDetailsLoaderType } from '../../../../../lib/types/video-details-types.ts';
+import { LikeBtn } from '../like-btn.tsx';
+import { useSupabaseVideo } from '../../../../../lib/hooks/useSupabaseVideo.ts';
 
 type PosterProps = {
-  vimeoId: number;
+  videoId: string | number;
   poster: string;
-  likes?: number;
-  views?: number;
+  authorId: string | number;
+  videoLink: string;
 };
 
-export const Poster = ({ vimeoId, poster, views, likes }: PosterProps) => {
-  const { play } = useVimeoPlayer();
+export const Poster = ({
+  videoId,
+  poster,
+  authorId,
+  videoLink,
+}: PosterProps) => {
   const goBack = useGoBack();
+  const loaderData = useLoaderData() as VideoDetailsLoaderType;
+  // const { likesCount, viewsCount } = useVideoDetails();
+  const supabaseVideo = useSupabaseVideo(String(videoId));
+
   return (
     <div className={styles.poster}>
       <div className={styles.poster__background}>
@@ -37,17 +47,25 @@ export const Poster = ({ vimeoId, poster, views, likes }: PosterProps) => {
         </div>
         <div className="mt-auto flex gap-2">
           <div className="flex gap-2">
-            {vimeoId && (
-              <Button onClick={() => play(vimeoId)}>{text.play}</Button>
-            )}
-            <IconButton variant="secondary">
-              <HeartIcon />
-            </IconButton>
+            <PlayBtn
+              authorId={authorId}
+              videoId={videoId}
+              videoLink={videoLink}
+            />
+            <LikeBtn
+              videoId={loaderData.video_id}
+              isLikedDefault={loaderData.isLiked}
+              authorId={String(authorId)}
+            />
             <IconButton variant="secondary">
               <ShareIcon />
             </IconButton>
           </div>
-          <VideoStats className="ml-auto" views={views} likes={likes} />
+          <VideoStats
+            className="ml-auto"
+            views={supabaseVideo?.views_count || 0}
+            likes={supabaseVideo?.likes_count || 0}
+          />
         </div>
       </div>
     </div>

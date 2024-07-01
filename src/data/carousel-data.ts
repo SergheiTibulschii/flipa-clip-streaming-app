@@ -11,6 +11,7 @@ export const newVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1517524285303-d6fc683dddf8?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTEwfHxhbmltZXxlbnwwfDF8MHx8fDA%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7ef4ca93fc640edf32a6',
       name: 'Higgins',
@@ -30,6 +31,7 @@ export const newVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1597089542047-b9873d82d8ec?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YW5pbWF0aW9ufGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7ef40d9412d5503d22ca',
       name: 'Mosley',
@@ -49,6 +51,7 @@ export const newVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1635322966219-b75ed372eb01?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YW5pbWF0aW9ufGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7ef4b3931abb77591d48',
       name: 'Walsh',
@@ -67,6 +70,7 @@ export const newVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1669839194611-c15f7684091c?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTIzfHxhbmltZXxlbnwwfDF8MHx8fDA%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7ef4f761a3fd61116eca',
       name: 'Lewis',
@@ -85,6 +89,7 @@ export const newVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1541562232579-512a21360020?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YW5pbWV8ZW58MHwxfDB8fHww',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7ef4fad7b45a5f976b55',
       name: 'Roberson',
@@ -103,6 +108,7 @@ export const newVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1575540325855-4b5d285a3845?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YW5pbWV8ZW58MHwxfDB8fHww',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7ef430a44ec36c67dacd',
       name: 'Tammy Brennan',
@@ -121,6 +127,7 @@ export const newVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1611457194403-d3aca4cf9d11?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YW5pbWV8ZW58MHwxfDB8fHww',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7ef4856a8b20810d479f',
       name: 'Gonzales',
@@ -139,6 +146,7 @@ export const newVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7ef4efb8869eed22253b',
       name: 'Woodard',
@@ -157,6 +165,7 @@ export const newVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1567095761054-7a02e69e5c43?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7ef4b0a553e555e4695e',
       name: 'Parsons Flowers',
@@ -175,6 +184,7 @@ export const newVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1620336655055-088d06e36bf0?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7ef4b98b0a33c0373903',
       name: 'Battle',
@@ -193,6 +203,7 @@ export const newVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1521133573892-e44906baee46?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7ef44c7d30c7ad0a87f9',
       name: 'Zimmerman Puckett',
@@ -211,6 +222,7 @@ export const newVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1593085512500-5d55148d6f0d?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2FydG9vbnxlbnwwfHwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7ef4a9a2f8bf06635fce',
       name: 'Lawson Moran',
@@ -232,6 +244,7 @@ export const pixelVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f01208ce1e7be6c48e5',
       name: 'Ramirez',
@@ -250,6 +263,7 @@ export const pixelVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1589973033042-acd254cb2283?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzF8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f010aa35b66874ac011',
       name: 'Woodward',
@@ -268,6 +282,7 @@ export const pixelVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1594007759138-855170ec8dc0?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f0159798576734f1eb2',
       name: 'Zamora',
@@ -286,6 +301,7 @@ export const pixelVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1498036882173-b41c28a8ba34?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f018f1bb9ef832ff5c9',
       name: 'Norton Charles',
@@ -304,6 +320,7 @@ export const pixelVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1583429741726-10d5a01b8efb?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTMxfHxhbmltZXxlbnwwfDF8MHx8fDA%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f015ffb96ed30ba229a',
       name: 'Page',
@@ -322,6 +339,7 @@ export const pixelVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1622160973081-d8ae262b32c6?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDR8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f011db00dc06028090c',
       name: 'Monroe Carver',
@@ -340,6 +358,7 @@ export const pixelVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1632506823413-200b3d091e90?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTF8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f015d900c19c634862c',
       name: 'Reilly Larsen',
@@ -358,6 +377,7 @@ export const pixelVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1522548665147-390c295cd637?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTJ8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f01faa36a61615b321c',
       name: 'Watts',
@@ -376,6 +396,7 @@ export const pixelVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTd8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f0104b58c22b5af1780',
       name: 'Brooks',
@@ -394,6 +415,7 @@ export const pixelVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1429087969512-1e85aab2683d?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTh8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f01fd0c9750cb3e6df8',
       name: 'Gretchen Thornton',
@@ -415,6 +437,7 @@ export const youMayAlsoLikeVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1500099817043-86d46000d58f?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjB8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f050e1d20ee78efae8e',
       name: 'Acevedo Copeland',
@@ -434,6 +457,7 @@ export const youMayAlsoLikeVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1606663889134-b1dedb5ed8b7?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjJ8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f050c261c2061153be7',
       name: 'Guzman Morrison',
@@ -453,6 +477,7 @@ export const youMayAlsoLikeVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1606663889439-d732b9e58816?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjZ8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f0547af4be22742f2d1',
       name: 'Wall Haynes',
@@ -471,6 +496,7 @@ export const youMayAlsoLikeVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1668119064420-fb738fb05e32?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTQyfHxhbmltZXxlbnwwfDF8MHx8fDA%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f05e21e74661d46cdf9',
       name: 'Guy',
@@ -489,6 +515,7 @@ export const youMayAlsoLikeVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1604893818324-193544f110fd?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Njd8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f053b0530a5d901f395',
       name: 'Todd',
@@ -507,6 +534,7 @@ export const youMayAlsoLikeVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1605125207352-e8512d068ed7?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Njh8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f05abfbb360b0ded366',
       name: 'Lori Powers',
@@ -525,6 +553,7 @@ export const youMayAlsoLikeVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1630887961979-f941d415a2cf?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODB8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f053626c7afdc218885',
       name: 'Williams',
@@ -543,6 +572,7 @@ export const youMayAlsoLikeVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1637512445302-4a614d439393?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODF8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f05570117f0355cb212',
       name: 'Poole Blanchard',
@@ -561,6 +591,7 @@ export const youMayAlsoLikeVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1634926878768-2a5b3c42f139?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODd8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f05e99ac3665de1028d',
       name: 'Adams',
@@ -579,6 +610,7 @@ export const youMayAlsoLikeVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1531315630201-bb15abeb1653?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTF8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f0544afb3099ff173cf',
       name: 'Shannon Guthrie',
@@ -597,6 +629,7 @@ export const youMayAlsoLikeVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1527239441953-caffd968d952?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTl8fGFuaW1lfGVufDB8MXwwfHx8MA%3D%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f05354d0e54d71bbf67',
       name: 'Avery',
@@ -615,6 +648,7 @@ export const youMayAlsoLikeVideos = [
     vimeoId: 56282283,
     thumbnail:
       'https://images.unsplash.com/photo-1614924287937-b445a5dad0b4?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTAzfHxhbmltZXxlbnwwfDF8MHx8fDA%3D',
+    media_url: 'https://player.vimeo.com/video/952448399?h=f66b6ba1cb',
     creator: {
       id: '666c7f0537a65edc5e9afafe',
       name: 'Blair',

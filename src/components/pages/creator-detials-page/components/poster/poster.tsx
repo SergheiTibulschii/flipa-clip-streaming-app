@@ -1,7 +1,7 @@
 import styles from './styles/index.module.scss';
 import { IconButton } from '../../../../ui/button/icon-button.tsx';
 import { CaretLeftIcon } from '../../../../icons.ts';
-import { useGoBack } from '../../../../../lib/hooks/useNavigationGuard.ts';
+import { useGoBack } from '../../../../../lib/hooks/useGoBack.ts';
 
 type PosterProps = {
   poster: string;

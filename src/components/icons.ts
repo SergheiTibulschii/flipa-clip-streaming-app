@@ -2,7 +2,8 @@
 export { default as CaretDownIcon } from '../assets/svg/caret-down.svg?react';
 export { default as CaretLeftIcon } from '../assets/svg/caret-left.svg?react';
 export { default as CloseIcon } from '../assets/svg/close.svg?react';
-export { default as HeartIcon } from '../assets/svg/heart.svg?react';
+export { default as HeartIcon } from '../assets/svg/heart-outline.svg?react';
+export { default as HeartFilledIcon } from '../assets/svg/heart.svg?react';
 export { default as ProjectsIcon } from '../assets/svg/projects.svg?react';
 export { default as SearchIcon } from '../assets/svg/search.svg?react';
 export { default as ShareIcon } from '../assets/svg/share.svg?react';

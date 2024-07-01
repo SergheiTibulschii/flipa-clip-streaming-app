@@ -4,6 +4,7 @@ import { text } from '../../../lib/text.ts';
 import { Link } from 'react-router-dom';
 import { pageRoutes } from '../../../lib/page-routes.ts';
 import clsx from 'clsx';
+import { useSupabaseVideo } from '../../../lib/hooks/useSupabaseVideo.ts';
 
 type CardProps = {
   title: string;
@@ -14,14 +15,8 @@ type CardProps = {
   className?: string;
 };
 
-export const Card = ({
-  title,
-  id,
-  views = 0,
-  likes = 0,
-  coverImageSrc,
-  className,
-}: CardProps) => {
+export const Card = ({ title, id, coverImageSrc, className }: CardProps) => {
+  const supabaseVideo = useSupabaseVideo(String(id));
   const cns = clsx('block', className);
   return (
     <Link
@@ -41,10 +36,10 @@ export const Card = ({
         </div>
         <div className="mt-1 text-[9px] text-gray-secondary font-bold">
           <span>
-            {abbreviateNumber(likes)} {text.likes}
+            {abbreviateNumber(supabaseVideo?.likes_count ?? 0)} {text.likes}
           </span>
           <span className="ml-1">
-            {abbreviateNumber(views)} {text.views}
+            {abbreviateNumber(supabaseVideo?.views_count ?? 0)} {text.views}
           </span>
         </div>
       </div>

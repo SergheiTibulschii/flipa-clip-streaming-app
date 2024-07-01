@@ -13,6 +13,7 @@ import {
 import { useParams } from 'react-router-dom';
 import { Typography } from '../../ui/typography';
 import { text } from '../../../lib/text.ts';
+import { VideoDetailsProvider } from '../../../context/video-details-context';
 
 export const VideoDetailsPage = () => {
   const { videoId } = useParams();
@@ -31,41 +32,43 @@ export const VideoDetailsPage = () => {
   }
 
   return (
-    <MainLayout displayHeader={false}>
-      <Container>
-        <Poster
-          vimeoId={video.vimeoId}
-          poster={PosterImg}
-          likes={video.likes}
-          views={video.views}
-        />
-        <VideoDetails
-          key={videoId}
-          creator={{
-            id: video.creator.id,
-            name: video.creator.name,
-            thumbnail: AvatarImg,
-          }}
-          title={video.title}
-          description={video.description}
-        />
-        <div className="mt-8">
-          <StandardCarousel title="You may also like">
-            {youMayAlsoLikeVideos.map(
-              ({ likes, id, views, title, thumbnail }) => (
-                <Card
-                  id={id}
-                  key={id}
-                  title={title}
-                  likes={likes}
-                  views={views}
-                  coverImageSrc={thumbnail}
-                />
-              )
-            )}
-          </StandardCarousel>
-        </div>
-      </Container>
-    </MainLayout>
+    <VideoDetailsProvider>
+      <MainLayout displayHeader={false}>
+        <Container>
+          <Poster
+            videoId={video.id}
+            poster={PosterImg}
+            authorId={video.creator.id}
+            videoLink={video.media_url}
+          />
+          <VideoDetails
+            key={videoId}
+            creator={{
+              id: video.creator.id,
+              name: video.creator.name,
+              thumbnail: AvatarImg,
+            }}
+            title={video.title}
+            description={video.description}
+          />
+          <div className="mt-8">
+            <StandardCarousel title="You may also like">
+              {youMayAlsoLikeVideos.map(
+                ({ likes, id, views, title, thumbnail }) => (
+                  <Card
+                    id={id}
+                    key={id}
+                    title={title}
+                    likes={likes}
+                    views={views}
+                    coverImageSrc={thumbnail}
+                  />
+                )
+              )}
+            </StandardCarousel>
+          </div>
+        </Container>
+      </MainLayout>
+    </VideoDetailsProvider>
   );
 };
