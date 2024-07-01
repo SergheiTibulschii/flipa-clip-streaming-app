@@ -12,18 +12,18 @@ export type Database = {
       author_stats: {
         Row: {
           author_id: string
-          likes_count: number | null
-          views_count: number | null
+          likes_count: number
+          views_count: number
         }
         Insert: {
           author_id: string
-          likes_count?: number | null
-          views_count?: number | null
+          likes_count: number
+          views_count: number
         }
         Update: {
           author_id?: string
-          likes_count?: number | null
-          views_count?: number | null
+          likes_count?: number
+          views_count?: number
         }
         Relationships: []
       }
@@ -46,41 +46,26 @@ export type Database = {
           user_id?: string
           video_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "likes_author_id_fkey"
-            columns: ["author_id"]
-            isOneToOne: false
-            referencedRelation: "author_stats"
-            referencedColumns: ["author_id"]
-          },
-          {
-            foreignKeyName: "likes_video_id_fkey"
-            columns: ["video_id"]
-            isOneToOne: false
-            referencedRelation: "video_stats"
-            referencedColumns: ["video_id"]
-          },
-        ]
+        Relationships: []
       }
       video_stats: {
         Row: {
           author_id: string | null
-          likes_count: number | null
+          likes_count: number
           video_id: string
-          views_count: number | null
+          views_count: number
         }
         Insert: {
           author_id?: string | null
-          likes_count?: number | null
+          likes_count: number
           video_id: string
-          views_count?: number | null
+          views_count: number
         }
         Update: {
           author_id?: string | null
-          likes_count?: number | null
+          likes_count?: number
           video_id?: string
-          views_count?: number | null
+          views_count?: number
         }
         Relationships: []
       }
@@ -103,22 +88,7 @@ export type Database = {
           user_id?: string
           video_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "views_author_id_fkey"
-            columns: ["author_id"]
-            isOneToOne: false
-            referencedRelation: "author_stats"
-            referencedColumns: ["author_id"]
-          },
-          {
-            foreignKeyName: "views_video_id_fkey"
-            columns: ["video_id"]
-            isOneToOne: false
-            referencedRelation: "video_stats"
-            referencedColumns: ["video_id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
