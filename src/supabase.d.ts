@@ -50,19 +50,19 @@ export type Database = {
       }
       video_stats: {
         Row: {
-          author_id: string | null
+          author_id: string
           likes_count: number
           video_id: string
           views_count: number
         }
         Insert: {
-          author_id?: string | null
+          author_id: string
           likes_count: number
           video_id: string
           views_count: number
         }
         Update: {
-          author_id?: string | null
+          author_id?: string
           likes_count?: number
           video_id?: string
           views_count?: number
@@ -110,6 +110,19 @@ export type Database = {
           video_id: string
           likes_count: number
           views_count: number
+        }[]
+      }
+      get_video_stats_with_user_like: {
+        Args: {
+          videoid: string
+          userid: string
+        }
+        Returns: {
+          video_id: string
+          author_id: string
+          views_count: number
+          likes_count: number
+          user_liked: boolean
         }[]
       }
     }

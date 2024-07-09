@@ -4,34 +4,19 @@ import { Poster } from './components/poster/poster.tsx';
 import { StandardCarousel } from '../../elements/standard-carousel';
 import { Card } from '../../elements/card/card.tsx';
 import { VideoDetails } from './components/video-details';
-import AvatarImg from '../../../assets/avatar.png';
 import PosterImg from '../../../assets/video-details-banner.jpg';
-import {
-  allVideos,
-  youMayAlsoLikeVideos,
-} from '../../../data/carousel-data.ts';
-import { useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { useLoaderData, useParams } from 'react-router-dom';
 import { Typography } from '../../ui/typography';
 import { text } from '../../../lib/text.ts';
 import { VideoDetailsProvider } from '../../../context/video-details-context';
-import { VimeoVideoModal } from '../../elements/vimeo-video-modal.tsx';
-import { useEffect, useState } from 'react';
-import { useGoBack } from '../../../lib/hooks/useGoBack.ts';
+import { VideoDetailsLoaderType } from '../../../lib/types/video-details-types.ts';
+import { useAtomValue } from 'jotai/index';
+import { videosWithDefaultAtom } from '../../../lib/jotai/atoms/videos';
 
 export const VideoDetailsPage = () => {
   const { videoId } = useParams();
-  const video = allVideos.find(({ id }) => id === videoId)!;
-  const [query] = useSearchParams();
-  const [playVideoUrl, setPlayVideoUrl] = useState<string | null>(
-    query.get('videoUrl')
-  );
-
-  const location = useLocation();
-  const goBack = useGoBack();
-
-  useEffect(() => {
-    setPlayVideoUrl(query.get('videoUrl'));
-  }, [location.search, query]);
+  const video = useLoaderData() as VideoDetailsLoaderType;
+  const videos = useAtomValue(videosWithDefaultAtom);
 
   if (!video) {
     return (
@@ -46,55 +31,36 @@ export const VideoDetailsPage = () => {
   }
 
   return (
-    <>
-      <VideoDetailsProvider>
-        <MainLayout displayHeader={false}>
-          <Container>
-            <Poster
-              videoId={video.id}
-              poster={PosterImg}
-              authorId={video.creator.id}
-              videoLink={video.media_url}
-            />
-            <VideoDetails
-              key={videoId}
-              creator={{
-                id: video.creator.id,
-                name: video.creator.name,
-                thumbnail: AvatarImg,
-              }}
-              title={video.title}
-              description={video.description}
-            />
-            <div className="mt-8">
-              <StandardCarousel title="You may also like">
-                {youMayAlsoLikeVideos.map(
-                  ({ likes, id, views, title, thumbnail }) => (
-                    <Card
-                      id={id}
-                      key={id}
-                      title={title}
-                      likes={likes}
-                      views={views}
-                      coverImageSrc={thumbnail}
-                    />
-                  )
-                )}
-              </StandardCarousel>
-            </div>
-          </Container>
-        </MainLayout>
-      </VideoDetailsProvider>
-      {playVideoUrl && (
-        <VimeoVideoModal
-          videoId={video.id}
-          authorId={video.creator.id}
-          source={playVideoUrl}
-          onClose={() => {
-            goBack();
-          }}
-        />
-      )}
-    </>
+    <VideoDetailsProvider>
+      <MainLayout displayHeader={false}>
+        <Container>
+          <Poster
+            videoId={video.id}
+            poster={PosterImg}
+            authorId={video.author_id}
+          />
+          <VideoDetails
+            key={videoId}
+            authorId={video.author_id}
+            title={video.title}
+            description={video.description}
+          />
+          <div className="mt-8">
+            <StandardCarousel title="You may also like">
+              {videos
+                .filter((v) => v.tag === 'upcomming')
+                .map(({ title, id, artwork_url }) => (
+                  <Card
+                    id={id}
+                    key={id}
+                    title={title}
+                    coverImageSrc={artwork_url}
+                  />
+                ))}
+            </StandardCarousel>
+          </div>
+        </Container>
+      </MainLayout>
+    </VideoDetailsProvider>
   );
 };

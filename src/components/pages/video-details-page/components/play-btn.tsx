@@ -6,14 +6,13 @@ import { useNavigate } from 'react-router-dom';
 
 type PlayBtnProps = {
   videoId: number | string;
-  videoLink: string;
 };
 
-export const PlayBtn = ({ videoId, videoLink }: PlayBtnProps) => {
+export const PlayBtn = ({ videoId }: PlayBtnProps) => {
   const navigate = useNavigate();
 
   const handleClick = debounce(async () => {
-    navigate(pageRoutes.video.play(videoId, encodeURIComponent(videoLink)));
+    navigate(pageRoutes.video.play(videoId));
   }, 1000);
 
   return <Button onClick={handleClick}>{text.play}</Button>;

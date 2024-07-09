@@ -6,18 +6,16 @@ import { CreatorDetails } from './components/creator-details';
 import { Creators } from '../../elements/creators';
 import { StandardCarousel } from '../../elements/standard-carousel';
 import { Card } from '../../elements/card/card.tsx';
-import ThumbnailImg from '../../../assets/thumbnail.jpeg';
-import { useParams } from 'react-router-dom';
-import {
-  allCreators,
-  youMayAlsoLikeVideos,
-} from '../../../data/carousel-data.ts';
+import { useLoaderData } from 'react-router-dom';
 import { Typography } from '../../ui/typography';
 import { text } from '../../../lib/text.ts';
+import { AuthorType } from '../../../lib/types/authors.ts';
+import { useAtomValue } from 'jotai';
+import { videosWithDefaultAtom } from '../../../lib/jotai/atoms/videos';
 
 export const CreatorDetialsPage = () => {
-  const { creatorId } = useParams();
-  const creator = allCreators.find(({ id }) => id === creatorId)!;
+  const creator = useLoaderData() as AuthorType;
+  const videos = useAtomValue(videosWithDefaultAtom);
 
   if (!creator) {
     return (
@@ -36,19 +34,19 @@ export const CreatorDetialsPage = () => {
       <Container>
         <div className="pb-10 lg:pb-14">
           <Poster poster={CreatorPosterImg} />
-          <CreatorDetails creator={creator} description={creator.about} />
+          <CreatorDetails author={creator} description={creator.bio} />
           <div className="mt-8">
             <StandardCarousel title="You may also like">
-              {youMayAlsoLikeVideos.map(({ likes, id, views, title }) => (
-                <Card
-                  id={id}
-                  key={id}
-                  title={title}
-                  likes={likes}
-                  views={views}
-                  coverImageSrc={ThumbnailImg}
-                />
-              ))}
+              {videos
+                .filter((v) => v.tag === 'you may also like')
+                .map(({ id, title, artwork_url }) => (
+                  <Card
+                    id={id}
+                    key={id}
+                    title={title}
+                    coverImageSrc={artwork_url}
+                  />
+                ))}
             </StandardCarousel>
           </div>
           <div className="mt-8">

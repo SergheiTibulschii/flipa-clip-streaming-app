@@ -1,15 +1,19 @@
+import { useLoaderData } from 'react-router-dom';
+import { IconButton } from '../../ui/button/icon-button.tsx';
+import { CloseIcon, ShareIcon } from '../../icons.ts';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Player from '@vimeo/player';
-import { createPortal } from 'react-dom';
-import { IconButton } from '../ui/button/icon-button.tsx';
-import { CloseIcon, ShareIcon } from '../icons.ts';
-import { viewVideo } from '../../lib/supabase/viewVideo.ts';
-import { useAppStore } from '../../context/app-store-context';
+import { useAppStore } from '../../../context/app-store-context';
 import { useSetAtom } from 'jotai/index';
-import { videosIncrementViewsAtom } from '../../lib/jotai/atoms/videos';
-import { IdType } from '../../lib/types';
+import { videosIncrementViewsAtom } from '../../../lib/jotai/atoms/videos';
+import { VideoType } from '../../../lib/types/videos.ts';
+import { useGoBack } from '../../../lib/hooks/useGoBack.ts';
+import { viewVideo } from '../../../lib/supabase/viewVideo.ts';
+import Player from '@vimeo/player';
+import { Loader } from '../../ui/loader.tsx';
 
-const prepareLink = (url: string) => {
+const prepareLink = (url?: string) => {
+  if (!url) return 'https://player.vimeo.com/video/x';
+
   const videoLink = new URL(url);
   videoLink.searchParams.set('playsinline', '1');
   videoLink.searchParams.set('transparent', '0');
@@ -19,60 +23,45 @@ const prepareLink = (url: string) => {
   return videoLink.toString();
 };
 
-type VimeoEmbeddingProps = {
-  source: string;
-  videoId: IdType;
-  authorId: IdType;
-  onClose: () => void;
-};
-export const VimeoVideoModal = ({
-  source,
-  onClose,
-  videoId,
-  authorId,
-}: VimeoEmbeddingProps) => {
+export const PlayerPage = () => {
+  const video = useLoaderData() as VideoType;
+  const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const ref = useRef<HTMLIFrameElement | null>(null);
   const [videoTitle, setVideoTitle] = useState<string>();
-  const vimeoUrl = prepareLink(decodeURIComponent(source));
   const { userId } = useAppStore();
   const incrementViews = useSetAtom(videosIncrementViewsAtom);
-
-  const handleClose = useCallback(() => {
-    onClose();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const goBack = useGoBack();
 
   useEffect(() => {
+    if (!video) return;
+
     const trackView = async () => {
       const { error } = await viewVideo(
-        String(videoId),
+        String(video?.id),
         userId,
-        String(authorId)
+        String(video?.author_id)
       );
 
       if (!error) {
         incrementViews({
-          videoId: String(videoId),
-          authorId: String(authorId),
+          videoId: String(video?.id),
+          authorId: String(video?.author_id),
         });
       }
     };
 
     trackView();
-  }, []);
+  }, [video?.id, video?.author_id]);
 
   useEffect(() => {
     if (ref.current) {
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
-          handleClose();
-        }
-      };
-
-      document.addEventListener('keydown', handleKeyDown);
-
       const newPlayer = new Player(ref.current);
+
+      newPlayer.on('loaded', () => {
+        setIsLoading(false);
+      });
+
       newPlayer.on('enterpictureinpicture', () => {
         if (containerRef.current) {
           containerRef.current.style.visibility = 'hidden';
@@ -91,14 +80,17 @@ export const VimeoVideoModal = ({
       });
 
       return () => {
-        console.log('clean up');
         newPlayer.destroy();
-        document.removeEventListener('keydown', handleKeyDown);
       };
     }
-  }, [handleClose]);
+  }, []);
 
-  return createPortal(
+  const handleClose = useCallback(() => {
+    goBack();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
     <div ref={containerRef} className="fixed inset-0 z-50 flex flex-col">
       <div className="bg-dark text-white flex gap-8 items-center justify-between px-5 py-3">
         <div className="font-bold leading-1.5 truncate" title={videoTitle}>
@@ -113,13 +105,19 @@ export const VimeoVideoModal = ({
           </IconButton>
         </div>
       </div>
-      <iframe
-        ref={ref}
-        className="relative flex-1"
-        src={vimeoUrl}
-        allowFullScreen
-      ></iframe>
-    </div>,
-    document.body
+      <div className="relative flex-1 bg-dark">
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Loader />
+          </div>
+        )}
+        <iframe
+          ref={ref}
+          className="image"
+          src={prepareLink(video?.media_url)}
+          allowFullScreen
+        ></iframe>
+      </div>
+    </div>
   );
 };

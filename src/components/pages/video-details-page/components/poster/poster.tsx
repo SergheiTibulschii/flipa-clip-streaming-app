@@ -12,15 +12,9 @@ type PosterProps = {
   videoId: string | number;
   poster: string;
   authorId: string | number;
-  videoLink: string;
 };
 
-export const Poster = ({
-  videoId,
-  poster,
-  authorId,
-  videoLink,
-}: PosterProps) => {
+export const Poster = ({ videoId, poster, authorId }: PosterProps) => {
   const goBack = useGoBack();
   const { isLiked } = useVideoDetails();
   const supabaseVideo = useSupabaseVideo(String(videoId));
@@ -45,7 +39,7 @@ export const Poster = ({
         </div>
         <div className="mt-auto flex gap-2">
           <div className="flex gap-2">
-            <PlayBtn videoId={videoId} videoLink={videoLink} />
+            <PlayBtn videoId={videoId} />
             <LikeBtn
               key={videoId}
               videoId={String(videoId)}
@@ -58,8 +52,8 @@ export const Poster = ({
           </div>
           <VideoStats
             className="ml-auto"
-            views={supabaseVideo?.views_count || 0}
-            likes={supabaseVideo?.likes_count || 0}
+            views={supabaseVideo?.stats?.views_count || 0}
+            likes={supabaseVideo?.stats?.likes_count || 0}
           />
         </div>
       </div>

@@ -7,3 +7,5 @@ export type RemoveIndex<T> = {
       ? never
       : K]: T[K];
 };
+
+export type IdType = string | number;

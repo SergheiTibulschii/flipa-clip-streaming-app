@@ -1,3 +1,3 @@
-import { VideoStatsType } from './supabase-custom-types.ts';
+import { VideoType } from './videos.ts';
 
-export type VideoDetailsLoaderType = VideoStatsType & { isLiked: boolean };
+export type VideoDetailsLoaderType = VideoType & { isLiked: boolean };

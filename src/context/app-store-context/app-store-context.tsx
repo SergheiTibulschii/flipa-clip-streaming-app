@@ -1,12 +1,19 @@
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import { getOrCreateUserId } from '../../lib/utils/getOrCreateUserId.ts';
 import { AppStoreContext, AppStoreMethodsContext } from './context.ts';
+import { useScrollbarWidth } from '../../lib/hooks/useScrollbarWidth.ts';
+import { useAtomValue } from 'jotai/index';
+import { videosWithDefaultLoadable } from '../../lib/jotai/atoms/videos';
+import { Loader } from '../../components/elements/loader.tsx';
+import { MainLayout } from '../../components/layout';
+import { Container } from '../../components/layout/container';
+import { Typography } from '../../components/ui/typography';
+import { text } from '../../lib/text.ts';
 
 export const AppStoreProvider = ({ children }: PropsWithChildren) => {
+  const videos = useAtomValue(videosWithDefaultLoadable);
   const [userId, setUserId] = useState<string>('');
-  /* request creators list along with total views */
-  /* request videos for sliders along with likes and views per video  */
-  /* initialize the state which holds counters for videos and creators total views */
+  useScrollbarWidth();
 
   useEffect(() => {
     getOrCreateUserId().then((id) => {
@@ -17,6 +24,22 @@ export const AppStoreProvider = ({ children }: PropsWithChildren) => {
   const contextValue = useMemo(() => ({ userId }), [userId]);
 
   const contextMethodsValue = useMemo(() => ({}), []);
+
+  if (videos.state === 'loading') {
+    return <Loader />;
+  }
+
+  if (videos.state === 'hasError') {
+    return (
+      <MainLayout>
+        <Container>
+          <Typography className="mt-10" variant="h4">
+            {text.applicationError}
+          </Typography>
+        </Container>
+      </MainLayout>
+    );
+  }
 
   return (
     <AppStoreMethodsContext.Provider value={contextMethodsValue}>

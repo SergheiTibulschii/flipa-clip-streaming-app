@@ -103,12 +103,13 @@ export const SlidingPanel = ({
 
   useEffect(() => {
     window.addEventListener('resize', setInitialHeight);
-    setInitialHeight();
+
+    if (!isLoading) setInitialHeight();
 
     return () => {
       window.removeEventListener('resize', setInitialHeight);
     };
-  }, []);
+  }, [isLoading]);
 
   useEffect(() => {
     const handler = () => setToggleClassOnInvisibleItems(isLoading);

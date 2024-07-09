@@ -11,16 +11,21 @@ import {
   BecomeCreatorPage,
   HomePage,
 } from './components/pages';
-import { Bootstrap } from './components/bootstrap.tsx';
 import { createClient } from '@supabase/supabase-js';
 import { env } from './lib/env.ts';
 import { Database } from './supabase';
 import { getOrCreateUserId } from './lib/utils/getOrCreateUserId.ts';
 import { VideoDetailsLoaderType } from './lib/types/video-details-types.ts';
 import { AppStoreProvider } from './context/app-store-context';
-import { getUserVideoLike } from './lib/supabase/getUserVideoLike.ts';
 import { getVideoStats } from './lib/supabase/getVideoStats.ts';
 import { VimeoProvider } from './context/vimeo-context';
+import { apiV1 } from './api/axios';
+import { routes } from './api';
+import { VideoType } from './lib/types/videos.ts';
+import { Suspense } from 'react';
+import { Loader } from './components/elements/loader.tsx';
+import { PlayerPage } from './components/pages/player-page';
+import { ErrorBoundary } from './components/error-boundary.tsx';
 
 export const supabase = createClient<Database>(
   env.VITE_SUPABASE_URL,
@@ -33,55 +38,71 @@ const router = createBrowserRouter([
     element: <HomePage />,
   },
   {
+    path: 'video/:videoId/play',
+    element: <PlayerPage />,
+    loader: async ({ params }): Promise<VideoType | null> => {
+      if (!params.videoId) {
+        return null;
+      }
+
+      const { data } = await apiV1
+        .get<VideoType>(routes.videos.one(params.videoId))
+        .catch(() => ({ data: null }));
+
+      if (!data) {
+        return null;
+      }
+
+      return data;
+    },
+  },
+  {
     path: '/video/:videoId',
     element: <VideoDetailsPage />,
-    loader: async ({ params }): Promise<VideoDetailsLoaderType> => {
+    loader: async ({ params }): Promise<VideoDetailsLoaderType | null> => {
       if (!params.videoId) {
-        return {
-          video_id: '',
-          views_count: 0,
-          likes_count: 0,
-          author_id: '',
-          isLiked: false,
-        };
+        return null;
       }
       const userId = await getOrCreateUserId();
 
-      const [likesData, videoStatsData] = await Promise.all([
-        getUserVideoLike(params.videoId, userId),
-        getVideoStats(params.videoId),
+      const [videoStatsData, video] = await Promise.all([
+        getVideoStats(params.videoId, userId),
+        apiV1
+          .get<VideoType>(routes.videos.one(parseInt(params.videoId)))
+          .catch(() => null),
       ]);
+      const { user_liked, ...stats } = videoStatsData.data || {
+        video_id: params.videoId,
+        views_count: 0,
+        likes_count: 0,
+        author_id: video?.data.author_id || '',
+        user_liked: false,
+      };
 
-      if (likesData.error || videoStatsData.error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error({
-            likesDataError: likesData.error,
-            videoStatsDataError: videoStatsData.error,
-          });
-        }
-
-        return {
-          isLiked: likesData.error ? false : !!likesData.data,
-          ...(videoStatsData.error
-            ? {
-                video_id: params.videoId,
-                views_count: 0,
-                likes_count: 0,
-                author_id: '',
-              }
-            : videoStatsData.data),
-        };
+      if (!video?.data) {
+        return null;
       }
 
       return {
-        isLiked: !!likesData.data,
-        ...videoStatsData.data,
+        isLiked: user_liked,
+        ...video?.data,
+        stats,
       };
     },
   },
   {
     path: '/creator/:creatorId',
     element: <CreatorDetialsPage />,
+    loader: async ({ params }) => {
+      if (!params.creatorId) {
+        return null;
+      }
+
+      const { data } = await apiV1
+        .get(routes.authors.one(params.creatorId))
+        .catch(() => ({ data: null }));
+      return data;
+    },
   },
   {
     path: '/become-creator',
@@ -94,12 +115,15 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <AppStoreProvider>
-    <EnterLeaveObserverProvider>
-      <Bootstrap />
-      <VimeoProvider>
-        <RouterProvider router={router} />
-      </VimeoProvider>
-    </EnterLeaveObserverProvider>
-  </AppStoreProvider>
+  <ErrorBoundary>
+    <Suspense fallback={<Loader />}>
+      <AppStoreProvider>
+        <EnterLeaveObserverProvider>
+          <VimeoProvider>
+            <RouterProvider router={router} />
+          </VimeoProvider>
+        </EnterLeaveObserverProvider>
+      </AppStoreProvider>
+    </Suspense>
+  </ErrorBoundary>
 );

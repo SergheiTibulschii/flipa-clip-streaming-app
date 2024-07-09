@@ -7,7 +7,7 @@ import {
   unlikeVideo,
 } from '../../../../lib/supabase/toggleVideoLike.ts';
 import { useSetAtom } from 'jotai';
-import { videosToggleLikesAtom } from '../../../../lib/jotai/atoms/videos.ts';
+import { videosToggleLikesAtom } from '../../../../lib/jotai/atoms/videos';
 import { useAppStore } from '../../../../context/app-store-context';
 
 type LikeBtnType = {

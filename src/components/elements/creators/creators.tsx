@@ -1,25 +1,29 @@
 import { text } from '../../../lib/text.ts';
 import { CreatorsItem } from './components/creators-item/creators-item.tsx';
 import { CreatorsItemSkeleton } from './components/creators-item/creators-item-skeleton.tsx';
-import { partialCreators } from '../../../data/carousel-data.ts';
 import { SlidingPanel } from '../sliding-panel';
 import { useAtomValue } from 'jotai';
 import { authorsWithDefaultLoadable } from '../../../lib/jotai/atoms/authors.ts';
 
 export const Creators = () => {
-  const creators = useAtomValue(authorsWithDefaultLoadable);
+  const authors = useAtomValue(authorsWithDefaultLoadable);
+
+  if (authors.state === 'hasError') {
+    return null;
+  }
 
   return (
     <SlidingPanel
       title={text.creators}
-      isLoading={creators.state === 'loading'}
+      isLoading={authors.state === 'loading'}
       skeletonItem={CreatorsItemSkeleton}
     >
-      {partialCreators.map(({ name, thumbnail, id }) => {
-        return (
-          <CreatorsItem key={id} id={id} name={name} thumbnail={thumbnail} />
-        );
-      })}
+      {authors.state !== 'loading' &&
+        authors.data.map(({ name, picture, id }) => {
+          return (
+            <CreatorsItem key={id} id={id} name={name} thumbnail={picture} />
+          );
+        })}
     </SlidingPanel>
   );
 };

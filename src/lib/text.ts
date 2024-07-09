@@ -23,4 +23,5 @@ export const text = {
   pageDoesNotExist: 'The page you are looking for does not exist.',
   videoDoesNotExist: 'The video you are looking for does not exist.',
   creatorDoesNotExist: 'The creator you are looking for does not exist.',
+  applicationError: 'An error occurred while processing your request.',
 };

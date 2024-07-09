@@ -2,17 +2,15 @@ import { Typography } from '../../../../ui/typography';
 import { ExpandableText } from '../../../../elements/expandable-text/expandable-text.tsx';
 import { Button } from '../../../../ui/button';
 import { text } from '../../../../../lib/text.ts';
+import { AuthorType } from '../../../../../lib/types/authors.ts';
 
 type CreatorDetailsProps = {
-  creator: {
-    name: string;
-    thumbnail?: string;
-  };
+  author: AuthorType;
   description: string;
 };
 
 export const CreatorDetails = ({
-  creator,
+  author,
   description,
 }: CreatorDetailsProps) => {
   return (
@@ -20,12 +18,12 @@ export const CreatorDetails = ({
       <div className="-mt-[50px]">
         <img
           className="image w-[100px] h-[100px] rounded-full mx-auto"
-          src={creator.thumbnail}
+          src={author.picture}
           alt=""
         />
       </div>
       <Typography className="mt-10 line-clamp-2" variant="h4">
-        {creator.name}
+        {author.name}
       </Typography>
       <ExpandableText className="mt-2" text={description} />
       <div className="flex gap-2 mt-5">

@@ -4,30 +4,26 @@ import { Button } from '../../../../ui/button';
 import { text } from '../../../../../lib/text.ts';
 import { ExpandableText } from '../../../../elements/expandable-text/expandable-text.tsx';
 import { ProjectsIcon } from '../../../../icons.ts';
+import { IdType } from '../../../../../lib/types';
+import { Suspense } from 'react';
+import { AvatarSkeleton } from '../../../../elements/avatar/avatar-skeleton.tsx';
 
 type VideoDetailsProps = {
   title: string;
   description: string;
-  creator: {
-    id: number | string;
-    name?: string;
-    thumbnail?: string;
-  };
+  authorId: IdType;
 };
 
 export const VideoDetails = ({
   title,
   description,
-  creator,
+  authorId,
 }: VideoDetailsProps) => {
   return (
     <div className="py-6">
-      <Avatar
-        id={creator.id}
-        className="mb-2"
-        name={creator.name}
-        thumbnail={creator.thumbnail}
-      />
+      <Suspense fallback={<AvatarSkeleton />}>
+        <Avatar id={authorId} className="mb-2" />
+      </Suspense>
       <Typography className="line-clamp-2 capitalize" variant="h4">
         {title}
       </Typography>
