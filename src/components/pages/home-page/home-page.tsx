@@ -6,8 +6,16 @@ import { NewVideosCarousel } from '../../elements/standard-carousel/carousels/ne
 import { PixelVideosCarousel } from '../../elements/standard-carousel/carousels/pixel-videos-carousel.tsx';
 import { sendMessage } from '../../../lib/utils/tracking.ts';
 import { IdType } from '../../../lib/types';
+import { useEffect } from 'react';
 
 export const HomePage = () => {
+  useEffect(() => {
+    sendMessage({
+      event: 'flips_view_home',
+      params: {},
+    });
+  }, []);
+
   const handleCreatorsClick = (authorId: IdType) => {
     sendMessage({
       event: 'flips_click',

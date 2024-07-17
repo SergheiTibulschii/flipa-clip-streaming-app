@@ -12,11 +12,25 @@ import { VideoDetailsProvider } from '../../../context/video-details-context';
 import { VideoDetailsLoaderType } from '../../../lib/types/video-details-types.ts';
 import { useAtomValue } from 'jotai/index';
 import { videosWithDefaultAtom } from '../../../lib/jotai/atoms/videos';
+import { useEffect } from 'react';
+import { sendMessage } from '../../../lib/utils/tracking.ts';
 
 export const VideoDetailsPage = () => {
   const { videoId } = useParams();
   const video = useLoaderData() as VideoDetailsLoaderType;
   const videos = useAtomValue(videosWithDefaultAtom);
+
+  useEffect(() => {
+    if (video.id) {
+      sendMessage({
+        event: 'flips_view',
+        params: {
+          id: String(video.id),
+          type: 'media',
+        },
+      });
+    }
+  }, [video?.id]);
 
   if (!video) {
     return (

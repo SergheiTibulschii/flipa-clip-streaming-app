@@ -14,10 +14,23 @@ import { useAtomValue } from 'jotai';
 import { videosWithDefaultAtom } from '../../../lib/jotai/atoms/videos';
 import { IdType } from '../../../lib/types';
 import { sendMessage } from '../../../lib/utils/tracking.ts';
+import { useEffect } from 'react';
 
 export const CreatorDetialsPage = () => {
   const creator = useLoaderData() as AuthorType;
   const videos = useAtomValue(videosWithDefaultAtom);
+
+  useEffect(() => {
+    if (creator.id) {
+      sendMessage({
+        event: 'flips_view',
+        params: {
+          id: String(creator.id),
+          type: 'creator',
+        },
+      });
+    }
+  }, [creator?.id]);
 
   if (!creator) {
     return (

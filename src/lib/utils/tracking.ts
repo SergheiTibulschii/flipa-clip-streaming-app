@@ -1,4 +1,4 @@
-export type trackEventType = 'flips_click';
+export type trackEventType = 'flips_click' | 'flips_view' | 'flips_view_home';
 
 export const sendMessage = (payload: {
   event: trackEventType;
