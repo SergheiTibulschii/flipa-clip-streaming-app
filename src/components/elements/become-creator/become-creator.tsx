@@ -3,18 +3,46 @@ import { BecomeCreatorSvg } from '../../icons.ts';
 import { Typography } from '../../ui/typography';
 import { text } from '../../../lib/text.ts';
 import { Button } from '../../ui/button';
-import { useNavigate } from 'react-router-dom';
+import { useMatches, useNavigate } from 'react-router-dom';
 import { pageRoutes } from '../../../lib/page-routes.ts';
+import {
+  hadRouterHandle,
+  hasRouterData,
+} from '../../../lib/utils/predicates.ts';
+import { sendMessage } from '../../../lib/utils/tracking.ts';
 
-type BecomeCreatorProps = {
-  onClick: () => void;
-};
-
-export const BecomeCreator = ({ onClick }: BecomeCreatorProps) => {
+export const BecomeCreator = () => {
   const navigate = useNavigate();
+  const matches = useMatches();
 
   const handleBecomeCreatorClick = () => {
-    onClick();
+    const [match] = matches;
+    const trackParams: Record<string, string> = {
+      action: 'become_creator',
+    };
+
+    if (match) {
+      if (hadRouterHandle(match.handle)) {
+        if (match.handle?.from) {
+          trackParams.from = match.handle.from;
+        }
+
+        if (match.handle?.trackType) {
+          trackParams.type = match.handle.trackType;
+        }
+      }
+
+      if (hasRouterData(match.data)) {
+        if (match.data.id) {
+          trackParams.id = String(match.data.id);
+        }
+      }
+    }
+
+    sendMessage({
+      event: 'flips_click',
+      params: trackParams,
+    });
   };
 
   return (

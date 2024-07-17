@@ -5,7 +5,6 @@ import { useScrollbarWidth } from '../../lib/hooks/useScrollbarWidth.ts';
 import { useAtomValue } from 'jotai/index';
 import { videosWithDefaultLoadable } from '../../lib/jotai/atoms/videos';
 import { Loader } from '../../components/elements/loader.tsx';
-import { MainLayout } from '../../components/layout';
 import { Container } from '../../components/layout/container';
 import { Typography } from '../../components/ui/typography';
 import { text } from '../../lib/text.ts';
@@ -31,13 +30,13 @@ export const AppStoreProvider = ({ children }: PropsWithChildren) => {
 
   if (videos.state === 'hasError') {
     return (
-      <MainLayout>
+      <div className="bg-dark w-full flex items-center">
         <Container>
           <Typography className="mt-10" variant="h4">
             {text.applicationError}
           </Typography>
         </Container>
-      </MainLayout>
+      </div>
     );
   }
 

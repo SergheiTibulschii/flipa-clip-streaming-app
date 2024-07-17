@@ -7,10 +7,5 @@ export const hadRouterHandle = (
 };
 
 export const hasRouterData = (data?: unknown): data is Entity => {
-  return (
-    typeof data === 'object' &&
-    Array.isArray(data) &&
-    data !== null &&
-    data.length > 0
-  );
+  return typeof data === 'object' && data !== null;
 };

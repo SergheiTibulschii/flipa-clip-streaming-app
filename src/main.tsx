@@ -18,7 +18,6 @@ import { getOrCreateUserId } from './lib/utils/getOrCreateUserId.ts';
 import { VideoDetailsLoaderType } from './lib/types/video-details-types.ts';
 import { AppStoreProvider } from './context/app-store-context';
 import { getVideoStats } from './lib/supabase/getVideoStats.ts';
-import { VimeoProvider } from './context/vimeo-context';
 import { apiV1 } from './api/axios';
 import { routes } from './api';
 import { VideoType } from './lib/types/videos.ts';
@@ -140,9 +139,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <Suspense fallback={<Loader />}>
       <AppStoreProvider>
         <EnterLeaveObserverProvider>
-          <VimeoProvider>
-            <RouterProvider router={router} />
-          </VimeoProvider>
+          <RouterProvider router={router} />
         </EnterLeaveObserverProvider>
       </AppStoreProvider>
     </Suspense>

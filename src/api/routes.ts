@@ -13,15 +13,17 @@ export const routePatterns = {
   becomeCreator: '/become-creator',
 };
 
+const prefix = import.meta.env.MODE === 'development' ? '/api' : '';
+
 export const routes = {
   videos: {
     list: (page: number, pageSize = defaultPageSize) =>
-      `/api/videos/?page=${page}&pageSize=${pageSize}`,
-    one: (id: IdType) => `/api/videos/${id}`,
+      `${prefix}/videos/?page=${page}&pageSize=${pageSize}`,
+    one: (id: IdType) => `${prefix}/videos/${id}`,
   },
   authors: {
     list: (page: number, pageSize = defaultPageSize) =>
-      `/api/authors/?page=${page}&pageSize=${pageSize}`,
-    one: (id: IdType) => `/api/authors/${id}`,
+      `${prefix}/authors/?page=${page}&pageSize=${pageSize}`,
+    one: (id: IdType) => `${prefix}/authors/${id}`,
   },
 };
