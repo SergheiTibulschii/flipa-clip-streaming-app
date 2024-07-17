@@ -7,7 +7,7 @@ export const useSupabaseAuthor = (authorId: string) => {
   return (
     (authors.state !== 'loading' &&
       authors.state !== 'hasError' &&
-      authors.data.find((author) => author.author_id === authorId)) ||
+      authors.data.find((author) => author.stats.author_id === authorId)) ||
     null
   );
 };

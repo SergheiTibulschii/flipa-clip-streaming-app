@@ -26,6 +26,7 @@ import { Suspense } from 'react';
 import { Loader } from './components/elements/loader.tsx';
 import { PlayerPage } from './components/pages/player-page';
 import { ErrorBoundary } from './components/error-boundary.tsx';
+import { routePatterns } from './api/routes.ts';
 
 export const supabase = createClient<Database>(
   env.VITE_SUPABASE_URL,
@@ -34,11 +35,15 @@ export const supabase = createClient<Database>(
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: routePatterns.home,
     element: <HomePage />,
+    handle: {
+      from: 'home',
+      trackType: 'home',
+    },
   },
   {
-    path: 'video/:videoId/play',
+    path: routePatterns.videos.play,
     element: <PlayerPage />,
     loader: async ({ params }): Promise<VideoType | null> => {
       if (!params.videoId) {
@@ -55,9 +60,13 @@ const router = createBrowserRouter([
 
       return data;
     },
+    handle: {
+      from: 'movie',
+      trackType: 'media',
+    },
   },
   {
-    path: '/video/:videoId',
+    path: routePatterns.videos.details,
     element: <VideoDetailsPage />,
     loader: async ({ params }): Promise<VideoDetailsLoaderType | null> => {
       if (!params.videoId) {
@@ -89,9 +98,13 @@ const router = createBrowserRouter([
         stats,
       };
     },
+    handle: {
+      from: 'movie',
+      trackType: 'media',
+    },
   },
   {
-    path: '/creator/:creatorId',
+    path: routePatterns.creator.details,
     element: <CreatorDetialsPage />,
     loader: async ({ params }) => {
       if (!params.creatorId) {
@@ -101,12 +114,20 @@ const router = createBrowserRouter([
       const { data } = await apiV1
         .get(routes.authors.one(params.creatorId))
         .catch(() => ({ data: null }));
-      return data;
+
+      return (data as unknown[])[0];
+    },
+    handle: {
+      from: 'creator',
+      trackType: 'creator',
     },
   },
   {
-    path: '/become-creator',
+    path: routePatterns.becomeCreator,
     element: <BecomeCreatorPage />,
+    handle: {
+      from: 'become-creator',
+    },
   },
   {
     path: '*',

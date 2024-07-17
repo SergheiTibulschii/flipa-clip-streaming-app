@@ -24,4 +24,5 @@ export const text = {
   videoDoesNotExist: 'The video you are looking for does not exist.',
   creatorDoesNotExist: 'The creator you are looking for does not exist.',
   applicationError: 'An error occurred while processing your request.',
+  checkThisVideoOut: 'Check this video out!',
 };

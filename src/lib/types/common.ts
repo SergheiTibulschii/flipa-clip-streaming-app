@@ -9,3 +9,12 @@ export type RemoveIndex<T> = {
 };
 
 export type IdType = string | number;
+
+export type RouterHandleType = {
+  from?: string;
+  trackType?: string;
+} | null;
+
+export type Entity = {
+  id: IdType;
+};

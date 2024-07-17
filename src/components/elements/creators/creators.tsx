@@ -4,8 +4,13 @@ import { CreatorsItemSkeleton } from './components/creators-item/creators-item-s
 import { SlidingPanel } from '../sliding-panel';
 import { useAtomValue } from 'jotai';
 import { authorsWithDefaultLoadable } from '../../../lib/jotai/atoms/authors.ts';
+import { IdType } from '../../../lib/types';
 
-export const Creators = () => {
+type CreatorsProps = {
+  onClick?: (authorId: IdType) => void;
+};
+
+export const Creators = ({ onClick }: CreatorsProps) => {
   const authors = useAtomValue(authorsWithDefaultLoadable);
 
   if (authors.state === 'hasError') {
@@ -21,7 +26,13 @@ export const Creators = () => {
       {authors.state !== 'loading' &&
         authors.data.map(({ name, picture, id }) => {
           return (
-            <CreatorsItem key={id} id={id} name={name} thumbnail={picture} />
+            <CreatorsItem
+              key={id}
+              id={id}
+              name={name}
+              thumbnail={picture}
+              onClick={onClick}
+            />
           );
         })}
     </SlidingPanel>

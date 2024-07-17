@@ -6,8 +6,17 @@ import { Button } from '../../ui/button';
 import { useNavigate } from 'react-router-dom';
 import { pageRoutes } from '../../../lib/page-routes.ts';
 
-export const BecomeCreator = () => {
+type BecomeCreatorProps = {
+  onClick: () => void;
+};
+
+export const BecomeCreator = ({ onClick }: BecomeCreatorProps) => {
   const navigate = useNavigate();
+
+  const handleBecomeCreatorClick = () => {
+    onClick();
+  };
+
   return (
     <div className={styles['become-creator']}>
       <div className={styles['become-creator__background']}>
@@ -23,6 +32,7 @@ export const BecomeCreator = () => {
         <Button
           className="mt-5"
           onClick={() => {
+            handleBecomeCreatorClick();
             navigate(pageRoutes.creator.become);
           }}
         >

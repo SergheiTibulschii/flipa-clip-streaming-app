@@ -1,22 +1,25 @@
-import { HeartFilledIcon, HeartIcon } from '../../../icons.ts';
-import { IconButton } from '../../../ui/button/icon-button.tsx';
+import { HeartFilledIcon, HeartIcon } from '../icons.ts';
+import { IconButton } from '../ui/button/icon-button.tsx';
 import { useRef, useState } from 'react';
-import { throttle } from '../../../../lib/utils/throttle.ts';
-import {
-  likeVideo,
-  unlikeVideo,
-} from '../../../../lib/supabase/toggleVideoLike.ts';
+import { throttle } from '../../lib/utils/throttle.ts';
+import { likeVideo, unlikeVideo } from '../../lib/supabase/toggleVideoLike.ts';
 import { useSetAtom } from 'jotai';
-import { videosToggleLikesAtom } from '../../../../lib/jotai/atoms/videos';
-import { useAppStore } from '../../../../context/app-store-context';
+import { videosToggleLikesAtom } from '../../lib/jotai/atoms/videos';
+import { useAppStore } from '../../context/app-store-context';
 
 type LikeBtnType = {
   videoId: string;
   authorId: string;
   isLikedDefault: boolean;
+  onClick?: (liked: boolean) => void;
 };
 
-export const LikeBtn = ({ isLikedDefault, videoId, authorId }: LikeBtnType) => {
+export const LikeBtn = ({
+  isLikedDefault,
+  videoId,
+  authorId,
+  onClick,
+}: LikeBtnType) => {
   const { userId } = useAppStore();
   const [liked, setLiked] = useState(isLikedDefault);
   const likeVideoRef = useRef<VoidFunction | null>(null);
@@ -31,6 +34,7 @@ export const LikeBtn = ({ isLikedDefault, videoId, authorId }: LikeBtnType) => {
           await incrementLikes({ videoId, authorId, type: 'decr' });
           setLiked(false);
           likeRef.current = false;
+          onClick?.(false);
         }
       } else {
         const { error } = await likeVideo(videoId, userId, authorId);
@@ -38,6 +42,7 @@ export const LikeBtn = ({ isLikedDefault, videoId, authorId }: LikeBtnType) => {
           await incrementLikes({ videoId, authorId, type: 'incr' });
           setLiked(true);
           likeRef.current = true;
+          onClick?.(true);
         }
       }
     }, 1500);

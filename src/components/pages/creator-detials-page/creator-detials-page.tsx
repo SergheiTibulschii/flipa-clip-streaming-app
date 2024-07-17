@@ -12,6 +12,8 @@ import { text } from '../../../lib/text.ts';
 import { AuthorType } from '../../../lib/types/authors.ts';
 import { useAtomValue } from 'jotai';
 import { videosWithDefaultAtom } from '../../../lib/jotai/atoms/videos';
+import { IdType } from '../../../lib/types';
+import { sendMessage } from '../../../lib/utils/tracking.ts';
 
 export const CreatorDetialsPage = () => {
   const creator = useLoaderData() as AuthorType;
@@ -28,6 +30,18 @@ export const CreatorDetialsPage = () => {
       </MainLayout>
     );
   }
+
+  const handleCreatorsClick = (authorId: IdType) => {
+    sendMessage({
+      event: 'flips_click',
+      params: {
+        from: 'creator',
+        id: String(authorId),
+        action: 'open',
+        type: 'creator',
+      },
+    });
+  };
 
   return (
     <MainLayout displayHeader={false} displayBecomeCreator={false}>
@@ -50,7 +64,7 @@ export const CreatorDetialsPage = () => {
             </StandardCarousel>
           </div>
           <div className="mt-8">
-            <Creators />
+            <Creators onClick={handleCreatorsClick} />
           </div>
         </div>
       </Container>

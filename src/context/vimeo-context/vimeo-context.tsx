@@ -63,7 +63,6 @@ const VimeoEmbedding = ({ source, onClose }: VimeoEmbeddingProps) => {
       });
 
       return () => {
-        console.log('clean up');
         newPlayer.destroy();
         document.removeEventListener('keydown', handleKeyDown);
       };

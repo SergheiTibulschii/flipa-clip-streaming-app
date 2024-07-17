@@ -4,24 +4,37 @@ import { Link } from 'react-router-dom';
 import { pageRoutes } from '../../../../../lib/page-routes.ts';
 import { useAtomValue } from 'jotai/index';
 import { authorsWithDefaultLoadable } from '../../../../../lib/jotai/atoms/authors.ts';
+import { IdType } from '../../../../../lib/types';
 
 type CreatorsItemProps = {
   id: number | string;
   name: string;
   thumbnail?: string;
+  onClick?: (authorId: IdType) => void;
 };
 
-export const CreatorsItem = ({ id, name, thumbnail }: CreatorsItemProps) => {
+export const CreatorsItem = ({
+  id,
+  name,
+  thumbnail,
+  onClick,
+}: CreatorsItemProps) => {
   const creators = useAtomValue(authorsWithDefaultLoadable);
   const viewsCount =
     (creators.state !== 'loading' &&
       creators.state !== 'hasError' &&
-      creators.data.find((c) => c.author_id === id)?.views_count) ||
+      creators.data.find((c) => c.stats.author_id === id)?.stats.views_count) ||
     0;
+
+  const handleClick = () => {
+    onClick?.(id);
+  };
+
   return (
     <Link
       to={pageRoutes.creator.details(id)}
       className="transition-opacity duration-300"
+      onClick={handleClick}
     >
       {/*{value && <div>{value.likes_count}</div>}*/}
       <div className="aspect-square rounded-full bg-gray-secondary">

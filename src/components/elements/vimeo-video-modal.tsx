@@ -91,7 +91,6 @@ export const VimeoVideoModal = ({
       });
 
       return () => {
-        console.log('clean up');
         newPlayer.destroy();
         document.removeEventListener('keydown', handleKeyDown);
       };

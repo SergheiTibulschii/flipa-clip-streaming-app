@@ -42,6 +42,7 @@ export const VideoDetailsPage = () => {
           <VideoDetails
             key={videoId}
             authorId={video.author_id}
+            videoId={String(videoId)}
             title={video.title}
             description={video.description}
           />

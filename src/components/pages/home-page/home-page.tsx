@@ -4,8 +4,22 @@ import { Container } from '../../layout/container';
 import { Creators } from '../../elements/creators';
 import { NewVideosCarousel } from '../../elements/standard-carousel/carousels/new-videos-carousel.tsx';
 import { PixelVideosCarousel } from '../../elements/standard-carousel/carousels/pixel-videos-carousel.tsx';
+import { sendMessage } from '../../../lib/utils/tracking.ts';
+import { IdType } from '../../../lib/types';
 
 export const HomePage = () => {
+  const handleCreatorsClick = (authorId: IdType) => {
+    sendMessage({
+      event: 'flips_click',
+      params: {
+        from: 'home',
+        id: String(authorId),
+        action: 'open',
+        type: 'creator',
+      },
+    });
+  };
+
   return (
     <MainLayout>
       <Container>
@@ -19,7 +33,7 @@ export const HomePage = () => {
           <PixelVideosCarousel />
         </div>
         <div className="mt-8">
-          <Creators />
+          <Creators onClick={handleCreatorsClick} />
         </div>
       </Container>
     </MainLayout>
