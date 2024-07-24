@@ -14,10 +14,12 @@ export const sendMessage = (payload: {
       data: payload,
     });
   } else if (window.android) {
-    window.android.postMessage({
-      messageType: 'trackEvent',
-      data: payload,
-    });
+    window.android.postMessage(
+      JSON.stringify({
+        messageType: 'trackEvent',
+        data: payload,
+      })
+    );
   } else {
     console.log('Neither iOS nor Android WebView detected.');
   }

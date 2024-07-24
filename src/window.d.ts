@@ -1,22 +1,20 @@
 declare global {
-  type PostMessage = (payload: {
-    messageType: string;
-    data: {
-      event: string;
-      params: Record<string, string>;
-    };
-  }) => void;
-
   interface Window {
     webkit?: {
       messageHandlers?: {
         eventListener: {
-          postMessage: PostMessage;
+          postMessage: (payload: {
+            messageType: string;
+            data: {
+              event: string;
+              params: Record<string, string>;
+            };
+          }) => void;
         };
       };
     };
     android?: {
-      postMessage: PostMessage;
+      postMessage: (payload: string) => void;
     };
   }
 }
