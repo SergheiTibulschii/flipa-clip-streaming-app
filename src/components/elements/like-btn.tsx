@@ -4,8 +4,8 @@ import { useRef, useState } from 'react';
 import { throttle } from '../../lib/utils/throttle.ts';
 import { likeVideo, unlikeVideo } from '../../lib/supabase/toggleVideoLike.ts';
 import { useSetAtom } from 'jotai';
-import { videosToggleLikesAtom } from '../../lib/jotai/atoms/videos';
 import { useAppStore } from '../../context/app-store-context';
+import { incrementLikesAtom } from '../../lib/jotai/atoms/incrementLikes.atom.ts';
 
 type LikeBtnType = {
   videoId: string;
@@ -24,7 +24,7 @@ export const LikeBtn = ({
   const [liked, setLiked] = useState(isLikedDefault);
   const likeVideoRef = useRef<VoidFunction | null>(null);
   const likeRef = useRef(liked);
-  const incrementLikes = useSetAtom(videosToggleLikesAtom);
+  const incrementLikes = useSetAtom(incrementLikesAtom);
 
   if (!likeVideoRef.current) {
     likeVideoRef.current = throttle(async () => {

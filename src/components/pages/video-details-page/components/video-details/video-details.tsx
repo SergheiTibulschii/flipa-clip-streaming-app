@@ -5,13 +5,16 @@ import { IdType } from '../../../../../lib/types';
 import { Suspense } from 'react';
 import { AvatarSkeleton } from '../../../../elements/avatar/avatar-skeleton.tsx';
 import { DownloadBtn } from '../../../../elements/download-btn.tsx';
-import { sendMessage } from '../../../../../lib/utils/tracking.ts';
+import { Button } from '../../../../ui/button';
+import { useNavigate } from 'react-router-dom';
+import { Action } from '../../../../../lib/types/flipa-clip-api-types.ts';
 
 type VideoDetailsProps = {
   title: string;
   description: string;
   authorId: IdType;
   videoId: IdType;
+  actions: Action[];
 };
 
 export const VideoDetails = ({
@@ -19,18 +22,9 @@ export const VideoDetails = ({
   description,
   authorId,
   videoId,
+  actions,
 }: VideoDetailsProps) => {
-  const handleDownloadClick = () => {
-    sendMessage({
-      event: 'flips_click',
-      params: {
-        from: 'movie',
-        id: String(videoId),
-        action: 'download_project',
-        type: 'media',
-      },
-    });
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="py-6">
@@ -41,7 +35,30 @@ export const VideoDetails = ({
         {title}
       </Typography>
       <ExpandableText className="mt-1" text={description} />
-      <DownloadBtn onClick={handleDownloadClick} />
+      {actions.length > 0 && (
+        <div className="mt-5 flex flex-wrap gap-6">
+          {actions.map(({ link, type, title }) =>
+            type === 0 ? (
+              <DownloadBtn
+                key={title}
+                videoId={String(videoId)}
+                title={title}
+                downloadLink={link}
+              />
+            ) : (
+              <Button
+                key={title}
+                onClick={() => {
+                  navigate(link);
+                }}
+                variant="secondary"
+              >
+                {title}
+              </Button>
+            )
+          )}
+        </div>
+      )}
     </div>
   );
 };

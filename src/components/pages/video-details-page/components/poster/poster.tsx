@@ -5,26 +5,34 @@ import { VideoStats } from '../../../../elements/video-stats';
 import { useGoBack } from '../../../../../lib/hooks/useGoBack.ts';
 import { PlayBtn } from '../../../../elements/play-btn.tsx';
 import { LikeBtn } from '../../../../elements/like-btn.tsx';
-import { useSupabaseVideo } from '../../../../../lib/hooks/useSupabaseVideo.ts';
 import { useVideoDetails } from '../../../../../context/video-details-context';
 import { ShareBtn } from '../../../../elements/share-btn.tsx';
 import { sendMessage } from '../../../../../lib/utils/tracking.ts';
 import { IdType } from '../../../../../lib/types';
+import { useVideoStats } from '../../../../../lib/jotai/hooks/useVideoStats.ts';
+import { useEffect, useState } from 'react';
 
 type PosterProps = {
-  videoId: string | number;
+  videoId: string;
   poster: string;
   authorId: string | number;
+  shareUrl?: string;
 };
 
-export const Poster = ({ videoId, poster, authorId }: PosterProps) => {
+export const Poster = ({
+  videoId,
+  poster,
+  authorId,
+  shareUrl,
+}: PosterProps) => {
   const goBack = useGoBack();
   const { isLiked } = useVideoDetails();
-  const supabaseVideo = useSupabaseVideo(String(videoId));
+  const { likes_count, views_count } = useVideoStats(videoId);
+  const [showFallback, setShowFallback] = useState(!poster);
 
-  if (!supabaseVideo) {
-    return null;
-  }
+  useEffect(() => {
+    setShowFallback(false);
+  }, [videoId]);
 
   const handlePlayBtnClick = () => {
     sendMessage({
@@ -66,12 +74,19 @@ export const Poster = ({ videoId, poster, authorId }: PosterProps) => {
     <div className={styles.poster}>
       <div className={styles.poster__background}>
         <div className="aspect-video">
-          <img
-            src={poster}
-            alt=""
-            fetchPriority="high"
-            className="image absolute inset-0 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full"
-          />
+          {poster && !showFallback ? (
+            <img
+              src={poster}
+              alt=""
+              fetchPriority="high"
+              onError={() => {
+                setShowFallback(true);
+              }}
+              className="image absolute inset-0 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-r from-pink to-violet"></div>
+          )}
         </div>
       </div>
       <div className={styles.poster__content}>
@@ -90,16 +105,18 @@ export const Poster = ({ videoId, poster, authorId }: PosterProps) => {
               authorId={String(authorId)}
               onClick={handleLikeBtnClick}
             />
-            <ShareBtn
-              shareUrl={supabaseVideo?.share_url}
-              videoId={videoId}
-              onClick={handleShareBtnClick}
-            />
+            {shareUrl && (
+              <ShareBtn
+                shareUrl={shareUrl}
+                videoId={videoId}
+                onClick={handleShareBtnClick}
+              />
+            )}
           </div>
           <VideoStats
             className="ml-auto"
-            views={supabaseVideo?.stats?.views_count || 0}
-            likes={supabaseVideo?.stats?.likes_count || 0}
+            views={views_count}
+            likes={likes_count}
           />
         </div>
       </div>

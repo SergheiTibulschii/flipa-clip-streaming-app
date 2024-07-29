@@ -1,3 +1,6 @@
-import { VideoType } from './videos.ts';
+import { VideoDetailsType } from './flipa-clip-api-types.ts';
+import { VideoStatsType } from './supabase-custom-types.ts';
 
-export type VideoDetailsLoaderType = VideoType & { isLiked: boolean };
+export type VideoDetailsLoaderType = VideoDetailsType & { isLiked: boolean } & {
+  stats: VideoStatsType;
+};

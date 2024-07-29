@@ -12,7 +12,7 @@ import { CaretDownIcon } from '../../icons.ts';
 import { Toggler } from '../toggler.tsx';
 
 type SlidingPanelProps = PropsWithChildren<{
-  isLoading: boolean;
+  isLoading?: boolean;
   skeletonItem: (props: unknown) => JSX.Element;
   title: string;
 }>;
@@ -22,7 +22,7 @@ export const SlidingPanel = ({
   title,
   children,
   skeletonItem: Skeleton,
-  isLoading,
+  isLoading = false,
 }: SlidingPanelProps) => {
   const [isOpened, setIsOpened] = useState(false);
   const [isControlVisible, setIsControlVisible] = useState<boolean | undefined>(

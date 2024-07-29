@@ -4,12 +4,12 @@ import { CloseIcon, ShareIcon } from '../../icons.ts';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppStore } from '../../../context/app-store-context';
 import { useSetAtom } from 'jotai/index';
-import { videosIncrementViewsAtom } from '../../../lib/jotai/atoms/videos';
-import { VideoType } from '../../../lib/types/videos.ts';
 import { useGoBack } from '../../../lib/hooks/useGoBack.ts';
 import { viewVideo } from '../../../lib/supabase/viewVideo.ts';
 import Player from '@vimeo/player';
 import { Loader } from '../../ui/loader.tsx';
+import { VideoDetailsType } from '../../../lib/types/flipa-clip-api-types.ts';
+import { incrementViewsAtom } from '../../../lib/jotai/atoms/incrementViews.atom.ts';
 
 const prepareLink = (url?: string) => {
   if (!url) return 'https://player.vimeo.com/video/x';
@@ -24,13 +24,14 @@ const prepareLink = (url?: string) => {
 };
 
 export const PlayerPage = () => {
-  const video = useLoaderData() as VideoType;
+  const video = useLoaderData() as VideoDetailsType;
   const [isLoading, setIsLoading] = useState(true);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const ref = useRef<HTMLIFrameElement | null>(null);
   const [videoTitle, setVideoTitle] = useState<string>();
   const { userId } = useAppStore();
-  const incrementViews = useSetAtom(videosIncrementViewsAtom);
+  const incrementViews = useSetAtom(incrementViewsAtom);
   const goBack = useGoBack();
 
   useEffect(() => {
@@ -51,8 +52,10 @@ export const PlayerPage = () => {
       }
     };
 
-    trackView();
-  }, [video?.id, video?.author_id]);
+    if (isVideoLoaded) {
+      trackView();
+    }
+  }, [video?.id, video?.author_id, isVideoLoaded]);
 
   useEffect(() => {
     if (ref.current) {
@@ -60,6 +63,7 @@ export const PlayerPage = () => {
 
       newPlayer.on('loaded', () => {
         setIsLoading(false);
+        setIsVideoLoaded(true);
       });
 
       newPlayer.on('enterpictureinpicture', () => {
@@ -75,9 +79,19 @@ export const PlayerPage = () => {
           containerRef.current.style.pointerEvents = 'all';
         }
       });
-      newPlayer.getVideoTitle().then((title) => {
-        setVideoTitle(title);
+
+      newPlayer.on('error', () => {
+        setIsLoading(false);
       });
+
+      newPlayer
+        .getVideoTitle()
+        .then((title) => {
+          setVideoTitle(title);
+        })
+        .catch(() => {
+          setIsLoading(false);
+        });
 
       return () => {
         newPlayer.destroy();
@@ -114,7 +128,7 @@ export const PlayerPage = () => {
         <iframe
           ref={ref}
           className="image"
-          src={prepareLink(video?.media_url)}
+          src={prepareLink(video?.video_source)}
           allowFullScreen
         ></iframe>
       </div>

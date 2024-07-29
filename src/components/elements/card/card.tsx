@@ -4,7 +4,7 @@ import { text } from '../../../lib/text.ts';
 import { Link } from 'react-router-dom';
 import { pageRoutes } from '../../../lib/page-routes.ts';
 import clsx from 'clsx';
-import { useSupabaseVideo } from '../../../lib/hooks/useSupabaseVideo.ts';
+import { useVideoStats } from '../../../lib/jotai/hooks/useVideoStats.ts';
 
 type CardProps = {
   title: string;
@@ -16,7 +16,7 @@ type CardProps = {
 };
 
 export const Card = ({ title, id, coverImageSrc, className }: CardProps) => {
-  const supabaseVideo = useSupabaseVideo(String(id));
+  const { likes_count, views_count } = useVideoStats(String(id));
   const cns = clsx('block', className);
 
   return (
@@ -37,12 +37,10 @@ export const Card = ({ title, id, coverImageSrc, className }: CardProps) => {
         </div>
         <div className="mt-1 text-[9px] text-gray-secondary font-bold">
           <span>
-            {abbreviateNumber(supabaseVideo?.stats.likes_count ?? 0)}{' '}
-            {text.likes}
+            {abbreviateNumber(likes_count)} {text.likes}
           </span>
           <span className="ml-1">
-            {abbreviateNumber(supabaseVideo?.stats.views_count ?? 0)}{' '}
-            {text.views}
+            {abbreviateNumber(views_count)} {text.views}
           </span>
         </div>
       </div>

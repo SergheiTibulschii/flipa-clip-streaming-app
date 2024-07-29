@@ -6,8 +6,8 @@ import { CloseIcon, ShareIcon } from '../icons.ts';
 import { viewVideo } from '../../lib/supabase/viewVideo.ts';
 import { useAppStore } from '../../context/app-store-context';
 import { useSetAtom } from 'jotai/index';
-import { videosIncrementViewsAtom } from '../../lib/jotai/atoms/videos';
 import { IdType } from '../../lib/types';
+import { incrementViewsAtom } from '../../lib/jotai/atoms/incrementViews.atom.ts';
 
 const prepareLink = (url: string) => {
   const videoLink = new URL(url);
@@ -36,7 +36,7 @@ export const VimeoVideoModal = ({
   const [videoTitle, setVideoTitle] = useState<string>();
   const vimeoUrl = prepareLink(decodeURIComponent(source));
   const { userId } = useAppStore();
-  const incrementViews = useSetAtom(videosIncrementViewsAtom);
+  const incrementViews = useSetAtom(incrementViewsAtom);
 
   const handleClose = useCallback(() => {
     onClose();

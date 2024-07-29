@@ -20,12 +20,15 @@ import { AppStoreProvider } from './context/app-store-context';
 import { getVideoStats } from './lib/supabase/getVideoStats.ts';
 import { apiV1 } from './api/axios';
 import { routes } from './api';
-import { VideoType } from './lib/types/videos.ts';
 import { Suspense } from 'react';
 import { Loader } from './components/elements/loader.tsx';
 import { PlayerPage } from './components/pages/player-page';
 import { ErrorBoundary } from './components/error-boundary.tsx';
 import { routePatterns } from './api/routes.ts';
+import {
+  AuthorDetailsType,
+  VideoDetailsType,
+} from './lib/types/flipa-clip-api-types.ts';
 
 export const supabase = createClient<Database>(
   env.VITE_SUPABASE_URL,
@@ -44,13 +47,13 @@ const router = createBrowserRouter([
   {
     path: routePatterns.videos.play,
     element: <PlayerPage />,
-    loader: async ({ params }): Promise<VideoType | null> => {
+    loader: async ({ params }): Promise<VideoDetailsType | null> => {
       if (!params.videoId) {
         return null;
       }
 
       const { data } = await apiV1
-        .get<VideoType>(routes.videos.one(params.videoId))
+        .get<VideoDetailsType>(routes.videos.one(params.videoId))
         .catch(() => ({ data: null }));
 
       if (!data) {
@@ -76,7 +79,7 @@ const router = createBrowserRouter([
       const [videoStatsData, video] = await Promise.all([
         getVideoStats(params.videoId, userId),
         apiV1
-          .get<VideoType>(routes.videos.one(parseInt(params.videoId)))
+          .get<VideoDetailsType>(routes.videos.one(params.videoId))
           .catch(() => null),
       ]);
       const { user_liked, ...stats } = videoStatsData.data || {
@@ -111,10 +114,10 @@ const router = createBrowserRouter([
       }
 
       const { data } = await apiV1
-        .get(routes.authors.one(params.creatorId))
+        .get<AuthorDetailsType>(routes.authors.one(params.creatorId))
         .catch(() => ({ data: null }));
 
-      return (data as unknown[])[0];
+      return data;
     },
     handle: {
       from: 'creator',

@@ -1,36 +1,34 @@
-import { getAllAuthorsStats } from '../../supabase/getAllAuthorsStats.ts';
-import { atomWithDefault, loadable } from 'jotai/utils';
+import { getStatsForSelectedAuthors } from '../../supabase/getAllAuthorsStats.ts';
 import { atom } from 'jotai';
-import { apiV1 } from '../../../api/axios';
-import { routes } from '../../../api';
-import { AuthorType } from '../../types/authors.ts';
+import { AuthorsStatsType } from '../../types/supabase-custom-types.ts';
 
-export const authorsStateAsyncAtom = atom(async () => {
-  const [authorStats, authors] = await Promise.all([
-    getAllAuthorsStats(),
-    apiV1.get<AuthorType[]>(routes.authors.list(1, 200)),
-  ]);
+export const authorStatsAtom = atom<AuthorsStatsType[]>([]);
 
-  if (authorStats.error || authors.status !== 200) {
-    throw new Error('Failed to fetch videos');
+export const setAuthorsStateAtom = atom(
+  null,
+  async (get, set, creatorIds: string[]) => {
+    const authorStats = get(authorStatsAtom);
+    const stats = await getStatsForSelectedAuthors(creatorIds);
+
+    if (stats.data && !stats.error) {
+      const uniqueIds = new Set([
+        ...authorStats.map((as) => as.author_id),
+        ...creatorIds,
+      ]);
+
+      set(
+        authorStatsAtom,
+        Array.from(uniqueIds).map((id) => {
+          return (
+            stats.data.find((s) => s.author_id === id) ||
+            authorStats.find((as) => as.author_id === id) || {
+              author_id: id,
+              views_count: 0,
+              likes_count: 0,
+            }
+          );
+        })
+      );
+    }
   }
-
-  return authors.data?.map((author) => {
-    const stats = authorStats.data.find((v) => v.author_id === author.id);
-
-    return {
-      ...author,
-      stats: stats || {
-        author_id: author.id,
-        views_count: 0,
-        likes_count: 0,
-      },
-    };
-  });
-});
-
-export const authorsWithDefaultAtom = atomWithDefault((get) => {
-  return get(authorsStateAsyncAtom);
-});
-
-export const authorsWithDefaultLoadable = loadable(authorsWithDefaultAtom);
+);

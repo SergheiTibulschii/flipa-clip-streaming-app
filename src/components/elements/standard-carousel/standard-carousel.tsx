@@ -13,7 +13,9 @@ export const StandardCarousel = ({
 }: StandardCarouselProps) => {
   return (
     <div>
-      {title && <div className="font-bold leading-1.5 mb-6">{title}</div>}
+      {title && (
+        <div className="font-bold leading-1.5 mb-6 capitalize">{title}</div>
+      )}
       <Carousel
         className={styles.carousel}
         breakpoints={{

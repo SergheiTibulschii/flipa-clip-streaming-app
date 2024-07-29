@@ -16,6 +16,7 @@ export const routePatterns = {
 const prefix = import.meta.env.MODE === 'development' ? '/api' : '';
 
 export const routes = {
+  home: `${prefix}/videos/home`,
   videos: {
     list: (page: number, pageSize = defaultPageSize) =>
       `${prefix}/videos/?page=${page}&pageSize=${pageSize}`,

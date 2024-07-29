@@ -9,3 +9,4 @@ export { default as SearchIcon } from '../assets/svg/search.svg?react';
 export { default as ShareIcon } from '../assets/svg/share.svg?react';
 export { default as LogoIcon } from '../assets/svg/logo.svg?react';
 export { default as BecomeCreatorSvg } from '../assets/svg/become-creator.svg?react';
+export { default as UserSvg } from '../assets/svg/person-outline.svg?react';

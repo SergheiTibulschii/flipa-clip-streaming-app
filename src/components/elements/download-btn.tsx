@@ -1,24 +1,45 @@
 import { ProjectsIcon } from '../icons.ts';
-import { text } from '../../lib/text.ts';
 import { Button } from '../ui/button';
+import { sendMessage } from '../../lib/utils/tracking.ts';
 
 type DownloadBtnProps = {
-  onClick: () => void;
+  title: string;
+  downloadLink: string;
+  videoId: string;
 };
 
-export const DownloadBtn = ({ onClick }: DownloadBtnProps) => {
+export const DownloadBtn = ({
+  downloadLink,
+  title,
+  videoId,
+}: DownloadBtnProps) => {
   const handleClick = () => {
-    onClick();
+    const link = document.createElement('a');
+    link.href = downloadLink;
+    link.download = title;
+    link.setAttribute('target', '_blank');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    sendMessage({
+      event: 'flips_click',
+      params: {
+        from: 'movie',
+        id: String(videoId),
+        action: 'download_project',
+        type: 'media',
+      },
+    });
   };
 
   return (
     <Button
-      className="mt-5"
       variant="secondary"
       iconBefore={<ProjectsIcon />}
       onClick={handleClick}
     >
-      {text.downloadProject}
+      {title}
     </Button>
   );
 };

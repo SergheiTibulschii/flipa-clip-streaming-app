@@ -2,9 +2,8 @@ import { abbreviateNumber } from '../../../../../lib/utils/number.ts';
 import { text } from '../../../../../lib/text.ts';
 import { Link } from 'react-router-dom';
 import { pageRoutes } from '../../../../../lib/page-routes.ts';
-import { useAtomValue } from 'jotai/index';
-import { authorsWithDefaultLoadable } from '../../../../../lib/jotai/atoms/authors.ts';
 import { IdType } from '../../../../../lib/types';
+import { useCreatorStats } from '../../../../../lib/jotai/hooks/useCreatorsStats.ts';
 
 type CreatorsItemProps = {
   id: number | string;
@@ -19,12 +18,7 @@ export const CreatorsItem = ({
   thumbnail,
   onClick,
 }: CreatorsItemProps) => {
-  const creators = useAtomValue(authorsWithDefaultLoadable);
-  const viewsCount =
-    (creators.state !== 'loading' &&
-      creators.state !== 'hasError' &&
-      creators.data.find((c) => c.stats.author_id === id)?.stats.views_count) ||
-    0;
+  const { views_count } = useCreatorStats(String(id));
 
   const handleClick = () => {
     onClick?.(id);
@@ -54,7 +48,7 @@ export const CreatorsItem = ({
         </div>
         <div className="mt-1 text-[9px] text-gray-secondary font-bold">
           <span className="ml-1">
-            {abbreviateNumber(viewsCount)} {text.views}
+            {abbreviateNumber(views_count)} {text.views}
           </span>
         </div>
       </div>

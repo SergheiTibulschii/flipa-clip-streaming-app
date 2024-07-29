@@ -6,6 +6,8 @@ import { routes } from '../../../api';
 import { useApi } from '../../../api/swr';
 import { AuthorType } from '../../../lib/types/authors.ts';
 import { IdType } from '../../../lib/types';
+import { useState } from 'react';
+import { UserSvg } from '../../icons.ts';
 
 type AvatarProps = {
   name?: string;
@@ -16,6 +18,7 @@ type AvatarProps = {
 };
 
 export const Avatar = ({ id, className, onClick }: AvatarProps) => {
+  const [showFallback, setShowFallback] = useState(false);
   const { data } = useApi<AuthorType>(routes.authors.one(id), {
     suspense: true,
     revalidateOnReconnect: false,
@@ -34,7 +37,19 @@ export const Avatar = ({ id, className, onClick }: AvatarProps) => {
       onClick={handleClick}
     >
       <div className={styles['avatar__image']}>
-        <img src={data?.picture} alt={`${data?.name}'s avatar`} />
+        {!showFallback ? (
+          <img
+            src={data?.picture || ''}
+            alt={`${data?.name}'s avatar`}
+            onError={() => {
+              setShowFallback(true);
+            }}
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-primary flex items-center justify-center text-pink">
+            <UserSvg />
+          </div>
+        )}
       </div>
       {data?.name && (
         <div className={styles['avatar__creator']} title={data?.name}>

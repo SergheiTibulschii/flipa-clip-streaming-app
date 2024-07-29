@@ -4,24 +4,22 @@ import { Poster } from './components/poster/poster.tsx';
 import { StandardCarousel } from '../../elements/standard-carousel';
 import { Card } from '../../elements/card/card.tsx';
 import { VideoDetails } from './components/video-details';
-import PosterImg from '../../../assets/video-details-banner.jpg';
 import { useLoaderData, useParams } from 'react-router-dom';
 import { Typography } from '../../ui/typography';
 import { text } from '../../../lib/text.ts';
 import { VideoDetailsProvider } from '../../../context/video-details-context';
 import { VideoDetailsLoaderType } from '../../../lib/types/video-details-types.ts';
-import { useAtomValue } from 'jotai/index';
-import { videosWithDefaultAtom } from '../../../lib/jotai/atoms/videos';
 import { useEffect } from 'react';
 import { sendMessage } from '../../../lib/utils/tracking.ts';
+import { useScrollToTop } from '../../../lib/hooks/useScrollToTop.ts';
 
 export const VideoDetailsPage = () => {
   const { videoId } = useParams();
   const video = useLoaderData() as VideoDetailsLoaderType;
-  const videos = useAtomValue(videosWithDefaultAtom);
+  useScrollToTop();
 
   useEffect(() => {
-    if (video.id) {
+    if (video?.id) {
       sendMessage({
         event: 'flips_view',
         params: {
@@ -50,8 +48,9 @@ export const VideoDetailsPage = () => {
         <Container>
           <Poster
             videoId={video.id}
-            poster={PosterImg}
+            poster={video.featured_artwork}
             authorId={video.author_id}
+            shareUrl={video.share_url}
           />
           <VideoDetails
             key={videoId}
@@ -59,19 +58,18 @@ export const VideoDetailsPage = () => {
             videoId={String(videoId)}
             title={video.title}
             description={video.description}
+            actions={video.actions || []}
           />
           <div className="mt-8">
             <StandardCarousel title="You may also like">
-              {videos
-                .filter((v) => v.tag === 'upcomming')
-                .map(({ title, id, artwork_url }) => (
-                  <Card
-                    id={id}
-                    key={id}
-                    title={title}
-                    coverImageSrc={artwork_url}
-                  />
-                ))}
+              {video.suggestions.map(({ title, id, poster_artwork }) => (
+                <Card
+                  id={id}
+                  key={id}
+                  title={title}
+                  coverImageSrc={poster_artwork}
+                />
+              ))}
             </StandardCarousel>
           </div>
         </Container>

@@ -1,7 +1,6 @@
 import { MainLayout } from '../../layout';
 import { Container } from '../../layout/container';
 import { Poster } from './components/poster';
-import CreatorPosterImg from '../../../assets/creator-details-banner.jpg';
 import { CreatorDetails } from './components/creator-details';
 import { Creators } from '../../elements/creators';
 import { StandardCarousel } from '../../elements/standard-carousel';
@@ -9,19 +8,18 @@ import { Card } from '../../elements/card/card.tsx';
 import { useLoaderData } from 'react-router-dom';
 import { Typography } from '../../ui/typography';
 import { text } from '../../../lib/text.ts';
-import { AuthorType } from '../../../lib/types/authors.ts';
-import { useAtomValue } from 'jotai';
-import { videosWithDefaultAtom } from '../../../lib/jotai/atoms/videos';
 import { IdType } from '../../../lib/types';
 import { sendMessage } from '../../../lib/utils/tracking.ts';
 import { useEffect } from 'react';
+import { AuthorDetailsType } from '../../../lib/types/flipa-clip-api-types.ts';
+import { useScrollToTop } from '../../../lib/hooks/useScrollToTop.ts';
 
 export const CreatorDetialsPage = () => {
-  const creator = useLoaderData() as AuthorType;
-  const videos = useAtomValue(videosWithDefaultAtom);
+  const creator = useLoaderData() as AuthorDetailsType;
+  useScrollToTop();
 
   useEffect(() => {
-    if (creator.id) {
+    if (creator?.id) {
       sendMessage({
         event: 'flips_view',
         params: {
@@ -60,24 +58,25 @@ export const CreatorDetialsPage = () => {
     <MainLayout displayHeader={false} displayBecomeCreator={false}>
       <Container>
         <div className="pb-10 lg:pb-14">
-          <Poster poster={CreatorPosterImg} />
+          <Poster authorId={creator.id} poster={creator.banner} />
           <CreatorDetails author={creator} description={creator.bio} />
           <div className="mt-8">
             <StandardCarousel title="You may also like">
-              {videos
-                .filter((v) => v.tag === 'you may also like')
-                .map(({ id, title, artwork_url }) => (
-                  <Card
-                    id={id}
-                    key={id}
-                    title={title}
-                    coverImageSrc={artwork_url}
-                  />
-                ))}
+              {creator.videos.map(({ id, title, poster_artwork }) => (
+                <Card
+                  id={id}
+                  key={id}
+                  title={title}
+                  coverImageSrc={poster_artwork}
+                />
+              ))}
             </StandardCarousel>
           </div>
           <div className="mt-8">
-            <Creators onClick={handleCreatorsClick} />
+            <Creators
+              creators={creator.creators}
+              onClick={handleCreatorsClick}
+            />
           </div>
         </div>
       </Container>

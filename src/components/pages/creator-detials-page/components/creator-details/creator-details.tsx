@@ -2,10 +2,10 @@ import { Typography } from '../../../../ui/typography';
 import { ExpandableText } from '../../../../elements/expandable-text/expandable-text.tsx';
 import { Button } from '../../../../ui/button';
 import { text } from '../../../../../lib/text.ts';
-import { AuthorType } from '../../../../../lib/types/authors.ts';
+import { AuthorDetailsType } from '../../../../../lib/types/flipa-clip-api-types.ts';
 
 type CreatorDetailsProps = {
-  author: AuthorType;
+  author: AuthorDetailsType;
   description: string;
 };
 
@@ -18,7 +18,7 @@ export const CreatorDetails = ({
       <div className="-mt-[50px]">
         <img
           className="image w-[100px] h-[100px] rounded-full mx-auto"
-          src={author.picture}
+          src={author.avatar}
           alt=""
         />
       </div>
