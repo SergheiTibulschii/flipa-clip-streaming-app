@@ -11,13 +11,8 @@
   }
 
   .bleed {
-    margin: 0 calc(-50vw + 50% + var(--scrollbar-width, 0px) / 2);
+    margin: 0 calc(-50vw + 50% + var(--scrollbar-width, 0px) / 2 + env(safe-area-inset-left, 0) / 2 + env(safe-area-inset-right, 0) / 2);
   }
-
-  .text-subtitle {}
-
-  .text-card-1 {}
-
 }
 
 html, body {
@@ -26,6 +21,8 @@ html, body {
 
 body {
   @apply text-white font-primary;
+
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 #root {

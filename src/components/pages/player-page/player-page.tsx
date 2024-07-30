@@ -87,7 +87,7 @@ export const PlayerPage = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="fixed inset-0 z-50 flex flex-col">
+    <div ref={containerRef} className="flex flex-col w-full">
       <div className="bg-dark text-white flex gap-8 items-center justify-between px-5 py-3">
         <div className="font-bold leading-1.5 truncate" title={video.title}>
           {video.title}
