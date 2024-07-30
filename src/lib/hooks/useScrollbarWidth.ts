@@ -7,6 +7,11 @@ export const useScrollbarWidth = () => {
   return useEffect(() => {
     outerRef.current = document.createElement('div');
     outerRef.current.style.visibility = 'hidden';
+    outerRef.current.style.pointerEvents = 'none';
+    outerRef.current.style.position = 'fixed';
+    outerRef.current.style.left = '0px';
+    outerRef.current.style.right = '0px';
+    outerRef.current.style.bottom = '0px';
     outerRef.current.style.overflow = 'scroll';
     document.body.appendChild(outerRef.current);
     innerRef.current = document.createElement('div');
