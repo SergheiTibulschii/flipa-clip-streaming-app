@@ -1,5 +1,4 @@
 import { defaultPageSize } from './config.ts';
-import { IdType } from '../lib/types';
 
 export const routePatterns = {
   home: '/',
@@ -20,11 +19,11 @@ export const routes = {
   videos: {
     list: (page: number, pageSize = defaultPageSize) =>
       `${prefix}/videos/?page=${page}&pageSize=${pageSize}`,
-    one: (id: IdType) => `${prefix}/videos/${id}`,
+    one: (id: string) => `${prefix}/videos/${id}`,
   },
   authors: {
     list: (page: number, pageSize = defaultPageSize) =>
       `${prefix}/authors/?page=${page}&pageSize=${pageSize}`,
-    one: (id: IdType) => `${prefix}/authors/${id}`,
+    one: (id: string) => `${prefix}/authors/${id}`,
   },
 };

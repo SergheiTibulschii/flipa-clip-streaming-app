@@ -1,6 +1,6 @@
 import { useLoaderData } from 'react-router-dom';
 import { IconButton } from '../../ui/button/icon-button.tsx';
-import { CloseIcon, ShareIcon } from '../../icons.ts';
+import { CloseIcon } from '../../icons.ts';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppStore } from '../../../context/app-store-context';
 import { useSetAtom } from 'jotai/index';
@@ -33,16 +33,14 @@ export const PlayerPage = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const trackView = useCallback(async () => {
-    const { error } = await viewVideo(
-      String(video?.id),
-      userId,
-      String(video?.author_id)
-    );
+    if (!userId || !video?.author_id || !video?.id) return;
+
+    const { error } = await viewVideo(video.id, userId, video.author_id);
 
     if (!error) {
       incrementViews({
-        videoId: String(video?.id),
-        authorId: String(video?.author_id),
+        videoId: video.id,
+        authorId: video.author_id,
       });
     }
   }, [incrementViews, userId, video?.author_id, video?.id]);
@@ -104,11 +102,7 @@ export const PlayerPage = () => {
       <div className="relative flex-1 bg-dark">
         {!error ? (
           <div className="absolute inset-0">
-            <video
-              className="aspect-video h-full"
-              ref={videoRef}
-              controls
-            ></video>
+            <video className="w-full h-full" ref={videoRef} controls></video>
           </div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center font-bold leading-1.5">

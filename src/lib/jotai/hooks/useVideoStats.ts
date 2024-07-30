@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai/index';
 import { videoStatsAtom } from '../atoms/videos.atom.ts';
 
-export const useVideoStats = (videoId: string) => {
+export const useVideoStats = (videoId: string, authorId = '') => {
   const stats = useAtomValue(videoStatsAtom);
 
   return (
@@ -9,7 +9,7 @@ export const useVideoStats = (videoId: string) => {
       video_id: videoId,
       views_count: 0,
       likes_count: 0,
-      author_id: '',
+      author_id: authorId,
     }
   );
 };

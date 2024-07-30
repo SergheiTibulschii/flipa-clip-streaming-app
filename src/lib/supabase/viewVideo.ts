@@ -6,7 +6,7 @@ export const viewVideo = async (
   authorId: string
 ) =>
   supabase.from('views').insert({
-    video_id: String(videoId),
+    video_id: videoId,
     user_id: userId,
-    author_id: String(authorId),
+    author_id: authorId,
   });

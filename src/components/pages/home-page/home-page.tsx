@@ -3,7 +3,6 @@ import { HomeBanner } from './components';
 import { Container } from '../../layout/container';
 import { Creators } from '../../elements/creators';
 import { sendMessage } from '../../../lib/utils/tracking.ts';
-import { IdType } from '../../../lib/types';
 import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai/index';
 import { loadableHomePageAtom } from '../../../lib/jotai/atoms/homePage.atom.ts';
@@ -77,12 +76,12 @@ export const HomePage = () => {
     return null;
   }
 
-  const handleCreatorsClick = (authorId: IdType) => {
+  const handleCreatorsClick = (authorId: string) => {
     sendMessage({
       event: 'flips_click',
       params: {
         from: 'home',
-        id: String(authorId),
+        id: authorId,
         action: 'open',
         type: 'creator',
       },
@@ -99,6 +98,7 @@ export const HomePage = () => {
             description={homePageData.featured.description}
             coverUrl={homePageData.featured.featured_artwork}
             previewUrl={homePageData.featured.featured_preview}
+            author={homePageData.featured.author}
           />
         </div>
         {homePageData.sections.map(({ title, content }) => (

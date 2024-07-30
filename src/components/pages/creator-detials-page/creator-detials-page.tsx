@@ -8,7 +8,6 @@ import { Card } from '../../elements/card/card.tsx';
 import { useLoaderData } from 'react-router-dom';
 import { Typography } from '../../ui/typography';
 import { text } from '../../../lib/text.ts';
-import { IdType } from '../../../lib/types';
 import { sendMessage } from '../../../lib/utils/tracking.ts';
 import { useEffect } from 'react';
 import { AuthorDetailsType } from '../../../lib/types/flipa-clip-api-types.ts';
@@ -23,7 +22,7 @@ export const CreatorDetialsPage = () => {
       sendMessage({
         event: 'flips_view',
         params: {
-          id: String(creator.id),
+          id: creator.id,
           type: 'creator',
         },
       });
@@ -42,12 +41,12 @@ export const CreatorDetialsPage = () => {
     );
   }
 
-  const handleCreatorsClick = (authorId: IdType) => {
+  const handleCreatorsClick = (authorId: string) => {
     sendMessage({
       event: 'flips_click',
       params: {
         from: 'creator',
-        id: String(authorId),
+        id: authorId,
         action: 'open',
         type: 'creator',
       },

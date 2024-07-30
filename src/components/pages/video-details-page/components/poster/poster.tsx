@@ -8,14 +8,13 @@ import { LikeBtn } from '../../../../elements/like-btn.tsx';
 import { useVideoDetails } from '../../../../../context/video-details-context';
 import { ShareBtn } from '../../../../elements/share-btn.tsx';
 import { sendMessage } from '../../../../../lib/utils/tracking.ts';
-import { IdType } from '../../../../../lib/types';
 import { useVideoStats } from '../../../../../lib/jotai/hooks/useVideoStats.ts';
 import { useEffect, useState } from 'react';
 
 type PosterProps = {
   videoId: string;
   poster: string;
-  authorId: string | number;
+  authorId: string;
   shareUrl?: string;
 };
 
@@ -39,7 +38,7 @@ export const Poster = ({
       event: 'flips_click',
       params: {
         from: 'movie',
-        id: String(videoId),
+        id: videoId,
         action: 'play',
         type: 'media',
       },
@@ -51,19 +50,19 @@ export const Poster = ({
       event: 'flips_click',
       params: {
         from: 'movie',
-        id: String(videoId),
+        id: videoId,
         action: !liked ? 'unlike' : 'like',
         type: 'media',
       },
     });
   };
 
-  const handleShareBtnClick = (id: IdType) => {
+  const handleShareBtnClick = (id: string) => {
     sendMessage({
       event: 'flips_click',
       params: {
         from: 'movie',
-        id: String(id),
+        id,
         action: 'share',
         type: 'media',
       },
@@ -100,9 +99,9 @@ export const Poster = ({
             <PlayBtn videoId={videoId} onClick={handlePlayBtnClick} />
             <LikeBtn
               key={videoId}
-              videoId={String(videoId)}
+              videoId={videoId}
               isLikedDefault={isLiked}
-              authorId={String(authorId)}
+              authorId={authorId}
               onClick={handleLikeBtnClick}
             />
             {shareUrl && (

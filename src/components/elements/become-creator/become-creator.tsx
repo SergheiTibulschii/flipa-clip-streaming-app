@@ -34,7 +34,7 @@ export const BecomeCreator = () => {
 
       if (hasRouterData(match.data)) {
         if (match.data.id) {
-          trackParams.id = String(match.data.id);
+          trackParams.id = match.data.id;
         }
       }
     }

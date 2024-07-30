@@ -26,7 +26,7 @@ export const DownloadBtn = ({
       event: 'flips_click',
       params: {
         from: 'movie',
-        id: String(videoId),
+        id: videoId,
         action: 'download_project',
         type: 'media',
       },

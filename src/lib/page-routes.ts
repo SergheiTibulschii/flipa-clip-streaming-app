@@ -1,11 +1,11 @@
 export const pageRoutes = {
   home: '/',
   video: {
-    details: (id: number | string) => `/video/${id}`,
-    play: (id: number | string) => `/video/${id}/play`,
+    details: (id: string) => `/video/${id}`,
+    play: (id: string) => `/video/${id}/play`,
   },
   creator: {
-    details: (id: number | string) => `/creator/${id}`,
+    details: (id: string) => `/creator/${id}`,
     become: '/become-creator',
   },
 };

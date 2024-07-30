@@ -2,27 +2,23 @@ import styles from './styles/index.module.scss';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { pageRoutes } from '../../../lib/page-routes.ts';
-import { routes } from '../../../api';
-import { useApi } from '../../../api/swr';
 import { useState } from 'react';
 import { UserSvg } from '../../icons.ts';
-import { AuthorDetailsType } from '../../../lib/types/flipa-clip-api-types.ts';
+import { Creator } from '../../../lib/types/flipa-clip-api-types.ts';
 
-type AvatarProps = {
-  name?: string;
-  thumbnail?: string;
+type AvatarProps = Pick<Creator, 'id' | 'avatar' | 'name'> & {
   className?: string;
-  id: string;
   onClick?: (authorId: string) => void;
 };
 
-export const Avatar = ({ id, className, onClick }: AvatarProps) => {
+export const StaticAvatar = ({
+  id,
+  avatar,
+  name,
+  className,
+  onClick,
+}: AvatarProps) => {
   const [showFallback, setShowFallback] = useState(false);
-  const { data } = useApi<AuthorDetailsType>(routes.authors.one(id), {
-    suspense: true,
-    revalidateOnReconnect: false,
-    revalidateOnFocus: false,
-  });
   const cns = clsx(styles.avatar, className);
 
   const handleClick = () => {
@@ -38,8 +34,8 @@ export const Avatar = ({ id, className, onClick }: AvatarProps) => {
       <div className={styles['avatar__image']}>
         {!showFallback ? (
           <img
-            src={data?.avatar || ''}
-            alt={`${data?.name}'s avatar`}
+            src={avatar || ''}
+            alt={`${name}'s avatar`}
             onError={() => {
               setShowFallback(true);
             }}
@@ -50,9 +46,9 @@ export const Avatar = ({ id, className, onClick }: AvatarProps) => {
           </div>
         )}
       </div>
-      {data?.name && (
-        <div className={styles['avatar__creator']} title={data?.name}>
-          {data?.name}
+      {name && (
+        <div className={styles['avatar__creator']} title={name}>
+          {name}
         </div>
       )}
     </Link>

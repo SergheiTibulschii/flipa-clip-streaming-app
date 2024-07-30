@@ -1,12 +1,11 @@
 import { ShareIcon } from '../icons.ts';
 import { IconButton } from '../ui/button/icon-button.tsx';
 import { text } from '../../lib/text.ts';
-import { IdType } from '../../lib/types';
 
 type ShareBtnProps = {
   shareUrl: string;
-  videoId: IdType;
-  onClick?: (videoId: IdType) => void;
+  videoId: string;
+  onClick?: (videoId: string) => void;
 };
 
 export const ShareBtn = ({ shareUrl, videoId, onClick }: ShareBtnProps) => {

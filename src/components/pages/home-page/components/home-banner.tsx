@@ -6,12 +6,12 @@ import { VideoStats } from '../../../elements/video-stats';
 import { useNavigate } from 'react-router-dom';
 import { pageRoutes } from '../../../../lib/page-routes.ts';
 import { PlayBtn } from '../../../elements/play-btn.tsx';
-import { Avatar } from '../../../elements/avatar';
 import { Suspense } from 'react';
 import { AvatarSkeleton } from '../../../elements/avatar/avatar-skeleton.tsx';
 import { sendMessage } from '../../../../lib/utils/tracking.ts';
-import { IdType } from '../../../../lib/types';
 import { useVideoStats } from '../../../../lib/jotai/hooks/useVideoStats.ts';
+import { StaticAvatar } from '../../../elements/avatar/static-avatar.tsx';
+import { Creator } from '../../../../lib/types/flipa-clip-api-types.ts';
 
 type HomeBannerProps = {
   videoId: string;
@@ -19,7 +19,7 @@ type HomeBannerProps = {
   previewUrl: string;
   coverUrl: string;
   description?: string;
-  authorId?: string;
+  author: Creator;
 };
 
 export const HomeBanner = ({
@@ -27,7 +27,7 @@ export const HomeBanner = ({
   title,
   description,
   coverUrl,
-  authorId,
+  author,
 }: HomeBannerProps) => {
   const navigate = useNavigate();
   const { views_count, likes_count } = useVideoStats(videoId);
@@ -37,7 +37,7 @@ export const HomeBanner = ({
       event: 'flips_click',
       params: {
         from: 'feature_banner',
-        id: String(videoId),
+        id: videoId,
         action: 'play',
         type: 'media',
       },
@@ -49,7 +49,7 @@ export const HomeBanner = ({
       event: 'flips_click',
       params: {
         from: 'feature_banner',
-        id: String(videoId),
+        id: videoId,
         action: 'open',
         type: 'media',
       },
@@ -57,12 +57,12 @@ export const HomeBanner = ({
     navigate(pageRoutes.video.details(videoId));
   };
 
-  const handleAvatarClick = (authorId: IdType) => {
+  const handleAvatarClick = (authorId: string) => {
     sendMessage({
       event: 'flips_click',
       params: {
         from: 'feature_banner',
-        id: String(authorId),
+        id: authorId,
         action: 'open',
         type: 'creator',
       },
@@ -80,10 +80,12 @@ export const HomeBanner = ({
         />
       </div>
       <div className={styles['home-banner__content']}>
-        {authorId && (
+        {author && (
           <Suspense fallback={<AvatarSkeleton />}>
-            <Avatar
-              id={authorId}
+            <StaticAvatar
+              avatar={author.avatar}
+              name={author.name}
+              id={author.id}
               className="mb-2 self-start"
               onClick={handleAvatarClick}
             />

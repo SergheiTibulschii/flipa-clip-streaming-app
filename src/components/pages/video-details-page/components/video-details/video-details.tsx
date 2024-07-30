@@ -1,7 +1,6 @@
 import { Typography } from '../../../../ui/typography';
 import { Avatar } from '../../../../elements/avatar';
 import { ExpandableText } from '../../../../elements/expandable-text/expandable-text.tsx';
-import { IdType } from '../../../../../lib/types';
 import { Suspense } from 'react';
 import { AvatarSkeleton } from '../../../../elements/avatar/avatar-skeleton.tsx';
 import { DownloadBtn } from '../../../../elements/download-btn.tsx';
@@ -12,8 +11,8 @@ import { Action } from '../../../../../lib/types/flipa-clip-api-types.ts';
 type VideoDetailsProps = {
   title: string;
   description: string;
-  authorId: IdType;
-  videoId: IdType;
+  authorId: string;
+  videoId: string;
   actions: Action[];
 };
 
@@ -41,7 +40,7 @@ export const VideoDetails = ({
             type === 0 ? (
               <DownloadBtn
                 key={title}
-                videoId={String(videoId)}
+                videoId={videoId}
                 title={title}
                 downloadLink={link}
               />

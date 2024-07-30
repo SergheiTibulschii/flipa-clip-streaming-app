@@ -5,7 +5,7 @@ import { pageRoutes } from '../../lib/page-routes.ts';
 import { useNavigate } from 'react-router-dom';
 
 type PlayBtnProps = {
-  videoId: number | string;
+  videoId: string;
   onClick?: () => void;
 };
 

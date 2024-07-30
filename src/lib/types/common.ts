@@ -8,13 +8,11 @@ export type RemoveIndex<T> = {
       : K]: T[K];
 };
 
-export type IdType = string | number;
-
 export type RouterHandleType = {
   from?: string;
   trackType?: string;
 } | null;
 
 export type Entity = {
-  id: IdType;
+  id: string;
 };

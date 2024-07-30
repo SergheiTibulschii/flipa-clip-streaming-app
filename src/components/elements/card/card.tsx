@@ -8,15 +8,20 @@ import { useVideoStats } from '../../../lib/jotai/hooks/useVideoStats.ts';
 
 type CardProps = {
   title: string;
-  id: number | string;
-  likes?: number;
-  views?: number;
+  id: string;
   coverImageSrc?: string;
+  authorId?: string;
   className?: string;
 };
 
-export const Card = ({ title, id, coverImageSrc, className }: CardProps) => {
-  const { likes_count, views_count } = useVideoStats(String(id));
+export const Card = ({
+  title,
+  id,
+  coverImageSrc,
+  authorId,
+  className,
+}: CardProps) => {
+  const { likes_count, views_count } = useVideoStats(id, authorId);
   const cns = clsx('block', className);
 
   return (

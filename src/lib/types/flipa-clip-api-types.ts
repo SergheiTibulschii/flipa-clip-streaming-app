@@ -10,7 +10,7 @@ export interface Featured {
   featured_preview: string;
   title: string;
   description?: string;
-  authorId?: string;
+  author: Creator;
 }
 
 export interface Section {
@@ -22,12 +22,15 @@ export interface Content {
   id: string;
   poster_artwork: string;
   title: string;
+  author: Creator;
 }
 
 export interface Creator {
   id: string;
-  name: string;
   avatar: string;
+  banner: string;
+  bio: string;
+  name: string;
 }
 
 export interface Suggestion {

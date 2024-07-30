@@ -2,14 +2,13 @@ import { abbreviateNumber } from '../../../../../lib/utils/number.ts';
 import { text } from '../../../../../lib/text.ts';
 import { Link } from 'react-router-dom';
 import { pageRoutes } from '../../../../../lib/page-routes.ts';
-import { IdType } from '../../../../../lib/types';
 import { useCreatorStats } from '../../../../../lib/jotai/hooks/useCreatorsStats.ts';
 
 type CreatorsItemProps = {
-  id: number | string;
+  id: string;
   name: string;
   thumbnail?: string;
-  onClick?: (authorId: IdType) => void;
+  onClick?: (authorId: string) => void;
 };
 
 export const CreatorsItem = ({
@@ -18,7 +17,7 @@ export const CreatorsItem = ({
   thumbnail,
   onClick,
 }: CreatorsItemProps) => {
-  const { views_count } = useCreatorStats(String(id));
+  const { views_count } = useCreatorStats(id);
 
   const handleClick = () => {
     onClick?.(id);

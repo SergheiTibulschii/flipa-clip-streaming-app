@@ -4,7 +4,7 @@ import { Poster } from './components/poster/poster.tsx';
 import { StandardCarousel } from '../../elements/standard-carousel';
 import { Card } from '../../elements/card/card.tsx';
 import { VideoDetails } from './components/video-details';
-import { useLoaderData, useParams } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import { Typography } from '../../ui/typography';
 import { text } from '../../../lib/text.ts';
 import { VideoDetailsProvider } from '../../../context/video-details-context';
@@ -14,7 +14,6 @@ import { sendMessage } from '../../../lib/utils/tracking.ts';
 import { useScrollToTop } from '../../../lib/hooks/useScrollToTop.ts';
 
 export const VideoDetailsPage = () => {
-  const { videoId } = useParams();
   const video = useLoaderData() as VideoDetailsLoaderType;
   useScrollToTop();
 
@@ -23,7 +22,7 @@ export const VideoDetailsPage = () => {
       sendMessage({
         event: 'flips_view',
         params: {
-          id: String(video.id),
+          id: video.id,
           type: 'media',
         },
       });
@@ -53,9 +52,9 @@ export const VideoDetailsPage = () => {
             shareUrl={video.share_url}
           />
           <VideoDetails
-            key={videoId}
+            key={video.id}
             authorId={video.author_id}
-            videoId={String(videoId)}
+            videoId={video.id}
             title={video.title}
             description={video.description}
             actions={video.actions || []}
