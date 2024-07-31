@@ -11,6 +11,50 @@ import { incrementViewsAtom } from '../../../lib/jotai/atoms/incrementViews.atom
 import Hls from 'hls.js';
 import { ShareBtn } from '../../elements/share-btn.tsx';
 
+type VideoControlBarProps = {
+  title: string;
+  share_url: string;
+  videoId: string;
+  handleClose: () => void;
+  isPlaying: boolean;
+};
+const VideoControlBar = ({
+  title,
+  share_url,
+  videoId,
+  handleClose,
+  isPlaying,
+}: VideoControlBarProps) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.style.transform = `translateY(${isPlaying ? '-100%' : '0'})`;
+      ref.current.style.opacity = isPlaying ? '0' : '1';
+    }
+  }, [isPlaying]);
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        top: 'env(safe-area-inset-top, 0)',
+      }}
+      className="absolute left-0 w-full bg-dark text-white flex gap-8 items-center justify-between px-5 py-3 transition-all duration-500"
+    >
+      <div className="font-bold leading-1.5 truncate" title={title}>
+        {title}
+      </div>
+      <div className="flex gap-2">
+        <ShareBtn shareUrl={share_url} videoId={videoId} />
+        <IconButton onClick={handleClose} variant="secondary">
+          <CloseIcon />
+        </IconButton>
+      </div>
+    </div>
+  );
+};
+
 const prepareLink = (url?: string) => {
   if (!url) return 'https://player.vimeo.com/video/x';
 
@@ -31,6 +75,7 @@ export const PlayerPage = () => {
   const [error, setError] = useState('');
   const goBack = useGoBack();
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const trackView = useCallback(async () => {
     if (!userId || !video?.author_id || !video?.id) return;
@@ -53,7 +98,7 @@ export const PlayerPage = () => {
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         if (videoRef.current) {
           videoRef.current.play();
-
+          setIsPlaying(true);
           trackView();
         }
       });
@@ -75,6 +120,17 @@ export const PlayerPage = () => {
         }
       });
 
+      videoRef.current.addEventListener('play', () => {
+        setIsPlaying(true);
+      });
+      videoRef.current.addEventListener('pause', () => {
+        setIsPlaying(false);
+      });
+      videoRef.current.addEventListener('error', () => {
+        setIsPlaying(false);
+        setError('An error occurred while loading the video :(');
+      });
+
       return () => {
         hls.destroy();
       };
@@ -87,19 +143,8 @@ export const PlayerPage = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="flex flex-col w-full">
-      <div className="bg-dark text-white flex gap-8 items-center justify-between px-5 py-3">
-        <div className="font-bold leading-1.5 truncate" title={video.title}>
-          {video.title}
-        </div>
-        <div className="flex gap-2">
-          <ShareBtn shareUrl={video.share_url} videoId={video?.id} />
-          <IconButton onClick={handleClose} variant="secondary">
-            <CloseIcon />
-          </IconButton>
-        </div>
-      </div>
-      <div className="relative flex-1 bg-dark">
+    <div ref={containerRef} className="relative w-full">
+      <div className="relative h-full bg-dark">
         {!error ? (
           <div className="absolute inset-0">
             <video className="w-full h-full" ref={videoRef} controls></video>
@@ -110,6 +155,13 @@ export const PlayerPage = () => {
           </div>
         )}
       </div>
+      <VideoControlBar
+        title={video.title}
+        videoId={video.id}
+        share_url={video.share_url}
+        handleClose={handleClose}
+        isPlaying={isPlaying}
+      />
     </div>
   );
 };
