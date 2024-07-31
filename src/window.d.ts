@@ -5,10 +5,12 @@ declare global {
         eventListener: {
           postMessage: (payload: {
             messageType: string;
-            data: {
-              event: string;
-              params: Record<string, string>;
-            };
+            data:
+              | {
+                  event: string;
+                  params: Record<string, string>;
+                }
+              | Record<string, string>;
           }) => void;
         };
       };

@@ -14,14 +14,6 @@ export const DownloadBtn = ({
   videoId,
 }: DownloadBtnProps) => {
   const handleClick = () => {
-    const link = document.createElement('a');
-    link.href = downloadLink;
-    link.download = title;
-    link.setAttribute('target', '_blank');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
     sendMessage({
       event: 'flips_click',
       params: {
@@ -31,6 +23,7 @@ export const DownloadBtn = ({
         type: 'media',
       },
     });
+    sendMessage({ url: downloadLink }, 'deeplink');
   };
 
   return (

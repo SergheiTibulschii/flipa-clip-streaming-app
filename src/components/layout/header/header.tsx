@@ -3,14 +3,24 @@ import { CloseIcon, LogoIcon } from '../../icons.ts';
 import { Container } from '../container';
 import { Link } from 'react-router-dom';
 import { pageRoutes } from '../../../lib/page-routes.ts';
+import { sendMessage } from '../../../lib/utils/tracking.ts';
 
 export const Header = () => {
+  const handleClose = () => {
+    sendMessage(
+      {
+        action: 'close',
+      },
+      'action'
+    );
+  };
+
   return (
     <nav>
       <Container>
         <div className="xxx flex items-center mt-6">
           <div className="basis-1/6">
-            <IconButton variant="ghost">
+            <IconButton onClick={handleClose} variant="ghost">
               <CloseIcon />
             </IconButton>
           </div>
