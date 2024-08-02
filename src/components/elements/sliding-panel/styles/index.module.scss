@@ -1,0 +1,6 @@
+.panel {
+  &__grid {
+    @apply grid justify-around md:justify-between gap-x-2 gap-y-4 lg:gap-x-8 lg:gap-y-8 overflow-hidden transition-all duration-300 ease-in-out;
+    grid-template-columns: repeat(auto-fill, 100px);
+  }
+}

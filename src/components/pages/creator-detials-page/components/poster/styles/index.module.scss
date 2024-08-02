@@ -1,0 +1,17 @@
+.poster {
+  @apply relative;
+
+  &__background {
+    @apply h-[230px] bleed overflow-hidden relative;
+
+    &:after {
+      @apply absolute inset-0;
+      content: '';
+      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(18,21,23,1) 100%);
+    }
+  }
+
+  &__content {
+    @apply absolute inset-0 flex flex-col pt-8 pb-4;
+  }
+}

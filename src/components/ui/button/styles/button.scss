@@ -1,0 +1,32 @@
+.btn {
+  @apply flex items-center justify-center gap-2 font-primary font-bold whitespace-nowrap hover:brightness-105 text-sm text-white;
+
+  &:not(&--icon,&--text) {
+    @apply min-h-12 px-4 rounded-8 min-w-[100px] sm:min-w-[108px];
+  }
+
+  &--primary {
+    @apply bg-gradient-to-r from-pink to-violet;
+  }
+
+  &--secondary {
+    @apply bg-gray-primary;
+  }
+
+  &--tertiary {
+    @apply bg-transparent border-1 border-pink-100;
+  }
+
+  &--text {
+    @apply w-auto h-auto inline-block p-0 text-pink;
+  }
+
+  &-ghost {
+    @apply bg-transparent;
+  }
+
+  &--icon {
+    @apply min-h-12 min-w-12 rounded-full flex justify-center items-center;
+  }
+}
+

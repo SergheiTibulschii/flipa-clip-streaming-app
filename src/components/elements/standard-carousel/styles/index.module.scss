@@ -1,0 +1,4 @@
+.carousel {
+  margin: 0 calc(-50vw + 50% + var(--scrollbar-width, 0px) / 2);
+  padding: 4px var(--container-px);
+}

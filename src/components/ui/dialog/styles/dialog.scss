@@ -1,0 +1,25 @@
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.dialog-background {
+  @apply absolute inset-0 z-0 max-md:hidden;
+}
+
+.dialog-content {
+  @apply m-auto bg-dark md:rounded-8 md:max-w-[510px] md:min-h-[640px] z-10 relative max-md:h-full flex;
+}
+
+.dialog-head {
+  @apply p-2.5;
+}
+
+.dialog-body {
+  @apply p-7 md:p-14 m-auto;
+}
