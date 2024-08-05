@@ -14,10 +14,7 @@ import {
 import { createClient } from '@supabase/supabase-js';
 import { env } from './lib/env.ts';
 import { Database } from './supabase';
-import { getOrCreateUserId } from './lib/utils/getOrCreateUserId.ts';
-import { VideoDetailsLoaderType } from './lib/types/video-details-types.ts';
 import { AppStoreProvider } from './context/app-store-context';
-import { getVideoStats } from './lib/supabase/getVideoStats.ts';
 import { apiV1 } from './api/axios';
 import { routes } from './api';
 import { Suspense } from 'react';
@@ -70,36 +67,6 @@ const router = createBrowserRouter([
   {
     path: routePatterns.videos.details,
     element: <VideoDetailsPage />,
-    loader: async ({ params }): Promise<VideoDetailsLoaderType | null> => {
-      if (!params.videoId) {
-        return null;
-      }
-      const userId = await getOrCreateUserId();
-
-      const [videoStatsData, video] = await Promise.all([
-        getVideoStats(params.videoId, userId),
-        apiV1
-          .get<VideoDetailsType>(routes.videos.one(params.videoId))
-          .catch(() => null),
-      ]);
-      const { user_liked, ...stats } = videoStatsData.data || {
-        video_id: params.videoId,
-        views_count: 0,
-        likes_count: 0,
-        author_id: video?.data.author_id || '',
-        user_liked: false,
-      };
-
-      if (!video?.data) {
-        return null;
-      }
-
-      return {
-        isLiked: user_liked,
-        ...video?.data,
-        stats,
-      };
-    },
     handle: {
       from: 'movie',
       trackType: 'media',

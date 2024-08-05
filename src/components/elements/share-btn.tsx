@@ -1,14 +1,20 @@
 import { ShareIcon } from '../icons.ts';
-import { IconButton } from '../ui/button/icon-button.tsx';
+import { IconButton, IconButtonProps } from '../ui/button/icon-button.tsx';
 import { text } from '../../lib/text.ts';
 
 type ShareBtnProps = {
   shareUrl: string;
   videoId: string;
   onClick?: (videoId: string) => void;
+  variant?: IconButtonProps['variant'];
 };
 
-export const ShareBtn = ({ shareUrl, videoId, onClick }: ShareBtnProps) => {
+export const ShareBtn = ({
+  shareUrl,
+  videoId,
+  onClick,
+  variant = 'secondary',
+}: ShareBtnProps) => {
   const handleClick = async () => {
     if (navigator.share) {
       await navigator.share({
@@ -24,7 +30,7 @@ export const ShareBtn = ({ shareUrl, videoId, onClick }: ShareBtnProps) => {
   };
 
   return (
-    <IconButton onClick={handleClick} variant="secondary">
+    <IconButton onClick={handleClick} variant={variant}>
       <ShareIcon />
     </IconButton>
   );

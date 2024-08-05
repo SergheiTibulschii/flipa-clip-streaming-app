@@ -5,7 +5,6 @@ import { VideoStats } from '../../../../elements/video-stats';
 import { useGoBack } from '../../../../../lib/hooks/useGoBack.ts';
 import { PlayBtn } from '../../../../elements/play-btn.tsx';
 import { LikeBtn } from '../../../../elements/like-btn.tsx';
-import { useVideoDetails } from '../../../../../context/video-details-context';
 import { ShareBtn } from '../../../../elements/share-btn.tsx';
 import { sendMessage } from '../../../../../lib/utils/tracking.ts';
 import { useVideoStats } from '../../../../../lib/jotai/hooks/useVideoStats.ts';
@@ -16,6 +15,7 @@ type PosterProps = {
   poster: string;
   authorId: string;
   shareUrl?: string;
+  isLiked?: boolean;
 };
 
 export const Poster = ({
@@ -23,9 +23,9 @@ export const Poster = ({
   poster,
   authorId,
   shareUrl,
+  isLiked = false,
 }: PosterProps) => {
   const goBack = useGoBack();
-  const { isLiked } = useVideoDetails();
   const { likes_count, views_count } = useVideoStats(videoId);
   const [showFallback, setShowFallback] = useState(!poster);
 

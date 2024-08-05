@@ -12,6 +12,7 @@ import { sendMessage } from '../../../../lib/utils/tracking.ts';
 import { useVideoStats } from '../../../../lib/jotai/hooks/useVideoStats.ts';
 import { StaticAvatar } from '../../../elements/avatar/static-avatar.tsx';
 import { Creator } from '../../../../lib/types/flipa-clip-api-types.ts';
+import { BannerDescription } from './banner-description.tsx';
 
 type HomeBannerProps = {
   videoId: string;
@@ -98,13 +99,7 @@ export const HomeBanner = ({
           {title}
         </Typography>
         {description && (
-          <Typography
-            className="line-clamp-2 max-w-[80%] mt-1"
-            variant="body1"
-            title={description}
-          >
-            {description}
-          </Typography>
+          <BannerDescription text={description} className="mt2" />
         )}
         <div className={styles['home-banner__controls']}>
           <div className="flex gap-1 sm:gap-2">

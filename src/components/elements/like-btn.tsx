@@ -53,7 +53,7 @@ export const LikeBtn = ({
       {liked ? (
         <HeartFilledIcon className="text-pink" width={24} height={24} />
       ) : (
-        <HeartIcon width={24} height={24} />
+        <HeartIcon className="text-white" width={24} height={24} />
       )}
     </IconButton>
   );

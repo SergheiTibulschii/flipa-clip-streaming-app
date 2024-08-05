@@ -1,6 +1,6 @@
 export const colors = {
   'pink-100': '#CFD0D6',
-  pink: '#FF5079',
+  pink: '#FF00B8',
   violet: '#8349FF',
   white: '#fff',
   'gray-primary': '#262626',
