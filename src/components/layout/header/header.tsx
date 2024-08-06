@@ -4,8 +4,31 @@ import { Container } from '../container';
 import { Link } from 'react-router-dom';
 import { pageRoutes } from '../../../lib/page-routes.ts';
 import { sendMessage } from '../../../lib/utils/tracking.ts';
+import { useEffect, useRef } from 'react';
 
 export const Header = () => {
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      const handleResize = () => {
+        const height = ref.current!.clientHeight;
+        const main = document.documentElement.querySelector('main');
+
+        if (main) {
+          main.style.marginTop = `${height}px`;
+        }
+      };
+
+      handleResize();
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }
+  }, []);
+
   const handleClose = () => {
     sendMessage(
       {
@@ -16,7 +39,7 @@ export const Header = () => {
   };
 
   return (
-    <nav>
+    <nav className="fixed z-10 bg-dark left-0 right-0 isolate" ref={ref}>
       <Container>
         <div className="xxx flex items-center mt-6">
           <div className="basis-1/6">

@@ -15,7 +15,7 @@ export const MainLayout = ({
   return (
     <div className="flex flex-col w-full">
       {displayHeader && <Header />}
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 isolate">{children}</main>
       {displayBecomeCreator && (
         <div className="mt-10">
           <BecomeCreator />
