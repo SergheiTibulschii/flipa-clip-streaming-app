@@ -17,10 +17,14 @@ import { routes } from '../../../api';
 import { getVideoStats } from '../../../lib/supabase/getVideoStats.ts';
 import { useAppStore } from '../../../context/app-store-context';
 import { Loader } from '../../elements/loader.tsx';
+import { useSetAtom } from 'jotai/index';
+import { addVideoToStatsAtom } from '../../../lib/jotai/atoms/videos.atom.ts';
 
 const useVideoDetails = (id: string, userId: string) => {
+  const shouldFetch = Boolean(id && userId);
+  const addVideoToStats = useSetAtom(addVideoToStatsAtom);
   const { data, isLoading } = useSWR(
-    `video-details-${id}`,
+    shouldFetch ? `video-details-${id}` : null,
     async () => {
       return Promise.all([
         apiV1
@@ -35,7 +39,6 @@ const useVideoDetails = (id: string, userId: string) => {
       revalidateIfStale: true,
     }
   );
-  console.log({ data });
 
   if (data) {
     const [videoDetails, videoStats] = data;
@@ -48,7 +51,12 @@ const useVideoDetails = (id: string, userId: string) => {
         author_id: videoDetails.author_id || '',
         user_liked: false,
       };
-
+      addVideoToStats({
+        video_id: stats.video_id,
+        author_id: stats.author_id,
+        views_count: stats.views_count,
+        likes_count: stats.likes_count,
+      });
       return {
         data: {
           isLiked: user_liked,
@@ -105,6 +113,7 @@ export const VideoDetailsPage = () => {
           poster={data!.featured_artwork}
           authorId={data!.author_id}
           shareUrl={data!.share_url}
+          isLiked={data!.isLiked}
         />
         <VideoDetails
           key={data!.id}

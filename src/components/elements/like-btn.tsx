@@ -6,6 +6,7 @@ import { likeVideo, unlikeVideo } from '../../lib/supabase/toggleVideoLike.ts';
 import { useSetAtom } from 'jotai';
 import { useAppStore } from '../../context/app-store-context';
 import { incrementLikesAtom } from '../../lib/jotai/atoms/incrementLikes.atom.ts';
+import { useSWRConfig } from 'swr';
 
 type LikeBtnType = {
   videoId: string;
@@ -25,6 +26,7 @@ export const LikeBtn = ({
   const likeVideoRef = useRef<VoidFunction | null>(null);
   const likeRef = useRef(liked);
   const incrementLikes = useSetAtom(incrementLikesAtom);
+  const { mutate } = useSWRConfig();
 
   if (!likeVideoRef.current) {
     likeVideoRef.current = throttle(async () => {
@@ -45,6 +47,8 @@ export const LikeBtn = ({
           onClick?.(true);
         }
       }
+
+      mutate(`video-details-${videoId}`);
     }, 1500);
   }
 
