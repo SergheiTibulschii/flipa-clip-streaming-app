@@ -7,18 +7,6 @@ import { VideoDetailsType } from '../../../lib/types/flipa-clip-api-types.ts';
 import { incrementViewsAtom } from '../../../lib/jotai/atoms/incrementViews.atom.ts';
 import Hls from 'hls.js';
 
-const prepareLink = (url?: string) => {
-  if (!url) return 'https://player.vimeo.com/video/x';
-
-  const videoLink = new URL(url);
-  videoLink.searchParams.set('playsinline', '1');
-  videoLink.searchParams.set('transparent', '0');
-  videoLink.searchParams.set('byline', '0');
-  videoLink.searchParams.set('portrait', '0');
-  videoLink.searchParams.set('title', '0');
-  return videoLink.toString();
-};
-
 export const PlayerPage = () => {
   const video = useLoaderData() as VideoDetailsType;
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -41,14 +29,14 @@ export const PlayerPage = () => {
   }, [incrementViews, userId, video?.author_id, video?.id]);
 
   useEffect(() => {
-    if (videoRef.current) {
+    if (videoRef.current && video.video_source) {
       videoRef.current.addEventListener('error', () => {
         setError('An error occurred while loading the video :(');
       });
 
       if (Hls.isSupported()) {
         const hls = new Hls();
-        hls.loadSource(prepareLink(video?.video_source));
+        hls.loadSource(video.video_source);
         hls.attachMedia(videoRef.current);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
           if (videoRef.current) {
@@ -80,13 +68,15 @@ export const PlayerPage = () => {
       } else if (
         videoRef.current.canPlayType('application/vnd.apple.mpegurl')
       ) {
-        videoRef.current.src = prepareLink(video?.video_source);
-        videoRef.current.preload = 'metadata';
+        if (video?.video_source) {
+          videoRef.current.src = video.video_source;
+          videoRef.current.preload = 'metadata';
 
-        videoRef.current.addEventListener('loadedmetadata', () => {
-          videoRef.current?.play();
-          trackView();
-        });
+          videoRef.current.addEventListener('loadedmetadata', () => {
+            videoRef.current?.play();
+            trackView();
+          });
+        }
       }
     }
   }, [trackView, video?.video_source]);

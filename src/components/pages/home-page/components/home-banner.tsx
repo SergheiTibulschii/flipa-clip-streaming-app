@@ -13,6 +13,7 @@ import { useVideoStats } from '../../../../lib/jotai/hooks/useVideoStats.ts';
 import { StaticAvatar } from '../../../elements/avatar/static-avatar.tsx';
 import { Creator } from '../../../../lib/types/flipa-clip-api-types.ts';
 import { BannerDescription } from './banner-description.tsx';
+import { Video } from '../../../ui/video';
 
 type HomeBannerProps = {
   videoId: string;
@@ -28,6 +29,7 @@ export const HomeBanner = ({
   title,
   description,
   coverUrl,
+  previewUrl,
   author,
 }: HomeBannerProps) => {
   const navigate = useNavigate();
@@ -73,12 +75,7 @@ export const HomeBanner = ({
   return (
     <div className={styles['home-banner']}>
       <div className={styles['home-banner__background']}>
-        <img
-          fetchPriority="high"
-          className="image"
-          src={coverUrl}
-          alt="Hero Banner"
-        />
+        <Video src={previewUrl} thumbnail={coverUrl} />
       </div>
       <div className={styles['home-banner__content']}>
         {author && (
