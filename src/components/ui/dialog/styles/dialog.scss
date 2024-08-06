@@ -13,7 +13,7 @@
 }
 
 .dialog-content {
-  @apply m-auto bg-dark md:rounded-8 md:max-w-[510px] md:min-h-[640px] z-10 relative max-md:h-full flex;
+  @apply m-auto w-full bg-dark md:rounded-8 md:min-h-[640px] z-10 relative max-md:h-full flex;
 }
 
 .dialog-head {
@@ -21,5 +21,5 @@
 }
 
 .dialog-body {
-  @apply p-7 md:p-14 m-auto;
+  @apply p-7 md:p-[60px] m-auto w-full;
 }

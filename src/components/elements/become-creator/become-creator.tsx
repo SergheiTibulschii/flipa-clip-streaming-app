@@ -64,7 +64,7 @@ export const BecomeCreator = () => {
             navigate(pageRoutes.creator.become);
           }}
         >
-          {text.explore}
+          {text.share}
         </Button>
       </div>
     </div>

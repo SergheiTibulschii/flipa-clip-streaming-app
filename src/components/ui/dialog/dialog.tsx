@@ -29,7 +29,7 @@ export const Dialog = ({
   return isOpened ? (
     <DialogProvider onDissmiss={onDismiss} isOpened={isOpened}>
       <div className={modalOverlayClasses} onClick={onDismiss}>
-        <div className="h-full flex overflow-y-auto md:p-5">
+        <div className="h-full flex overflow-y-auto md:basis-[510px] w-full">
           {overlayBackground && (
             <div className="dialog-background">{overlayBackground}</div>
           )}
@@ -41,7 +41,7 @@ export const Dialog = ({
             onClick={(e) => e.stopPropagation()}
           >
             <IconButton
-              className="absolute top-4 right-4 md:top-[10px] md:right-[10px]"
+              className="absolute top-4 left-4"
               variant="secondary"
               onClick={onDismiss}
             >

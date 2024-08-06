@@ -8,9 +8,7 @@ import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { pageRoutes } from '../../../../../lib/page-routes.ts';
 
-type BecomeCreatorDialogProps = {};
-
-export const BecomeCreatorDialog = ({}: BecomeCreatorDialogProps) => {
+export const BecomeCreatorDialog = () => {
   const navigate = useNavigate();
   const [showThankYou, setShowThankYou] = useState(false);
 
@@ -37,26 +35,22 @@ export const BecomeCreatorDialog = ({}: BecomeCreatorDialogProps) => {
     >
       {showThankYou ? (
         <div className="text-center">
-          <Typography variant={'h4'}>{text.thankYou}</Typography>
-          <Typography className="mt-3 max-w-[85%] m-auto" variant={'body1'}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s
+          <Typography variant={'h4'}>{text.woohoo}</Typography>
+          <Typography className="mt-3 max-w-[292px] m-auto" variant={'body1'}>
+            {text.thanks}
           </Typography>
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
           <Typography variant={'h4'}>{text.becomeCreator}</Typography>
-          <Typography variant={'body1'}>
-            {text.createYourOwnAnimations}
-          </Typography>
+          <Typography variant={'body1'}>{text.includeLink}</Typography>
           <div className="mt-10 mb-8 flex flex-col gap-4">
             <Input placeholder={text.name} name="name" />
             <Input placeholder={text.email} name="email" />
             <Input placeholder={text.link} name="link" />
           </div>
           <Button type="submit" wide>
-            {text.sendRequest}
+            {text.submit}
           </Button>
         </form>
       )}
