@@ -41,7 +41,7 @@ export const StaticAvatar = ({
             }}
           />
         ) : (
-          <div className="w-full h-full bg-gray-primary flex items-center justify-center text-pink">
+          <div className="w-full h-full bg-gray-primary flex items-center justify-center text-accent">
             <UserSvg />
           </div>
         )}

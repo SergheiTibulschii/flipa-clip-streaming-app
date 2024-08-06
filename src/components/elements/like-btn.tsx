@@ -55,7 +55,7 @@ export const LikeBtn = ({
   return (
     <IconButton onClick={likeVideoRef.current} variant="secondary">
       {liked ? (
-        <HeartFilledIcon className="text-pink" width={24} height={24} />
+        <HeartFilledIcon className="text-accent" width={24} height={24} />
       ) : (
         <HeartIcon className="text-white" width={24} height={24} />
       )}

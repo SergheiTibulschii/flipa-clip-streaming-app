@@ -8,4 +8,5 @@ export const colors = {
   dark: '#121517',
   transparent: 'transparent',
   black: '#000',
+  accent: '#FF2CF7',
 };

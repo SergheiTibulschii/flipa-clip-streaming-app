@@ -11,7 +11,6 @@ type ExpandableTextProps = {
 
 export const ExpandableText = ({ text, className }: ExpandableTextProps) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  // const [isExpanded, setIsExpanded] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const cns = clsx({
@@ -48,10 +47,6 @@ export const ExpandableText = ({ text, className }: ExpandableTextProps) => {
   return (
     <div className={className}>
       <div className={cns} ref={ref}>
-        {/*<Typography className={cns} variant="body1">*/}
-        {/*  /!*{isExpanded ? text : text.substring(0, maxLength) + '...'}*!/*/}
-        {/*  {text}*/}
-        {/*</Typography>*/}
         {text}
       </div>
       <div className={btnContainerCns}>
