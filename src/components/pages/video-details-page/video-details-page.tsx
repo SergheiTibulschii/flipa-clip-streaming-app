@@ -135,9 +135,6 @@ export const VideoDetailsPage = () => {
             ))}
           </StandardCarousel>
         </div>
-        <video preload="auto">
-          <source src={data!.video_source} />
-        </video>
       </Container>
     </MainLayout>
   );
