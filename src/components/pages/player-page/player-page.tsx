@@ -35,13 +35,19 @@ export const PlayerPage = () => {
       });
 
       if (Hls.isSupported()) {
-        const hls = new Hls();
+        const hls = new Hls({
+          autoStartLoad: true,
+        });
         hls.loadSource(video.video_source);
         hls.attachMedia(videoRef.current);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
           if (videoRef.current) {
-            videoRef.current.play();
-            trackView();
+            videoRef.current.play().then(() => {
+              if (videoRef.current) {
+                videoRef.current.muted = false;
+              }
+              return trackView();
+            });
           }
         });
 
@@ -73,8 +79,12 @@ export const PlayerPage = () => {
           videoRef.current.preload = 'metadata';
 
           videoRef.current.addEventListener('loadedmetadata', () => {
-            videoRef.current?.play();
-            trackView();
+            videoRef.current?.play().then(() => {
+              if (videoRef.current) {
+                videoRef.current.muted = false;
+              }
+              return trackView();
+            });
           });
         }
       }
@@ -86,7 +96,12 @@ export const PlayerPage = () => {
       <div className="relative h-full bg-dark">
         {!error ? (
           <div className="absolute inset-0">
-            <video className="w-full h-full" ref={videoRef} controls></video>
+            <video
+              className="w-full h-full"
+              ref={videoRef}
+              muted
+              controls
+            ></video>
           </div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center font-bold leading-1.5">
