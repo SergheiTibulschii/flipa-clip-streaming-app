@@ -16,12 +16,7 @@ export const Header = () => {
   };
 
   return (
-    <nav
-      style={{
-        paddingTop: 'env(safe-area-inset-top)',
-      }}
-      className="sticky top-0 z-10 bg-dark left-0 right-0 isolate"
-    >
+    <nav className="sticky top-0 z-10 bg-dark left-0 right-0 isolate">
       <Container>
         <div className="flex items-center">
           <div className="basis-1/6">
