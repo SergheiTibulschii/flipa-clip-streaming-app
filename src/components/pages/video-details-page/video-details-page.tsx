@@ -32,11 +32,6 @@ const useVideoDetails = (id: string, userId: string) => {
           .catch(() => null),
         getVideoStats(id, userId),
       ]);
-    },
-    {
-      revalidateOnReconnect: false,
-      revalidateIfStale: true,
-      refreshInterval: 1000 * 60 * 20,
     }
   );
 

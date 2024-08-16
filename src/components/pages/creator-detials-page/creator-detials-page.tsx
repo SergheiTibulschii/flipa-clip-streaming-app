@@ -17,20 +17,12 @@ import { routes } from '../../../api';
 import { Loader } from '../../elements/loader.tsx';
 
 const useCreatorDetails = (id: string) => {
-  return useSWR(
-    `creator-details-${id}`,
-    async () => {
-      return apiV1
-        .get<AuthorDetailsType>(routes.authors.one(id))
-        .then((r) => r.data)
-        .catch(() => null);
-    },
-    {
-      revalidateOnReconnect: false,
-      revalidateIfStale: true,
-      refreshInterval: 1000 * 60 * 20,
-    }
-  );
+  return useSWR(`creator-details-${id}`, async () => {
+    return apiV1
+      .get<AuthorDetailsType>(routes.authors.one(id))
+      .then((r) => r.data)
+      .catch(() => null);
+  });
 };
 
 export const CreatorDetialsPage = () => {
