@@ -94,7 +94,7 @@ export const HomePage = () => {
         <div className="mt-4">
           <HomeBanner
             videoId={homePageData.featured.id}
-            title={homePageData.featured.title}
+            title={homePageData.featured.title + 'test'}
             description={homePageData.featured.description}
             coverUrl={homePageData.featured.featured_artwork}
             previewUrl={homePageData.featured.featured_preview}
