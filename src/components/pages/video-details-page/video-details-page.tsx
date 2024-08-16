@@ -43,7 +43,7 @@ const useVideoDetails = (id: string, userId: string) => {
   if (data) {
     const [videoDetails, videoStats] = data;
 
-    if (videoDetails && videoStats.data) {
+    if (videoDetails && videoStats) {
       const { user_liked, ...stats } = videoStats.data || {
         video_id: id,
         views_count: 0,
