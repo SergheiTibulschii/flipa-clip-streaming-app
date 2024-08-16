@@ -39,7 +39,7 @@ export const Header = () => {
   };
 
   return (
-    <nav className="fixed z-10 bg-dark left-0 right-0 isolate" ref={ref}>
+    <nav className="top-0 z-10 bg-dark left-0 right-0 isolate" ref={ref}>
       <Container>
         <div className="xxx flex items-center mt-6">
           <div className="basis-1/6">
