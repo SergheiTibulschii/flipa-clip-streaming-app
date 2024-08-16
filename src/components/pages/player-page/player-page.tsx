@@ -5,7 +5,56 @@ import { useSetAtom } from 'jotai/index';
 import { viewVideo } from '../../../lib/supabase/viewVideo.ts';
 import { VideoDetailsType } from '../../../lib/types/flipa-clip-api-types.ts';
 import { incrementViewsAtom } from '../../../lib/jotai/atoms/incrementViews.atom.ts';
+import { IconButton } from '../../ui/button/icon-button.tsx';
+import { CloseIcon } from '../../icons.ts';
+import { useGoBack } from '../../../lib/hooks/useGoBack.ts';
+import { ShareBtn } from '../../elements/share-btn.tsx';
 import Hls from 'hls.js';
+
+type VideoControlBarProps = {
+  title: string;
+  share_url: string;
+  videoId: string;
+  handleClose: () => void;
+  isPlaying: boolean;
+};
+
+const VideoControlBar = ({
+  title,
+  share_url,
+  videoId,
+  handleClose,
+  isPlaying,
+}: VideoControlBarProps) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.style.transform = `translateY(${isPlaying ? '-100%' : '0'})`;
+      ref.current.style.opacity = isPlaying ? '0' : '1';
+    }
+  }, [isPlaying]);
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        top: 'env(safe-area-inset-top, 0)',
+      }}
+      className="absolute left-0 w-full bg-dark text-white flex gap-8 items-center justify-between px-5 py-3 transition-all duration-500"
+    >
+      <div className="font-bold leading-1.5 truncate" title={title}>
+        {title}
+      </div>
+      <div className="flex gap-2">
+        <ShareBtn shareUrl={share_url} videoId={videoId} />
+        <IconButton onClick={handleClose} variant="secondary">
+          <CloseIcon />
+        </IconButton>
+      </div>
+    </div>
+  );
+};
 
 export const PlayerPage = () => {
   const video = useLoaderData() as VideoDetailsType;
@@ -14,6 +63,8 @@ export const PlayerPage = () => {
   const incrementViews = useSetAtom(incrementViewsAtom);
   const [error, setError] = useState('');
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const goBack = useGoBack();
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const trackView = useCallback(async () => {
     if (!userId || !video?.author_id || !video?.id) return;
@@ -30,6 +81,17 @@ export const PlayerPage = () => {
 
   useEffect(() => {
     if (videoRef.current && video.video_source) {
+      videoRef.current.addEventListener('play', () => {
+        setIsPlaying(true);
+      });
+      videoRef.current.addEventListener('pause', () => {
+        setIsPlaying(false);
+      });
+      videoRef.current.addEventListener('error', () => {
+        setIsPlaying(false);
+        setError('An error occurred while loading the video :(');
+      });
+
       videoRef.current.addEventListener('error', () => {
         setError('An error occurred while loading the video :(');
       });
@@ -43,6 +105,7 @@ export const PlayerPage = () => {
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
           if (videoRef.current) {
             videoRef.current.play().then(() => {
+              setIsPlaying(true);
               if (videoRef.current) {
                 videoRef.current.muted = false;
               }
@@ -80,6 +143,7 @@ export const PlayerPage = () => {
 
           videoRef.current.addEventListener('loadedmetadata', () => {
             videoRef.current?.play().then(() => {
+              setIsPlaying(true);
               if (videoRef.current) {
                 videoRef.current.muted = false;
               }
@@ -90,6 +154,11 @@ export const PlayerPage = () => {
       }
     }
   }, [trackView, video?.video_source]);
+
+  const handleClose = useCallback(() => {
+    goBack();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div
@@ -116,6 +185,13 @@ export const PlayerPage = () => {
           </div>
         )}
       </div>
+      <VideoControlBar
+        title={video.title}
+        videoId={video.id}
+        share_url={video.share_url}
+        handleClose={handleClose}
+        isPlaying={isPlaying}
+      />
     </div>
   );
 };
