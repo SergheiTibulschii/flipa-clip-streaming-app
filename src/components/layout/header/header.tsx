@@ -44,6 +44,7 @@ export const Header = () => {
         <div
           style={{
             paddingTop: 'env(safe-area-inset-top, 16px)',
+            marginTop: 'calc(env(safe-area-inset-top, -16px) * -1)',
           }}
           className="flex items-center"
         >
