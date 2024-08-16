@@ -92,7 +92,14 @@ export const PlayerPage = () => {
   }, [trackView, video?.video_source]);
 
   return (
-    <div ref={containerRef} className="relative w-full">
+    <div
+      style={{
+        padding:
+          'env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)',
+      }}
+      ref={containerRef}
+      className="relative w-full"
+    >
       <div className="relative h-full bg-dark">
         {!error ? (
           <div className="absolute inset-0">
