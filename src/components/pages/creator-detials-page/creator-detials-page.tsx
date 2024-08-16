@@ -54,7 +54,7 @@ export const CreatorDetialsPage = () => {
   };
 
   return (
-    <MainLayout displayHeader={false} displayBecomeCreator={false}>
+    <MainLayout displayBecomeCreator={false}>
       <Container>
         <div className="pb-10 lg:pb-14">
           <Poster authorId={creator.id} poster={creator.banner} />
