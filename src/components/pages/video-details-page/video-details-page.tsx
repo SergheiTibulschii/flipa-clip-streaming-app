@@ -106,7 +106,7 @@ export const VideoDetailsPage = () => {
   }
 
   return (
-    <MainLayout displayHeader={false}>
+    <MainLayout>
       <Container>
         <Poster
           videoId={data!.id}
