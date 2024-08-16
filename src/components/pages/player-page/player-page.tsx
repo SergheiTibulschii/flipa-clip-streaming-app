@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppStore } from '../../../context/app-store-context';
 import { useSetAtom } from 'jotai/index';
@@ -10,6 +10,9 @@ import { CloseIcon } from '../../icons.ts';
 import { useGoBack } from '../../../lib/hooks/useGoBack.ts';
 import { ShareBtn } from '../../elements/share-btn.tsx';
 import Hls from 'hls.js';
+import useSWR from 'swr';
+import { apiV1 } from '../../../api/axios';
+import { routes } from '../../../api';
 
 type VideoControlBarProps = {
   title: string;
@@ -57,7 +60,13 @@ const VideoControlBar = ({
 };
 
 export const PlayerPage = () => {
-  const video = useLoaderData() as VideoDetailsType;
+  const params = useParams();
+  const { data: video } = useSWR(`play-video-${params.videoId}`, async () =>
+    apiV1
+      .get<VideoDetailsType>(routes.videos.one(params.videoId || ''))
+      .then((r) => r.data)
+      .catch(() => null)
+  );
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { userId } = useAppStore();
   const incrementViews = useSetAtom(incrementViewsAtom);
@@ -80,7 +89,7 @@ export const PlayerPage = () => {
   }, [incrementViews, userId, video?.author_id, video?.id]);
 
   useEffect(() => {
-    if (videoRef.current && video.video_source) {
+    if (videoRef.current && video && video.video_source) {
       videoRef.current.addEventListener('play', () => {
         setIsPlaying(true);
       });
@@ -187,9 +196,9 @@ export const PlayerPage = () => {
         )}
       </div>
       <VideoControlBar
-        title={video.title}
-        videoId={video.id}
-        share_url={video.share_url}
+        title={video?.title || ''}
+        videoId={video?.id || ''}
+        share_url={video?.share_url || ''}
         handleClose={handleClose}
         isPlaying={isPlaying}
       />

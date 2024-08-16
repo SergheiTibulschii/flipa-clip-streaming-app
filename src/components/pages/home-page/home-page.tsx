@@ -3,59 +3,53 @@ import { HomeBanner } from './components';
 import { Container } from '../../layout/container';
 import { Creators } from '../../elements/creators';
 import { sendMessage } from '../../../lib/utils/tracking.ts';
-import { useEffect, useState } from 'react';
-import { useAtomValue } from 'jotai/index';
-import { loadableHomePageAtom } from '../../../lib/jotai/atoms/homePage.atom.ts';
+import { useEffect } from 'react';
 import { Loader } from '../../elements/loader.tsx';
 import { useSetAtom } from 'jotai';
 import { setAuthorsStateAtom } from '../../../lib/jotai/atoms/authors.ts';
 import { setVideosStateAtom } from '../../../lib/jotai/atoms/videos.atom.ts';
-import { HomePageDataType } from '../../../lib/types/home-page.types.ts';
 import { Card } from '../../elements/card/card.tsx';
 import { StandardCarousel } from '../../elements/standard-carousel';
+import useSWR from 'swr';
+import { apiV1 } from '../../../api/axios';
+import { HomePageType } from '../../../lib/types/flipa-clip-api-types.ts';
+import { routes } from '../../../api';
+import { Typography } from '../../ui/typography';
+import { text } from '../../../lib/text.ts';
 
 const useHomePageData = () => {
-  const homePageAtomValue = useAtomValue(loadableHomePageAtom);
+  const { data, isLoading, error } = useSWR('home-page', async () =>
+    apiV1
+      .get<HomePageType>(routes.home)
+      .then((r) => r.data)
+      .catch(() => null)
+  );
   const setAuthorsState = useSetAtom(setAuthorsStateAtom);
   const setVideosState = useSetAtom(setVideosStateAtom);
-  const [homePageData, setHomePageData] = useState<HomePageDataType | null>(
-    null
-  );
-  const [homePageLoading, setHomePageLoading] = useState(true);
-  const [homePageError, setHomePageError] = useState(false);
 
   useEffect(() => {
-    if (homePageAtomValue.state === 'hasData') {
-      const authorIds = homePageAtomValue.data.creators.map((c) => c.id);
-      const videoIds = homePageAtomValue.data.sections.flatMap((s) =>
-        s.content.map((c) => c.id)
-      );
-      const [featuredVideo] = homePageAtomValue.data.featured;
+    if (!isLoading && data && !error) {
+      const authorIds = data.creators.map((c) => c.id);
+      const videoIds = data.sections.flatMap((s) => s.content.map((c) => c.id));
+      const [featuredVideo] = data.featured;
 
       if (featuredVideo) {
         videoIds.push(featuredVideo.id);
       }
 
       Promise.all([setAuthorsState(authorIds), setVideosState(videoIds)]);
-      setHomePageData({
-        ...homePageAtomValue.data,
-        featured: featuredVideo,
-      });
-      setHomePageLoading(false);
-    } else if (homePageAtomValue.state === 'hasError') {
-      setHomePageError(true);
     }
-  }, [homePageAtomValue.state]);
+  }, [error, data, isLoading]);
 
   return {
-    homePageData,
-    homePageLoading,
-    homePageError,
+    data,
+    isLoading,
+    error,
   };
 };
 
 export const HomePage = () => {
-  const { homePageError, homePageLoading, homePageData } = useHomePageData();
+  const { isLoading, data } = useHomePageData();
 
   useEffect(() => {
     sendMessage({
@@ -64,16 +58,20 @@ export const HomePage = () => {
     });
   }, []);
 
-  if (homePageLoading) {
+  if (isLoading) {
     return <Loader />;
   }
 
-  if (homePageError) {
-    throw new Error('Failed to fetch home page data');
-  }
-
-  if (!homePageData) {
-    return null;
+  if (!isLoading && !data) {
+    return (
+      <MainLayout>
+        <Container>
+          <Typography className="mt-10" variant="h4">
+            {text.videoDoesNotExist}
+          </Typography>
+        </Container>
+      </MainLayout>
+    );
   }
 
   const handleCreatorsClick = (authorId: string) => {
@@ -91,17 +89,19 @@ export const HomePage = () => {
   return (
     <MainLayout>
       <Container>
-        <div className="mt-4">
-          <HomeBanner
-            videoId={homePageData.featured.id}
-            title={homePageData.featured.title}
-            description={homePageData.featured.description}
-            coverUrl={homePageData.featured.featured_artwork}
-            previewUrl={homePageData.featured.featured_preview}
-            author={homePageData.featured.author}
-          />
-        </div>
-        {homePageData.sections.map(({ title, content }) => (
+        {data!.featured[0] && (
+          <div className="mt-4">
+            <HomeBanner
+              videoId={data!.featured[0].id}
+              title={data!.featured[0].title}
+              description={data!.featured[0].description}
+              coverUrl={data!.featured[0].featured_artwork}
+              previewUrl={data!.featured[0].featured_preview}
+              author={data!.featured[0].author}
+            />
+          </div>
+        )}
+        {data!.sections.map(({ title, content }) => (
           <div key={title} className="mt-8 empty:hidden">
             <StandardCarousel title={title}>
               {content.map(({ id, title, poster_artwork }) => (
@@ -117,7 +117,7 @@ export const HomePage = () => {
         ))}
         <div className="mt-8">
           <Creators
-            creators={homePageData.creators || []}
+            creators={data!.creators || []}
             onClick={handleCreatorsClick}
           />
         </div>

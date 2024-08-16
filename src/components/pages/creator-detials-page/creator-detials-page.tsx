@@ -5,31 +5,55 @@ import { CreatorDetails } from './components/creator-details';
 import { Creators } from '../../elements/creators';
 import { StandardCarousel } from '../../elements/standard-carousel';
 import { Card } from '../../elements/card/card.tsx';
-import { useLoaderData } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Typography } from '../../ui/typography';
 import { text } from '../../../lib/text.ts';
 import { sendMessage } from '../../../lib/utils/tracking.ts';
 import { useEffect } from 'react';
 import { AuthorDetailsType } from '../../../lib/types/flipa-clip-api-types.ts';
-import { useScrollToTop } from '../../../lib/hooks/useScrollToTop.ts';
+import useSWR from 'swr';
+import { apiV1 } from '../../../api/axios';
+import { routes } from '../../../api';
+import { Loader } from '../../elements/loader.tsx';
+
+const useCreatorDetails = (id: string) => {
+  return useSWR(
+    `creator-details-${id}`,
+    async () => {
+      return apiV1
+        .get<AuthorDetailsType>(routes.authors.one(id))
+        .then((r) => r.data)
+        .catch(() => null);
+    },
+    {
+      revalidateOnReconnect: false,
+      revalidateIfStale: true,
+      refreshInterval: 1000 * 60 * 20,
+    }
+  );
+};
 
 export const CreatorDetialsPage = () => {
-  const creator = useLoaderData() as AuthorDetailsType;
-  useScrollToTop();
+  const params = useParams();
+  const { data, isLoading, error } = useCreatorDetails(params.creatorId || '');
 
   useEffect(() => {
-    if (creator?.id) {
+    if (data && !isLoading && !error && params.creatorId) {
       sendMessage({
         event: 'flips_view',
         params: {
-          id: creator.id,
+          id: params.creatorId,
           type: 'creator',
         },
       });
     }
-  }, [creator?.id]);
+  }, [error, data, isLoading, params.creatorId]);
 
-  if (!creator) {
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (!isLoading && !data) {
     return (
       <MainLayout>
         <Container>
@@ -57,11 +81,11 @@ export const CreatorDetialsPage = () => {
     <MainLayout displayBecomeCreator={false}>
       <Container>
         <div className="pb-10 lg:pb-14">
-          <Poster authorId={creator.id} poster={creator.banner} />
-          <CreatorDetails author={creator} description={creator.bio} />
+          <Poster authorId={data!.id} poster={data!.banner} />
+          <CreatorDetails author={data!} description={data!.bio} />
           <div className="mt-8">
             <StandardCarousel title="You may also like">
-              {creator.videos.map(({ id, title, poster_artwork }) => (
+              {data!.videos.map(({ id, title, poster_artwork }) => (
                 <Card
                   id={id}
                   key={id}
@@ -72,10 +96,7 @@ export const CreatorDetialsPage = () => {
             </StandardCarousel>
           </div>
           <div className="mt-8">
-            <Creators
-              creators={creator.creators}
-              onClick={handleCreatorsClick}
-            />
+            <Creators creators={data!.creators} onClick={handleCreatorsClick} />
           </div>
         </div>
       </Container>

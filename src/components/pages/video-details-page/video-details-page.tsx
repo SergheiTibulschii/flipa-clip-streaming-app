@@ -9,7 +9,6 @@ import { Typography } from '../../ui/typography';
 import { text } from '../../../lib/text.ts';
 import { useEffect } from 'react';
 import { sendMessage } from '../../../lib/utils/tracking.ts';
-import { useScrollToTop } from '../../../lib/hooks/useScrollToTop.ts';
 import useSWR from 'swr';
 import { apiV1 } from '../../../api/axios';
 import { VideoDetailsType } from '../../../lib/types/flipa-clip-api-types.ts';
@@ -37,6 +36,7 @@ const useVideoDetails = (id: string, userId: string) => {
     {
       revalidateOnReconnect: false,
       revalidateIfStale: true,
+      refreshInterval: 1000 * 60 * 20,
     }
   );
 
@@ -74,7 +74,6 @@ const useVideoDetails = (id: string, userId: string) => {
 export const VideoDetailsPage = () => {
   const params = useParams();
   const { userId } = useAppStore();
-  useScrollToTop();
   const { isLoading, data } = useVideoDetails(params.videoId || '', userId);
 
   useEffect(() => {
