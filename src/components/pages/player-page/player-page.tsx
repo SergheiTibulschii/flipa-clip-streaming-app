@@ -177,6 +177,7 @@ export const PlayerPage = () => {
               ref={videoRef}
               muted
               controls
+              playsInline
             ></video>
           </div>
         ) : (
