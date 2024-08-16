@@ -42,18 +42,14 @@ export const Header = () => {
     <nav
       style={{
         top: 'env(safe-area-inset-top, 0)',
+        paddingTop: 'env(safe-area-inset-top, 16px)',
+        marginTop: 'calc(env(safe-area-inset-top, -16px) * -1)',
       }}
       className="sticky z-10 bg-dark left-0 right-0 isolate"
       ref={ref}
     >
       <Container>
-        <div
-          style={{
-            paddingTop: 'env(safe-area-inset-top, 16px)',
-            marginTop: 'calc(env(safe-area-inset-top, -16px) * -1)',
-          }}
-          className="flex items-center"
-        >
+        <div className="flex items-center">
           <div className="basis-1/6">
             <IconButton onClick={handleClose} variant="ghost">
               <CloseIcon />
