@@ -24,46 +24,42 @@ const useVideoDetails = (id: string, userId: string) => {
   const addVideoToStats = useSetAtom(addVideoToStatsAtom);
   const { data, isLoading } = useSWR(
     shouldFetch ? `video-details-${id}` : null,
-    async () => {
-      return Promise.all([
-        apiV1
-          .get<VideoDetailsType>(routes.videos.one(id))
-          .then((r) => r.data)
-          .catch(() => null),
-        getVideoStats(id, userId),
-      ]);
-    }
+    async () =>
+      apiV1
+        .get<VideoDetailsType>(routes.videos.one(id))
+        .then((r) => r.data)
+        .catch(() => null)
+  );
+  const { data: statsData, isLoading: isStatsLoading } = useSWR(
+    shouldFetch ? `video-stats-${id}` : null,
+    async () => getVideoStats(id, userId)
   );
 
-  if (data) {
-    const [videoDetails, videoStats] = data;
-
-    if (videoDetails && videoStats) {
-      const { user_liked, ...stats } = videoStats.data || {
-        video_id: id,
-        views_count: 0,
-        likes_count: 0,
-        author_id: videoDetails.author_id || '',
-        user_liked: false,
-      };
-      addVideoToStats({
-        video_id: stats.video_id,
-        author_id: stats.author_id,
-        views_count: stats.views_count,
-        likes_count: stats.likes_count,
-      });
-      return {
-        data: {
-          isLiked: user_liked,
-          ...videoDetails,
-          stats,
-        },
-        isLoading,
-      };
-    }
+  if (statsData && data) {
+    const { user_liked, ...stats } = statsData.data || {
+      video_id: id,
+      views_count: 0,
+      likes_count: 0,
+      author_id: data.author_id || '',
+      user_liked: false,
+    };
+    addVideoToStats({
+      video_id: stats.video_id,
+      author_id: stats.author_id,
+      views_count: stats.views_count,
+      likes_count: stats.likes_count,
+    });
+    return {
+      data: {
+        isLiked: user_liked,
+        ...data,
+        stats,
+      },
+      isLoading: isLoading || isStatsLoading || !data,
+    };
   }
 
-  return { data: null, isLoading };
+  return { data: null, isLoading: isLoading || isStatsLoading || !data };
 };
 
 export const VideoDetailsPage = () => {
@@ -100,7 +96,7 @@ export const VideoDetailsPage = () => {
   }
 
   return (
-    <MainLayout>
+    <MainLayout displayHeader={false}>
       <Container>
         <Poster
           videoId={data!.id}

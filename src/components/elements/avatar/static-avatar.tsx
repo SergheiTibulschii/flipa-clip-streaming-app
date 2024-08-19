@@ -5,6 +5,7 @@ import { pageRoutes } from '../../../lib/page-routes.ts';
 import { useState } from 'react';
 import { UserSvg } from '../../icons.ts';
 import { Creator } from '../../../lib/types/flipa-clip-api-types.ts';
+import { Image } from '../../ui/image.tsx';
 
 type AvatarProps = Pick<Creator, 'id' | 'avatar' | 'name'> & {
   className?: string;
@@ -33,7 +34,7 @@ export const StaticAvatar = ({
     >
       <div className={styles['avatar__image']}>
         {!showFallback ? (
-          <img
+          <Image
             src={avatar || ''}
             alt={`${name}'s avatar`}
             onError={() => {

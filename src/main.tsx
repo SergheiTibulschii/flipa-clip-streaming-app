@@ -90,6 +90,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               refreshInterval: 1000 * 60 * 20,
               revalidateOnReconnect: false,
               revalidateIfStale: true,
+              revalidateOnFocus: false,
             }}
           >
             <RouterProvider router={router} />

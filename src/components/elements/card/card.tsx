@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { pageRoutes } from '../../../lib/page-routes.ts';
 import clsx from 'clsx';
 import { useVideoStats } from '../../../lib/jotai/hooks/useVideoStats.ts';
+import { Image } from '../../ui/image.tsx';
 
 type CardProps = {
   title: string;
@@ -34,7 +35,14 @@ export const Card = ({
       className={cns}
     >
       <div className={styles.card__cover}>
-        <img className="image" src={coverImageSrc} alt="" loading="lazy" />
+        <Image
+          width="144"
+          height="214"
+          className="image"
+          src={coverImageSrc}
+          alt=""
+          loading="lazy"
+        />
       </div>
       <div className="px-2">
         <div className={`${styles.card__title} mt-2 line-clamp-2 capitalize`}>

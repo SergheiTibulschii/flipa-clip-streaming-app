@@ -9,6 +9,7 @@ import { ShareBtn } from '../../../../elements/share-btn.tsx';
 import { sendMessage } from '../../../../../lib/utils/tracking.ts';
 import { useVideoStats } from '../../../../../lib/jotai/hooks/useVideoStats.ts';
 import { useEffect, useState } from 'react';
+import { Image } from '../../../../ui/image.tsx';
 
 type PosterProps = {
   videoId: string;
@@ -74,9 +75,8 @@ export const Poster = ({
       <div className={styles.poster__background}>
         <div className="aspect-video">
           {poster && !showFallback ? (
-            <img
+            <Image
               src={poster}
-              alt=""
               fetchPriority="high"
               onError={() => {
                 setShowFallback(true);

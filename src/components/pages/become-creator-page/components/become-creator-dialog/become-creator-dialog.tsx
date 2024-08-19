@@ -7,6 +7,7 @@ import { Input } from '../../../../ui/form';
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { pageRoutes } from '../../../../../lib/page-routes.ts';
+import { Image } from '../../../../ui/image.tsx';
 
 export const BecomeCreatorDialog = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export const BecomeCreatorDialog = () => {
   return (
     <Dialog
       overlayBackground={
-        <img src={CreatorBackground} className="image" alt="" />
+        <Image src={CreatorBackground} className="image" alt="" />
       }
       onDismiss={() => navigate(pageRoutes.home)}
       isOpened

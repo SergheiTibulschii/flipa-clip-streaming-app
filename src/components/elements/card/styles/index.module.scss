@@ -2,6 +2,11 @@
   &__cover {
     @apply bg-gray-primary rounded-5 overflow-hidden;
     aspect-ratio: 144/214;
+
+    & img {
+      width: auto;
+      height: 100%;
+    }
   }
 
   &__title {

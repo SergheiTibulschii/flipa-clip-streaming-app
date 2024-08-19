@@ -7,6 +7,7 @@ import { useApi } from '../../../api/swr';
 import { useState } from 'react';
 import { UserSvg } from '../../icons.ts';
 import { AuthorDetailsType } from '../../../lib/types/flipa-clip-api-types.ts';
+import { Image } from '../../ui/image.tsx';
 
 type AvatarProps = {
   name?: string;
@@ -37,7 +38,7 @@ export const Avatar = ({ id, className, onClick }: AvatarProps) => {
     >
       <div className={styles['avatar__image']}>
         {!showFallback ? (
-          <img
+          <Image
             src={data?.avatar || ''}
             alt={`${data?.name}'s avatar`}
             onError={() => {

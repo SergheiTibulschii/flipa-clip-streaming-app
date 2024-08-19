@@ -3,6 +3,7 @@ import { ExpandableText } from '../../../../elements/expandable-text/expandable-
 import { Button } from '../../../../ui/button';
 import { text } from '../../../../../lib/text.ts';
 import { AuthorDetailsType } from '../../../../../lib/types/flipa-clip-api-types.ts';
+import { Image } from '../../../../ui/image.tsx';
 
 type CreatorDetailsProps = {
   author: AuthorDetailsType;
@@ -16,7 +17,7 @@ export const CreatorDetails = ({
   return (
     <div className="relative">
       <div className="-mt-[50px]">
-        <img
+        <Image
           className="image w-[100px] h-[100px] rounded-full mx-auto"
           src={author.avatar}
           alt=""

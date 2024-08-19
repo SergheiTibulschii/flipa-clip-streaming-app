@@ -8,35 +8,26 @@ import { incrementViewsAtom } from '../../../lib/jotai/atoms/incrementViews.atom
 import { IconButton } from '../../ui/button/icon-button.tsx';
 import { CloseIcon } from '../../icons.ts';
 import { useGoBack } from '../../../lib/hooks/useGoBack.ts';
-import { ShareBtn } from '../../elements/share-btn.tsx';
 import Hls from 'hls.js';
 import useSWR from 'swr';
 import { apiV1 } from '../../../api/axios';
 import { routes } from '../../../api';
+import { debounce } from '../../../lib/utils/debounce.ts';
 
 type VideoControlBarProps = {
-  title: string;
-  share_url: string;
-  videoId: string;
   handleClose: () => void;
-  isPlaying: boolean;
+  isVisible: boolean;
 };
 
-const VideoControlBar = ({
-  title,
-  share_url,
-  videoId,
-  handleClose,
-  isPlaying,
-}: VideoControlBarProps) => {
+const VideoControlBar = ({ handleClose, isVisible }: VideoControlBarProps) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (ref.current) {
-      ref.current.style.transform = `translateY(${isPlaying ? '-100%' : '0'})`;
-      ref.current.style.opacity = isPlaying ? '0' : '1';
+      ref.current.style.transform = `translateY(${isVisible ? '0' : '-100%'})`;
+      ref.current.style.opacity = isVisible ? '1' : '0';
     }
-  }, [isPlaying]);
+  }, [isVisible]);
 
   return (
     <div
@@ -44,17 +35,11 @@ const VideoControlBar = ({
       style={{
         top: 'env(safe-area-inset-top, 0)',
       }}
-      className="absolute left-0 w-full bg-dark text-white flex gap-8 items-center justify-between px-5 py-3 transition-all duration-500"
+      className="absolute left-0 w-full bg-dark text-white px-5 py-3 transition-all duration-500"
     >
-      <div className="font-bold leading-1.5 truncate" title={title}>
-        {title}
-      </div>
-      <div className="flex gap-2">
-        <ShareBtn shareUrl={share_url} videoId={videoId} />
-        <IconButton onClick={handleClose} variant="secondary">
-          <CloseIcon />
-        </IconButton>
-      </div>
+      <IconButton onClick={handleClose} variant="secondary">
+        <CloseIcon />
+      </IconButton>
     </div>
   );
 };
@@ -73,7 +58,8 @@ export const PlayerPage = () => {
   const [error, setError] = useState('');
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const goBack = useGoBack();
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [showControlBar, setShowControlBar] = useState(false);
+  const hideTimeoutRef = useRef<number | null>(null);
 
   const trackView = useCallback(async () => {
     if (!userId || !video?.author_id || !video?.id) return;
@@ -88,18 +74,28 @@ export const PlayerPage = () => {
     }
   }, [incrementViews, userId, video?.author_id, video?.id]);
 
+  const handleClose = useCallback(() => {
+    goBack();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (videoRef.current && video && video.video_source) {
-      videoRef.current.addEventListener('play', () => {
-        setIsPlaying(true);
-      });
-      videoRef.current.addEventListener('pause', () => {
-        setIsPlaying(false);
-      });
-      videoRef.current.addEventListener('error', () => {
-        setIsPlaying(false);
-        setError('An error occurred while loading the video :(');
-      });
+      const handleMove = debounce(() => {
+        if (hideTimeoutRef.current) {
+          clearTimeout(hideTimeoutRef.current);
+        }
+
+        setShowControlBar(true);
+
+        hideTimeoutRef.current = window.setTimeout(() => {
+          setShowControlBar(false);
+        }, 3000);
+      }, 150);
+
+      videoRef.current.addEventListener('mousemove', handleMove);
+      videoRef.current.addEventListener('touchstart', handleMove);
+      videoRef.current.addEventListener('ended', handleClose);
 
       videoRef.current.addEventListener('error', () => {
         setError('An error occurred while loading the video :(');
@@ -114,7 +110,6 @@ export const PlayerPage = () => {
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
           if (videoRef.current) {
             videoRef.current.play().then(() => {
-              setIsPlaying(true);
               if (videoRef.current) {
                 videoRef.current.muted = false;
               }
@@ -152,7 +147,6 @@ export const PlayerPage = () => {
 
           videoRef.current.addEventListener('loadedmetadata', () => {
             videoRef.current?.play().then(() => {
-              setIsPlaying(true);
               if (videoRef.current) {
                 videoRef.current.muted = false;
               }
@@ -161,13 +155,16 @@ export const PlayerPage = () => {
           });
         }
       }
+
+      return () => {
+        if (videoRef.current) {
+          videoRef.current.removeEventListener('mousemove', handleMove);
+          videoRef.current.removeEventListener('touchstart', handleMove);
+          videoRef.current.removeEventListener('ended', handleClose);
+        }
+      };
     }
   }, [trackView, video?.video_source]);
-
-  const handleClose = useCallback(() => {
-    goBack();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div
@@ -187,6 +184,8 @@ export const PlayerPage = () => {
               muted
               controls
               playsInline
+              disablePictureInPicture
+              controlsList="nodownload noplaybackrate nofullscreen"
             ></video>
           </div>
         ) : (
@@ -195,13 +194,7 @@ export const PlayerPage = () => {
           </div>
         )}
       </div>
-      <VideoControlBar
-        title={video?.title || ''}
-        videoId={video?.id || ''}
-        share_url={video?.share_url || ''}
-        handleClose={handleClose}
-        isPlaying={isPlaying}
-      />
+      <VideoControlBar handleClose={handleClose} isVisible={showControlBar} />
     </div>
   );
 };

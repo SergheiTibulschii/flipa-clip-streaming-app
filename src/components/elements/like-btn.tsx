@@ -48,7 +48,7 @@ export const LikeBtn = ({
         }
       }
 
-      mutate(`video-details-${videoId}`);
+      mutate(`video-stats-${videoId}`);
     }, 1500);
   }
 

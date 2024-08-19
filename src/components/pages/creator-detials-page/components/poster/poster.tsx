@@ -3,6 +3,7 @@ import { IconButton } from '../../../../ui/button/icon-button.tsx';
 import { CaretLeftIcon } from '../../../../icons.ts';
 import { useGoBack } from '../../../../../lib/hooks/useGoBack.ts';
 import { useEffect, useState } from 'react';
+import { Image } from '../../../../ui/image.tsx';
 
 type PosterProps = {
   poster: string;
@@ -22,7 +23,7 @@ export const Poster = ({ poster, authorId }: PosterProps) => {
       <div className={styles.poster__background}>
         <div className="aspect-video">
           {poster && !showFallback ? (
-            <img
+            <Image
               src={poster}
               alt=""
               fetchPriority="high"

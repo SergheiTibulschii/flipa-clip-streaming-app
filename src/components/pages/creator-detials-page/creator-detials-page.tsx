@@ -70,7 +70,7 @@ export const CreatorDetialsPage = () => {
   };
 
   return (
-    <MainLayout displayBecomeCreator={false}>
+    <MainLayout displayBecomeCreator={false} displayHeader={false}>
       <Container>
         <div className="pb-10 lg:pb-14">
           <Poster authorId={data!.id} poster={data!.banner} />

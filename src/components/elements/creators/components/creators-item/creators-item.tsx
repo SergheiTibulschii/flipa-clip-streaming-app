@@ -3,6 +3,7 @@ import { text } from '../../../../../lib/text.ts';
 import { Link } from 'react-router-dom';
 import { pageRoutes } from '../../../../../lib/page-routes.ts';
 import { useCreatorStats } from '../../../../../lib/jotai/hooks/useCreatorsStats.ts';
+import { Image } from '../../../../ui/image.tsx';
 
 type CreatorsItemProps = {
   id: string;
@@ -31,7 +32,7 @@ export const CreatorsItem = ({
     >
       {/*{value && <div>{value.likes_count}</div>}*/}
       <div className="aspect-square rounded-full bg-gray-secondary">
-        <img
+        <Image
           className="image rounded-full"
           src={thumbnail}
           alt={`${name}'s avatar`}
