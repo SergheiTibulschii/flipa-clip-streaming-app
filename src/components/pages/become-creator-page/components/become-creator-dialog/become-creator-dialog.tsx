@@ -1,17 +1,16 @@
 import { Dialog } from '../../../../ui/dialog';
-import CreatorBackground from '../../../../../assets/creator-bg.png';
+import CreatorBackground from '../../../../../assets/creator-bg.webp';
 import { Typography } from '../../../../ui/typography';
 import { text } from '../../../../../lib/text.ts';
 import { Button } from '../../../../ui/button';
 import { Input } from '../../../../ui/form';
 import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { pageRoutes } from '../../../../../lib/page-routes.ts';
 import { Image } from '../../../../ui/image.tsx';
+import { useGoBack } from '../../../../../lib/hooks/useGoBack.ts';
 
 export const BecomeCreatorDialog = () => {
-  const navigate = useNavigate();
   const [showThankYou, setShowThankYou] = useState(false);
+  const goBack = useGoBack();
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -31,7 +30,7 @@ export const BecomeCreatorDialog = () => {
       overlayBackground={
         <Image src={CreatorBackground} className="image" alt="" />
       }
-      onDismiss={() => navigate(pageRoutes.home)}
+      onDismiss={goBack}
       isOpened
     >
       {showThankYou ? (

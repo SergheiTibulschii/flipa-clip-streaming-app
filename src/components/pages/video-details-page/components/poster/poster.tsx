@@ -73,7 +73,7 @@ export const Poster = ({
   return (
     <div className={styles.poster}>
       <div className={styles.poster__background}>
-        <div className="aspect-video">
+        <div className="aspect-video min-h-[277px]">
           {poster && !showFallback ? (
             <Image
               src={poster}

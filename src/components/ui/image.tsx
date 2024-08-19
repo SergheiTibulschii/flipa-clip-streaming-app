@@ -11,7 +11,7 @@ export const Image = ({
 }: ImageProps) => {
   const cn = clsx(
     className,
-    'opacity-0 transition-opacity duration-500 ease-out'
+    'opacity-0 transition-opacity duration-700 ease-out'
   );
 
   const handleLoad = (event: SyntheticEvent<HTMLImageElement>) => {
