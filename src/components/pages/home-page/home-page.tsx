@@ -4,7 +4,6 @@ import { Container } from '../../layout/container';
 import { Creators } from '../../elements/creators';
 import { sendMessage } from '../../../lib/utils/tracking.ts';
 import { useEffect } from 'react';
-import { Loader } from '../../elements/loader.tsx';
 import { useSetAtom } from 'jotai';
 import { setAuthorsStateAtom } from '../../../lib/jotai/atoms/authors.ts';
 import { setVideosStateAtom } from '../../../lib/jotai/atoms/videos.atom.ts';
@@ -16,13 +15,20 @@ import { HomePageType } from '../../../lib/types/flipa-clip-api-types.ts';
 import { routes } from '../../../api';
 import { Typography } from '../../ui/typography';
 import { text } from '../../../lib/text.ts';
+import { Loader } from '../../elements/loader.tsx';
 
 const useHomePageData = () => {
-  const { data, isLoading, error } = useSWR('home-page', async () =>
-    apiV1
-      .get<HomePageType>(routes.home)
-      .then((r) => r.data)
-      .catch(() => null)
+  const { data, isLoading, error } = useSWR(
+    'home-page',
+    async () =>
+      apiV1
+        .get<HomePageType>(routes.home)
+        .then((r) => r.data)
+        .catch(() => null),
+    {
+      revalidateIfStale: false,
+      keepPreviousData: true,
+    }
   );
   const setAuthorsState = useSetAtom(setAuthorsStateAtom);
   const setVideosState = useSetAtom(setVideosStateAtom);
@@ -58,10 +64,6 @@ export const HomePage = () => {
     });
   }, []);
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
   if (!isLoading && !data) {
     return (
       <MainLayout>
@@ -72,6 +74,10 @@ export const HomePage = () => {
         </Container>
       </MainLayout>
     );
+  }
+
+  if (!data) {
+    return <Loader />;
   }
 
   const handleCreatorsClick = (authorId: string) => {

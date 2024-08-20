@@ -15,19 +15,28 @@ import useSWR from 'swr';
 import { apiV1 } from '../../../api/axios';
 import { routes } from '../../../api';
 import { Loader } from '../../elements/loader.tsx';
+import { useExcessiveLoading } from '../../../lib/hooks/useExcessiveLoading.ts';
 
 const useCreatorDetails = (id: string) => {
-  return useSWR(`creator-details-${id}`, async () => {
-    return apiV1
-      .get<AuthorDetailsType>(routes.authors.one(id))
-      .then((r) => r.data)
-      .catch(() => null);
-  });
+  return useSWR(
+    `creator-details-${id}`,
+    async () => {
+      return apiV1
+        .get<AuthorDetailsType>(routes.authors.one(id))
+        .then((r) => r.data)
+        .catch(() => null);
+    },
+    {
+      revalidateIfStale: false,
+      keepPreviousData: true,
+    }
+  );
 };
 
 export const CreatorDetialsPage = () => {
   const params = useParams();
   const { data, isLoading, error } = useCreatorDetails(params.creatorId || '');
+  const excessiveLoading = useExcessiveLoading(isLoading);
 
   useEffect(() => {
     if (data && !isLoading && !error && params.creatorId) {
@@ -41,8 +50,8 @@ export const CreatorDetialsPage = () => {
     }
   }, [error, data, isLoading, params.creatorId]);
 
-  if (isLoading) {
-    return <Loader />;
+  if (!data) {
+    return excessiveLoading ? <Loader className="animate-appear" /> : null;
   }
 
   if (!isLoading && !data) {
@@ -70,28 +79,39 @@ export const CreatorDetialsPage = () => {
   };
 
   return (
-    <MainLayout displayBecomeCreator={false} displayHeader={false}>
-      <Container>
-        <div className="pb-10 lg:pb-14">
-          <Poster authorId={data!.id} poster={data!.banner} />
-          <CreatorDetails author={data!} description={data!.bio} />
-          <div className="mt-8">
-            <StandardCarousel title="You may also like">
-              {data!.videos.map(({ id, title, poster_artwork }) => (
-                <Card
-                  id={id}
-                  key={id}
-                  title={title}
-                  coverImageSrc={poster_artwork}
-                />
-              ))}
-            </StandardCarousel>
+    <div
+      style={{
+        transition: isLoading ? 'opacity 0s' : 'opacity 0.5s',
+        opacity: isLoading ? 0 : 1,
+        width: '100%',
+      }}
+    >
+      <MainLayout displayBecomeCreator={false} displayHeader={false}>
+        <Container>
+          <div className="pb-10 lg:pb-14">
+            <Poster authorId={data!.id} poster={data!.banner} />
+            <CreatorDetails author={data!} description={data!.bio} />
+            <div className="mt-8">
+              <StandardCarousel title="You may also like">
+                {data!.videos.map(({ id, title, poster_artwork }) => (
+                  <Card
+                    id={id}
+                    key={id}
+                    title={title}
+                    coverImageSrc={poster_artwork}
+                  />
+                ))}
+              </StandardCarousel>
+            </div>
+            <div className="mt-8">
+              <Creators
+                creators={data!.creators}
+                onClick={handleCreatorsClick}
+              />
+            </div>
           </div>
-          <div className="mt-8">
-            <Creators creators={data!.creators} onClick={handleCreatorsClick} />
-          </div>
-        </div>
-      </Container>
-    </MainLayout>
+        </Container>
+      </MainLayout>
+    </div>
   );
 };

@@ -1,10 +1,22 @@
-import { Outlet, ScrollRestoration } from 'react-router-dom';
-
+import { ScrollRestoration, useOutlet } from 'react-router-dom';
+import { useEffect } from 'react';
 export const Root = () => {
+  const currentOutlet = useOutlet();
+
+  useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+  }, []);
+
   return (
     <>
-      <Outlet />
-      <ScrollRestoration />
+      {currentOutlet}
+      <ScrollRestoration
+        getKey={({ pathname }) => {
+          return pathname;
+        }}
+      />
     </>
   );
 };
