@@ -40,13 +40,16 @@ export const Dialog = ({
             className={modalContentClasses}
             onClick={(e) => e.stopPropagation()}
           >
-            <IconButton
-              className="absolute top-4 left-4"
-              variant="secondary"
-              onClick={onDismiss}
+            <div
+              className="absolute left-4 inline-block"
+              style={{
+                top: 'calc(env(safe-area-inset-top, 0) + 1rem)',
+              }}
             >
-              <CloseIcon />
-            </IconButton>
+              <IconButton variant="secondary" onClick={onDismiss}>
+                <CloseIcon />
+              </IconButton>
+            </div>
             <div className="dialog-body">{children}</div>
           </div>
         </div>
