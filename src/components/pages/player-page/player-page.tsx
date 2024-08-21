@@ -5,14 +5,17 @@ import { useSetAtom } from 'jotai/index';
 import { viewVideo } from '../../../lib/supabase/viewVideo.ts';
 import { VideoDetailsType } from '../../../lib/types/flipa-clip-api-types.ts';
 import { incrementViewsAtom } from '../../../lib/jotai/atoms/incrementViews.atom.ts';
-import { IconButton } from '../../ui/button/icon-button.tsx';
-import { CloseIcon } from '../../icons.ts';
+import { CloseIcon, PlaySvg } from '../../icons.ts';
 import { useGoBack } from '../../../lib/hooks/useGoBack.ts';
-import Hls from 'hls.js';
 import useSWR from 'swr';
 import { apiV1 } from '../../../api/axios';
 import { routes } from '../../../api';
 import { debounce } from '../../../lib/utils/debounce.ts';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import videojs, { VideoJsPlayer } from 'video.js';
+import 'video.js/dist/video-js.css';
+import { IconButton } from '../../ui/button/icon-button.tsx';
 
 type VideoControlBarProps = {
   handleClose: () => void;
@@ -24,7 +27,6 @@ const VideoControlBar = ({ handleClose, isVisible }: VideoControlBarProps) => {
 
   useEffect(() => {
     if (ref.current) {
-      ref.current.style.transform = `translateY(${isVisible ? '0' : '-100%'})`;
       ref.current.style.opacity = isVisible ? '1' : '0';
     }
   }, [isVisible]);
@@ -33,12 +35,12 @@ const VideoControlBar = ({ handleClose, isVisible }: VideoControlBarProps) => {
     <div
       ref={ref}
       style={{
-        top: 'env(safe-area-inset-top, 0)',
+        paddingTop: 'calc(env(safe-area-inset-top, 0) + 1rem)',
       }}
-      className="absolute left-0 w-full bg-dark text-white px-5 py-3 transition-all duration-500"
+      className="absolute left-0 top-0 w-full text-white transition-all opacity-0 duration-500 pl-4"
     >
       <IconButton onClick={handleClose} variant="secondary">
-        <CloseIcon />
+        <CloseIcon className="h-4 w-4 lg:w-6 lg:h-6" />
       </IconButton>
     </div>
   );
@@ -46,20 +48,27 @@ const VideoControlBar = ({ handleClose, isVisible }: VideoControlBarProps) => {
 
 export const PlayerPage = () => {
   const params = useParams();
-  const { data: video } = useSWR(`play-video-${params.videoId}`, async () =>
-    apiV1
-      .get<VideoDetailsType>(routes.videos.one(params.videoId || ''))
-      .then((r) => r.data)
-      .catch(() => null)
+  const { data: video } = useSWR(
+    `video-details-${params.videoId}`,
+    async () =>
+      apiV1
+        .get<VideoDetailsType>(routes.videos.one(params.videoId || ''))
+        .then((r) => r.data)
+        .catch(() => null),
+    {
+      revalidateIfStale: false,
+    }
   );
-  const containerRef = useRef<HTMLDivElement | null>(null);
   const { userId } = useAppStore();
-  const incrementViews = useSetAtom(incrementViewsAtom);
-  const [error, setError] = useState('');
+
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const playerRef = useRef<VideoJsPlayer | null>(null);
+  const incrementViews = useSetAtom(incrementViewsAtom);
   const goBack = useGoBack();
   const [showControlBar, setShowControlBar] = useState(false);
   const hideTimeoutRef = useRef<number | null>(null);
+  const [showPlayBtn, setShowPlayBtn] = useState(false);
+  const firstPlayRef = useRef(true);
 
   const trackView = useCallback(async () => {
     if (!userId || !video?.author_id || !video?.id) return;
@@ -80,7 +89,39 @@ export const PlayerPage = () => {
   }, []);
 
   useEffect(() => {
-    if (videoRef.current && video && video.video_source) {
+    if (!playerRef.current && videoRef.current && video?.video_source) {
+      playerRef.current = videojs(
+        videoRef.current,
+        {
+          controls: true,
+          autoplay: true,
+          preload: 'auto',
+          muted: true,
+          controlBar: {
+            fullscreenToggle: false,
+            volumePanel: false,
+            pictureInPictureToggle: false,
+          },
+          nativeControlsForTouch: false,
+          sources: [
+            {
+              src: video?.video_source,
+              type: 'application/x-mpegURL',
+            },
+          ],
+          bigPlayButton: false,
+          playsinline: true,
+          responsive: true,
+          disablePictureInPicture: true,
+        },
+        () => {
+          playerRef.current?.muted(false);
+          playerRef.current?.play()?.catch(() => {
+            setShowPlayBtn(true);
+          });
+        }
+      );
+
       const handleMove = debounce(() => {
         if (hideTimeoutRef.current) {
           clearTimeout(hideTimeoutRef.current);
@@ -90,110 +131,74 @@ export const PlayerPage = () => {
 
         hideTimeoutRef.current = window.setTimeout(() => {
           setShowControlBar(false);
-        }, 3000);
-      }, 150);
+        }, 2500);
+      }, 100);
 
-      videoRef.current.addEventListener('mousemove', handleMove);
-      videoRef.current.addEventListener('touchstart', handleMove);
-      videoRef.current.addEventListener('ended', handleClose);
-
-      videoRef.current.addEventListener('error', () => {
-        setError('An error occurred while loading the video :(');
-      });
-
-      if (Hls.isSupported()) {
-        const hls = new Hls({
-          autoStartLoad: true,
-        });
-        hls.loadSource(video.video_source);
-        hls.attachMedia(videoRef.current);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          if (videoRef.current) {
-            videoRef.current.play().then(() => {
-              if (videoRef.current) {
-                videoRef.current.muted = false;
-              }
-              return trackView();
-            });
-          }
-        });
-
-        hls.on(Hls.Events.ERROR, (_, data) => {
-          if (data.fatal) {
-            switch (data.type) {
-              case Hls.ErrorTypes.NETWORK_ERROR:
-                setError('Unable to load video :(');
-                break;
-              case Hls.ErrorTypes.MEDIA_ERROR:
-                setError('Video format is not supported :(');
-                break;
-              default:
-                setError('An error occurred while loading the video :(');
-                break;
-            }
-            hls.destroy();
-          }
-        });
-
-        return () => {
-          hls.destroy();
-        };
-      } else if (
-        videoRef.current.canPlayType('application/vnd.apple.mpegurl')
-      ) {
-        if (video?.video_source) {
-          videoRef.current.src = video.video_source;
-          videoRef.current.preload = 'metadata';
-
-          videoRef.current.addEventListener('loadedmetadata', () => {
-            videoRef.current?.play().then(() => {
-              if (videoRef.current) {
-                videoRef.current.muted = false;
-              }
-              return trackView();
-            });
-          });
+      const handlePause = () => {
+        if (hideTimeoutRef.current) {
+          clearTimeout(hideTimeoutRef.current);
         }
-      }
+        setShowControlBar(true);
+        playerRef.current?.pause();
+      };
+
+      const handlePlay = () => {
+        handleMove();
+
+        if (firstPlayRef.current) {
+          trackView();
+          firstPlayRef.current = false;
+        }
+      };
+
+      const handleTouch = () => {
+        if (playerRef.current?.paused()) {
+          handlePlay();
+        } else {
+          handlePause();
+        }
+      };
+
+      playerRef.current.on('mousemove', handleMove);
+      playerRef.current.on('touchstart', handleTouch);
+      playerRef.current.on('ended', handleClose);
+      playerRef.current.on('play', handlePlay);
+      playerRef.current.on('pause', handlePause);
 
       return () => {
-        if (videoRef.current) {
-          videoRef.current.removeEventListener('mousemove', handleMove);
-          videoRef.current.removeEventListener('touchstart', handleMove);
-          videoRef.current.removeEventListener('ended', handleClose);
+        if (playerRef.current && !playerRef.current.isDisposed()) {
+          playerRef.current.off('mousemove', handleMove);
+          playerRef.current.off('touchstart', handleMove);
+          playerRef.current.off('ended', handleClose);
+          playerRef.current.off('play', handleMove);
+          playerRef.current.off('pause', handlePause);
+          playerRef.current.dispose();
+          playerRef.current = null;
         }
       };
     }
-  }, [trackView, video?.video_source]);
+  }, [videoRef, video?.video_source]);
 
   return (
-    <div
-      style={{
-        padding:
-          'env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)',
-      }}
-      ref={containerRef}
-      className="relative w-full"
-    >
-      <div className="relative h-full bg-dark">
-        {!error ? (
-          <div className="absolute inset-0">
-            <video
-              className="w-full h-full"
-              ref={videoRef}
-              muted
-              controls
-              playsInline
-              disablePictureInPicture
-              controlsList="nodownload noplaybackrate nofullscreen"
-            ></video>
-          </div>
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center font-bold leading-1.5">
-            {error}
-          </div>
-        )}
-      </div>
+    <div className="contents">
+      <video
+        ref={videoRef}
+        className="video-js w-full h-auto object-cover"
+      ></video>
+
+      {showPlayBtn && (
+        <button
+          type="button"
+          className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white outline-none border-none"
+          onClick={() => {
+            playerRef.current?.play();
+            setShowPlayBtn(false);
+          }}
+        >
+          <PlaySvg width={48} height={48} />
+        </button>
+      )}
+
       <VideoControlBar handleClose={handleClose} isVisible={showControlBar} />
     </div>
   );

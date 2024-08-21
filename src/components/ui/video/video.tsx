@@ -1,5 +1,8 @@
 import { useEffect, useRef } from 'react';
-import Hls from 'hls.js';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import videojs, { VideoJsPlayer } from 'video.js';
+import 'video.js/dist/video-js.css';
 
 type VideoProps = {
   src: string;
@@ -10,64 +13,43 @@ type VideoProps = {
   playsinline?: boolean;
 };
 
-export const Video = ({
-  src,
-  thumbnail,
-  autoplay = true,
-  muted = autoplay,
-  playsinline = true,
-  controls = false,
-}: VideoProps) => {
+export const Video = ({ src, thumbnail }: VideoProps) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const playerRef = useRef<VideoJsPlayer | null>(null);
 
   useEffect(() => {
     if (videoRef.current && src) {
-      videoRef.current.addEventListener('ended', function () {
-        if (videoRef.current) {
-          videoRef.current.currentTime = 0;
-          videoRef.current.play();
-        }
+      videoRef.current.style.objectFit = 'cover';
+      playerRef.current = videojs(videoRef.current, {
+        controls: false,
+        autoplay: true,
+        preload: 'auto',
+        muted: true,
+        controlBar: {
+          fullscreenToggle: false,
+          volumePanel: false,
+          pictureInPictureToggle: false,
+        },
+        loop: true,
+        sources: [
+          {
+            src,
+            type: 'application/x-mpegURL',
+          },
+        ],
+        bigPlayButton: false,
+        playsinline: true,
+        responsive: true,
+        disablePictureInPicture: true,
+        poster: thumbnail,
       });
-
-      if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(src);
-        hls.attachMedia(videoRef.current);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          if (videoRef.current) {
-            videoRef.current.play();
-          }
-        });
-
-        return () => {
-          hls.destroy();
-        };
-      } else if (
-        videoRef.current.canPlayType('application/vnd.apple.mpegurl')
-      ) {
-        if (src) {
-          videoRef.current.src = src;
-          videoRef.current.preload = 'metadata';
-
-          videoRef.current.addEventListener('loadedmetadata', () => {
-            videoRef.current?.play();
-          });
-        }
-      }
     }
   }, [src]);
 
   return (
-    <>
-      <video
-        className="w-full h-full object-cover"
-        ref={videoRef}
-        controls={controls}
-        playsInline={playsinline}
-        autoPlay={autoplay}
-        muted={muted}
-        poster={thumbnail}
-      ></video>
-    </>
+    <video
+      ref={videoRef}
+      className="video-js w-full h-full object-cover"
+    ></video>
   );
 };

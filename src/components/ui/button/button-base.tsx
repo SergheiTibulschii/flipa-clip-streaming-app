@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
+import { ButtonHTMLAttributes, CSSProperties, PropsWithChildren } from 'react';
 import './styles/button.scss';
 import clsx from 'clsx';
 
@@ -8,6 +8,7 @@ export type ButtonBaseProps = PropsWithChildren<{
   type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
   wide?: boolean;
   onClick?: () => void;
+  style?: CSSProperties;
 }>;
 
 export const ButtonBase = ({

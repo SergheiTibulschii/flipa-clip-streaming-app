@@ -14,19 +14,20 @@
     "@supabase/supabase-js": "^2.44.2",
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
-    "hls.js": "^1.5.13",
     "jotai": "^2.8.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.25.0",
     "react-transition-group": "^4.4.5",
     "swiper": "^10.0.0",
-    "swr": "^2.2.5"
+    "swr": "^2.2.5",
+    "video.js": "^8.17.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@types/react-transition-group": "^4.4.11",
+    "@types/video.js": "^7.3.58",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
