@@ -36,8 +36,9 @@ const VideoControlBar = ({ handleClose, isVisible }: VideoControlBarProps) => {
       ref={ref}
       style={{
         paddingTop: 'calc(env(safe-area-inset-top, 0) + 1rem)',
+        paddingLeft: 'calc(env(safe-area-inset-left, 0) + 1rem)',
       }}
-      className="absolute left-0 top-0 w-full text-white transition-all opacity-0 duration-500 pl-4"
+      className="absolute left-0 top-0 w-full text-white transition-all opacity-0 duration-500"
     >
       <IconButton onClick={handleClose} variant="secondary">
         <CloseIcon className="h-4 w-4 lg:w-6 lg:h-6" />
