@@ -93,7 +93,7 @@ export const SlidingPanel = ({
   };
 
   useEffect(() => {
-    let lastWidth = window.innerWidth;
+    let lastWidth = 0;
 
     const setInitialHeight = debounce(() => {
       if (window.innerWidth !== lastWidth) {

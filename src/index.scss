@@ -35,3 +35,7 @@ body {
 .vjs-poster img {
   object-fit: cover !important;
 }
+
+.vjs-control-bar {
+  bottom: env(safe-area-inset-bottom) !important;
+}
