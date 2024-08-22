@@ -91,6 +91,7 @@ export const PlayerPage = () => {
 
   useEffect(() => {
     if (!playerRef.current && videoRef.current && video?.video_source) {
+      document.body.style.overflow = 'hidden';
       playerRef.current = videojs(
         videoRef.current,
         {
@@ -112,8 +113,8 @@ export const PlayerPage = () => {
           ],
           bigPlayButton: false,
           playsinline: true,
-          responsive: true,
           disablePictureInPicture: true,
+          height: window.outerHeight,
         },
         () => {
           playerRef.current?.muted(false);
@@ -176,6 +177,8 @@ export const PlayerPage = () => {
           playerRef.current.dispose();
           playerRef.current = null;
         }
+
+        document.body.style.overflow = 'auto';
       };
     }
   }, [videoRef, video?.video_source]);
@@ -184,7 +187,7 @@ export const PlayerPage = () => {
     <div className="contents">
       <video
         ref={videoRef}
-        className="video-js w-full h-auto object-cover"
+        className="video-js w-full h-auto max-h-screen object-cover"
       ></video>
 
       {showPlayBtn && (
