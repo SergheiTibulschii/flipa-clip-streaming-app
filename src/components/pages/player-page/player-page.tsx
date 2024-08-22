@@ -144,7 +144,7 @@ export const PlayerPage = () => {
 
       const handlePlay = () => {
         handleMove();
-
+        playerRef.current?.play();
         if (firstPlayRef.current) {
           trackView();
           firstPlayRef.current = false;

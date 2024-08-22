@@ -10,6 +10,7 @@ import styles from './styles/index.module.scss';
 import { IconButton } from '../../ui/button/icon-button.tsx';
 import { CaretDownIcon } from '../../icons.ts';
 import { Toggler } from '../toggler.tsx';
+import { debounce } from '../../../lib/utils/debounce.ts';
 
 type SlidingPanelProps = PropsWithChildren<{
   isLoading?: boolean;
@@ -73,16 +74,6 @@ export const SlidingPanel = ({
     }
   };
 
-  const setInitialHeight = () => {
-    const gridElement = gridRef.current as HTMLDivElement;
-    const firstChildElement = gridRef.current?.firstChild as HTMLElement;
-
-    if (gridElement && firstChildElement) {
-      gridElement.style.height = `${firstChildElement.clientHeight}px`;
-      setIsControlVisible(gridElement.scrollHeight > gridElement.clientHeight);
-    }
-  };
-
   const setToggleClassOnInvisibleItems = (isLoading: boolean) => {
     const gridElement = gridRef.current as HTMLDivElement;
 
@@ -102,23 +93,39 @@ export const SlidingPanel = ({
   };
 
   useEffect(() => {
+    let lastWidth = window.innerWidth;
+
+    const setInitialHeight = debounce(() => {
+      if (window.innerWidth !== lastWidth) {
+        const gridElement = gridRef.current as HTMLDivElement;
+        const firstChildElement = gridRef.current?.firstChild as HTMLElement;
+        if (gridElement && firstChildElement) {
+          gridElement.style.height = `${firstChildElement.clientHeight}px`;
+          setIsControlVisible(
+            gridElement.scrollHeight > gridElement.clientHeight
+          );
+        }
+
+        lastWidth = window.innerWidth;
+      }
+    }, 100);
+
+    const handleInvisibleItems = debounce(() => {
+      if (lastWidth !== window.innerWidth) {
+        lastWidth = window.innerWidth;
+        setToggleClassOnInvisibleItems(isLoading);
+      }
+    }, 100);
+
     window.addEventListener('resize', setInitialHeight);
+    window.addEventListener('resize', handleInvisibleItems);
 
     if (!isLoading) setInitialHeight();
 
+    setToggleClassOnInvisibleItems(isLoading);
     return () => {
       window.removeEventListener('resize', setInitialHeight);
-    };
-  }, [isLoading]);
-
-  useEffect(() => {
-    const handler = () => setToggleClassOnInvisibleItems(isLoading);
-
-    window.addEventListener('resize', handler);
-    setToggleClassOnInvisibleItems(isLoading);
-
-    return () => {
-      window.removeEventListener('resize', handler);
+      window.removeEventListener('resize', handleInvisibleItems);
     };
   }, [isLoading]);
 
