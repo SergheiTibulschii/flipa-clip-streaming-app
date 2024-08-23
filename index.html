@@ -11,6 +11,19 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      window.FlipClipEventEmitter = {
+          emit: function(eventName, eventData) {
+          const event = new CustomEvent(eventName, { payload: eventData });
+          window.dispatchEvent(event);
+        }
+      };
+
+      window.triggerFormSubmissionResponseEvent = function(data) {
+        window.FlipClipEventEmitter.emit('nativeEvent', data);
+      };
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

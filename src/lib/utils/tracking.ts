@@ -8,7 +8,7 @@ export const sendMessage = (
         params: Record<string, string>;
       }
     | { url: string }
-    | { action: 'close' },
+    | { action: 'close' | 'submit'; payload?: Record<string, string> },
   messageType: messageType = 'trackEvent'
 ) => {
   if (

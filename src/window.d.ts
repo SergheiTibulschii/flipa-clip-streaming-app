@@ -10,7 +10,7 @@ declare global {
                   event: string;
                   params: Record<string, string>;
                 }
-              | Record<string, string>;
+              | Record<string, string | Record<string, string>>;
           }) => void;
         };
       };

@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes, CSSProperties, PropsWithChildren } from 'react';
 import './styles/button.scss';
 import clsx from 'clsx';
+import { LoaderSvg } from '../../icons.ts';
 
 export type ButtonBaseProps = PropsWithChildren<{
   variant?: 'primary' | 'secondary' | 'tertiary' | 'text' | 'ghost';
@@ -9,6 +10,8 @@ export type ButtonBaseProps = PropsWithChildren<{
   wide?: boolean;
   onClick?: () => void;
   style?: CSSProperties;
+  isLoading?: boolean;
+  isDisabled?: boolean;
 }>;
 
 export const ButtonBase = ({
@@ -18,6 +21,8 @@ export const ButtonBase = ({
   onClick,
   type = 'button',
   className,
+  isLoading,
+  isDisabled,
 }: ButtonBaseProps) => {
   const cls = clsx('btn', className, {
     'btn--primary': variant === 'primary',
@@ -29,8 +34,8 @@ export const ButtonBase = ({
   });
 
   return (
-    <button type={type} onClick={onClick} className={cls}>
-      {children}
+    <button type={type} onClick={onClick} className={cls} disabled={isDisabled}>
+      {!isLoading ? children : <LoaderSvg className="animate-spin" />}
     </button>
   );
 };

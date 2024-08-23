@@ -17,6 +17,8 @@ export const Button = ({
   type,
   wide,
   onClick,
+  isLoading,
+  isDisabled,
 }: ButtonProps) => {
   return (
     <ButtonBase
@@ -25,6 +27,8 @@ export const Button = ({
       variant={variant}
       onClick={onClick}
       className={className}
+      isLoading={isLoading}
+      isDisabled={isDisabled}
     >
       {iconBefore}
       {children}
