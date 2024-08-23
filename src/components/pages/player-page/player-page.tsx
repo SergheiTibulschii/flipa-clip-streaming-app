@@ -185,10 +185,7 @@ export const PlayerPage = () => {
 
   return (
     <div className="contents">
-      <video
-        ref={videoRef}
-        className="video-js w-full h-[1600px] object-cover"
-      ></video>
+      <video ref={videoRef} className="video-js w-full h-screen"></video>
 
       {showPlayBtn && (
         <button
