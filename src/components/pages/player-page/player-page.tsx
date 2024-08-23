@@ -114,7 +114,7 @@ export const PlayerPage = () => {
           bigPlayButton: false,
           playsinline: true,
           disablePictureInPicture: true,
-          height: window.outerHeight,
+          // height: window.outerHeight,
         },
         () => {
           playerRef.current?.muted(false);
@@ -187,7 +187,7 @@ export const PlayerPage = () => {
     <div className="contents">
       <video
         ref={videoRef}
-        className="video-js w-full h-auto max-h-screen object-cover"
+        className="video-js w-full h-[1600px] object-cover"
       ></video>
 
       {showPlayBtn && (
