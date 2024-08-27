@@ -16,6 +16,7 @@ export const ShareBtn = ({
   variant = 'secondary',
 }: ShareBtnProps) => {
   const handleClick = async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     if (navigator.share) {
       await navigator.share({
         title: document.title,

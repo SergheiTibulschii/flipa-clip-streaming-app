@@ -21,19 +21,27 @@ export const useLocalStorage = <T>(
   const set = (value: T) => {
     try {
       setValue(value);
-      window.localStorage.setItem(storageKey, JSON.stringify(value));
+      localStorage.setItem(storageKey, JSON.stringify(value));
     } catch (error) {
       console.error(error);
     }
   };
 
   const remove = () => {
-    localStorage.removeItem(storageKey);
-    setValue(null);
+    try {
+      setValue(null);
+      localStorage.removeItem(storageKey);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
-    localStorage.setItem(storageKey, JSON.stringify(value));
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(value));
+    } catch (error) {
+      console.error(error);
+    }
   }, [value, storageKey]);
 
   return {
