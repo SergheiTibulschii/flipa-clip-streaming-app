@@ -10,6 +10,13 @@ import { useGoBack } from '../../../../../lib/hooks/useGoBack.ts';
 import { sendMessage } from '../../../../../lib/utils/tracking.ts';
 import { generateId } from '../../../../../lib/utils/generateId.ts';
 
+type EventPayloadType = {
+  submit_form_success?: boolean;
+  submit_form_error?: boolean;
+  submit_form_cancel?: boolean;
+  id: string;
+};
+
 export const BecomeCreatorDialog = () => {
   const goBack = useGoBack();
   const [formSuccess, setFormSuccess] = useState(false);
@@ -24,30 +31,33 @@ export const BecomeCreatorDialog = () => {
   useEffect(() => {
     const handleEventFromNativeApp = (
       event: Event & {
-        payload?: {
-          submit_form_success?: boolean;
-          submit_form_error?: boolean;
-          submit_form_cancel?: boolean;
-          id: string;
-        };
+        payload?: string;
       }
     ) => {
-      if (event.payload && event.payload.id === idRef.current) {
-        if (event.payload.submit_form_success) {
-          setFormSuccess(true);
-          formRef.current?.reset();
-        }
-        if (event.payload.submit_form_error) {
-          setFormError(true);
-        }
-        if (event.payload.submit_form_cancel) {
-          setFormCancel(true);
-        }
+      if (event.payload) {
+        try {
+          const payload = JSON.parse(event.payload) as EventPayloadType;
 
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
+          if (payload.id === idRef.current) {
+            if (payload.submit_form_success) {
+              setFormSuccess(true);
+              formRef.current?.reset();
+            }
+            if (payload.submit_form_error) {
+              setFormError(true);
+            }
+            if (payload.submit_form_cancel) {
+              setFormCancel(true);
+            }
+
+            if (timeoutRef.current) {
+              clearTimeout(timeoutRef.current);
+            }
+            setIsLoading(false);
+          }
+        } catch (parseError) {
+          console.error('Error parsing event payload', parseError);
         }
-        setIsLoading(false);
       }
     };
 
