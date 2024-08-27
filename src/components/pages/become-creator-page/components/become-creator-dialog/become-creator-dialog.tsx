@@ -31,13 +31,12 @@ export const BecomeCreatorDialog = () => {
   useEffect(() => {
     const handleEventFromNativeApp = (
       event: Event & {
-        payload?: string;
+        detail?: string;
       }
     ) => {
-      if (event.payload) {
+      if (event.detail) {
         try {
-          const payload = JSON.parse(event.payload) as EventPayloadType;
-
+          const payload = JSON.parse(event.detail) as EventPayloadType;
           if (payload.id === idRef.current) {
             if (payload.submit_form_success) {
               setFormSuccess(true);
