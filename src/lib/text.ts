@@ -26,6 +26,7 @@ export const text = {
   thanks:
     'Thanks for submitting your movie. We will review it and get back to you soon. Stay tuned!',
   pageDoesNotExist: 'The page you are looking for does not exist.',
+  webIsNotSupported: `Thanks for stopping by! The web version of our app isn't available yet, but we're working hard to bring it to you soon!`,
   videoDoesNotExist: 'The video you are looking for does not exist.',
   creatorDoesNotExist: 'The creator you are looking for does not exist.',
   applicationError: 'An error occurred while processing your request.',

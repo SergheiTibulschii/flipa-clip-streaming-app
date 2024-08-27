@@ -1,6 +1,6 @@
 .container {
   --container-px: 1rem;
-  @apply m-auto px-[--container-px];
+  @apply m-auto px-[--container-px] max-w-[1440px];
 
   @media (min-width: 744px) {
     --container-px: 2rem;

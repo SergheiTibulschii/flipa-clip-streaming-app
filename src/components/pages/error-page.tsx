@@ -3,14 +3,22 @@ import { Typography } from '../ui/typography';
 import { Container } from '../layout/container';
 import { text } from '../../lib/text.ts';
 
-export const ErrorPage = () => {
+type ErrorPageProps = {
+  message?: string;
+};
+
+export const ErrorPage = ({
+  message = text.pageDoesNotExist,
+}: ErrorPageProps) => {
   return (
-    <MainLayout>
-      <Container>
-        <Typography className="mt-10" variant="h4">
-          {text.pageDoesNotExist}
-        </Typography>
-      </Container>
+    <MainLayout displayBecomeCreator={false}>
+      <div className="h-full flex items-center justify-center">
+        <Container>
+          <Typography className="mt-10" variant="h4">
+            {message}
+          </Typography>
+        </Container>
+      </div>
     </MainLayout>
   );
 };

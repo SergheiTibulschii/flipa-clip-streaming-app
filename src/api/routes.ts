@@ -10,6 +10,7 @@ export const routePatterns = {
     details: '/creator/:creatorId',
   },
   becomeCreator: '/become-creator',
+  notSupported: '/not-supported',
 };
 
 const prefix = import.meta.env.MODE === 'development' ? '/api' : '';

@@ -22,6 +22,7 @@ import { ErrorBoundary } from './components/error-boundary.tsx';
 import { routePatterns } from './api/routes.ts';
 import { Root } from './components/layout/root.tsx';
 import { SWRConfig } from 'swr';
+import { text } from './lib/text.ts';
 
 export const supabase = createClient<Database>(
   env.VITE_SUPABASE_URL,
@@ -72,11 +73,15 @@ const router = createBrowserRouter([
           from: 'become-creator',
         },
       },
-      {
-        path: '*',
-        element: <ErrorPage />,
-      },
     ],
+  },
+  {
+    path: routePatterns.notSupported,
+    element: <ErrorPage message={text.webIsNotSupported} />,
+  },
+  {
+    path: '*',
+    element: <ErrorPage />,
   },
 ]);
 

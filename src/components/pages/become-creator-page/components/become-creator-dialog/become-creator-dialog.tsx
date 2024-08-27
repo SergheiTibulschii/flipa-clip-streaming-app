@@ -9,6 +9,7 @@ import { Image } from '../../../../ui/image.tsx';
 import { useGoBack } from '../../../../../lib/hooks/useGoBack.ts';
 import { sendMessage } from '../../../../../lib/utils/tracking.ts';
 import { generateId } from '../../../../../lib/utils/generateId.ts';
+import { useLocalStorage } from '../../../../../lib/hooks/useLocalStorage.ts';
 
 type EventPayloadType = {
   submit_form_success?: boolean;
@@ -27,6 +28,9 @@ export const BecomeCreatorDialog = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const idRef = useRef<string | null>(null);
+  const localName = useLocalStorage('name', '');
+  const localEmail = useLocalStorage('email', '');
+  const localLink = useLocalStorage('link', '');
 
   useEffect(() => {
     const handleEventFromNativeApp = (
@@ -41,6 +45,9 @@ export const BecomeCreatorDialog = () => {
             if (payload.submit_form_success) {
               setFormSuccess(true);
               formRef.current?.reset();
+              localName.remove();
+              localEmail.remove();
+              localLink.remove();
             }
             if (payload.submit_form_error) {
               setFormError(true);
@@ -100,7 +107,7 @@ export const BecomeCreatorDialog = () => {
       setFormTimeout(true);
       setIsLoading(false);
       idRef.current = null;
-    }, 5000);
+    }, 60000);
   };
 
   return (
@@ -182,6 +189,8 @@ export const BecomeCreatorDialog = () => {
               placeholder={text.name}
               name="name"
               disabled={isLoading}
+              value={localName.value || ''}
+              onInput={(e) => localName.set(e.currentTarget.value)}
             />
             <Input
               required
@@ -189,6 +198,8 @@ export const BecomeCreatorDialog = () => {
               name="email"
               disabled={isLoading}
               type="email"
+              value={localEmail.value || ''}
+              onInput={(e) => localEmail.set(e.currentTarget.value)}
             />
             <Input
               required
@@ -196,6 +207,8 @@ export const BecomeCreatorDialog = () => {
               name="link"
               disabled={isLoading}
               type="url"
+              value={localLink.value || ''}
+              onInput={(e) => localLink.set(e.currentTarget.value)}
             />
           </div>
           <Button

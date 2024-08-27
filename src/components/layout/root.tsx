@@ -1,7 +1,9 @@
-import { ScrollRestoration, useOutlet } from 'react-router-dom';
+import { Navigate, ScrollRestoration, useOutlet } from 'react-router-dom';
 import { useEffect } from 'react';
+import { routePatterns } from '../../api/routes.ts';
 export const Root = () => {
   const currentOutlet = useOutlet();
+  const isApp = navigator.userAgent.includes('FlipaClip');
 
   useEffect(() => {
     if ('scrollRestoration' in history) {
@@ -9,7 +11,7 @@ export const Root = () => {
     }
   }, []);
 
-  return (
+  return isApp ? (
     <>
       {currentOutlet}
       <ScrollRestoration
@@ -18,5 +20,7 @@ export const Root = () => {
         }}
       />
     </>
+  ) : (
+    <Navigate to={routePatterns.notSupported} replace />
   );
 };
