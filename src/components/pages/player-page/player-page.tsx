@@ -7,8 +7,6 @@ import { VideoDetailsType } from '../../../lib/types/flipa-clip-api-types.ts';
 import { incrementViewsAtom } from '../../../lib/jotai/atoms/incrementViews.atom.ts';
 import { CloseIcon, PlaySvg } from '../../icons.ts';
 import { useGoBack } from '../../../lib/hooks/useGoBack.ts';
-import useSWR from 'swr';
-import { apiV1 } from '../../../api/axios';
 import { routes } from '../../../api';
 import { debounce } from '../../../lib/utils/debounce.ts';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -16,6 +14,7 @@ import { debounce } from '../../../lib/utils/debounce.ts';
 import videojs, { VideoJsPlayer } from 'video.js';
 import 'video.js/dist/video-js.css';
 import { IconButton } from '../../ui/button/icon-button.tsx';
+import { useApi } from '../../../api/swr';
 
 type VideoControlBarProps = {
   handleClose: () => void;
@@ -49,13 +48,8 @@ const VideoControlBar = ({ handleClose, isVisible }: VideoControlBarProps) => {
 
 export const PlayerPage = () => {
   const params = useParams();
-  const { data: video } = useSWR(
-    `video-details-${params.videoId}`,
-    async () =>
-      apiV1
-        .get<VideoDetailsType>(routes.videos.one(params.videoId || ''))
-        .then((r) => r.data)
-        .catch(() => null),
+  const { data: video } = useApi<VideoDetailsType>(
+    routes.videos.one(params.videoId || ''),
     {
       revalidateIfStale: false,
     }

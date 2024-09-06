@@ -9,27 +9,18 @@ import { setAuthorsStateAtom } from '../../../lib/jotai/atoms/authors.ts';
 import { setVideosStateAtom } from '../../../lib/jotai/atoms/videos.atom.ts';
 import { Card } from '../../elements/card/card.tsx';
 import { StandardCarousel } from '../../elements/standard-carousel';
-import useSWR from 'swr';
-import { apiV1 } from '../../../api/axios';
 import { HomePageType } from '../../../lib/types/flipa-clip-api-types.ts';
 import { routes } from '../../../api';
 import { Typography } from '../../ui/typography';
 import { text } from '../../../lib/text.ts';
 import { Loader } from '../../elements/loader.tsx';
+import { useApi } from '../../../api/swr';
 
 const useHomePageData = () => {
-  const { data, isLoading, error } = useSWR(
-    'home-page',
-    async () =>
-      apiV1
-        .get<HomePageType>(routes.home)
-        .then((r) => r.data)
-        .catch(() => null),
-    {
-      revalidateIfStale: false,
-      keepPreviousData: true,
-    }
-  );
+  const { data, isLoading, error } = useApi<HomePageType>(routes.home, {
+    revalidateIfStale: false,
+    keepPreviousData: true,
+  });
   const setAuthorsState = useSetAtom(setAuthorsStateAtom);
   const setVideosState = useSetAtom(setVideosStateAtom);
 

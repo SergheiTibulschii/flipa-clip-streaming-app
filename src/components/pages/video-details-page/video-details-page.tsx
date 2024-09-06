@@ -10,7 +10,6 @@ import { text } from '../../../lib/text.ts';
 import { useEffect, useMemo } from 'react';
 import { sendMessage } from '../../../lib/utils/tracking.ts';
 import useSWR from 'swr';
-import { apiV1 } from '../../../api/axios';
 import { VideoDetailsType } from '../../../lib/types/flipa-clip-api-types.ts';
 import { routes } from '../../../api';
 import { getVideoStats } from '../../../lib/supabase/getVideoStats.ts';
@@ -19,17 +18,13 @@ import { useSetAtom } from 'jotai/index';
 import { addVideoToStatsAtom } from '../../../lib/jotai/atoms/videos.atom.ts';
 import { Loader } from '../../elements/loader.tsx';
 import { useExcessiveLoading } from '../../../lib/hooks/useExcessiveLoading.ts';
+import { useApi } from '../../../api/swr';
 
 const useVideoDetails = (id: string, userId: string) => {
   const shouldFetch = Boolean(id && userId);
   const addVideoToStats = useSetAtom(addVideoToStatsAtom);
-  const { data, isLoading } = useSWR(
-    shouldFetch ? `video-details-${id}` : null,
-    async () =>
-      apiV1
-        .get<VideoDetailsType>(routes.videos.one(id))
-        .then((r) => r.data)
-        .catch(() => null),
+  const { data, isLoading } = useApi<VideoDetailsType>(
+    shouldFetch ? routes.videos.one(id) : '',
     {
       revalidateIfStale: false,
       keepPreviousData: true,

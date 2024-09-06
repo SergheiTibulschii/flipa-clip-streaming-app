@@ -11,26 +11,16 @@ import { text } from '../../../lib/text.ts';
 import { sendMessage } from '../../../lib/utils/tracking.ts';
 import { useEffect } from 'react';
 import { AuthorDetailsType } from '../../../lib/types/flipa-clip-api-types.ts';
-import useSWR from 'swr';
-import { apiV1 } from '../../../api/axios';
 import { routes } from '../../../api';
 import { Loader } from '../../elements/loader.tsx';
 import { useExcessiveLoading } from '../../../lib/hooks/useExcessiveLoading.ts';
+import { useApi } from '../../../api/swr';
 
 const useCreatorDetails = (id: string) => {
-  return useSWR(
-    `creator-details-${id}`,
-    async () => {
-      return apiV1
-        .get<AuthorDetailsType>(routes.authors.one(id))
-        .then((r) => r.data)
-        .catch(() => null);
-    },
-    {
-      revalidateIfStale: false,
-      keepPreviousData: true,
-    }
-  );
+  return useApi<AuthorDetailsType>(routes.authors.one(id), {
+    revalidateIfStale: false,
+    keepPreviousData: true,
+  });
 };
 
 export const CreatorDetialsPage = () => {
