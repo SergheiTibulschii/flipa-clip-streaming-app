@@ -1,4 +1,8 @@
 export const getCookie = (name: string) => {
+  if (!document.cookie) {
+    return null;
+  }
+
   const cookies = document.cookie.split('; ');
   for (const cookie of cookies) {
     const [key, value] = cookie.split('=');
