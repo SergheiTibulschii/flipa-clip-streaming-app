@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "flipaclip-external",
+    "prod": "flipaclip-904"
+  }
+}
