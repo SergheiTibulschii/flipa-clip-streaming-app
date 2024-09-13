@@ -76,6 +76,7 @@ export const Poster = ({
         <div className="aspect-video min-h-[277px]">
           {poster && !showFallback ? (
             <Image
+              key={poster}
               src={poster}
               fetchPriority="high"
               onError={() => {
